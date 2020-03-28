@@ -20,4 +20,11 @@ export const textEllipsis = {
   overflow: 'hidden',
 };
 
+export const flex = {
+  column: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+};
+
 export const messageBarStyles = { root: { marginTop: 10 } };
