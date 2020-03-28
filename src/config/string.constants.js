@@ -1,0 +1,7 @@
+
+export default {
+  INFO: {
+  },
+  SETTINGS: {
+  },
+};
