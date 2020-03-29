@@ -9,7 +9,7 @@ const TopNotifications = ({
   currentRoute,
 }) => {
   const [notificationStates, setNotificationStates] =
-    useState({ green: true, blue: true, red: true });
+    useState({ green: false, blue: false, red: true });
   return (
     <div style={{ position: 'fixed', top: 55, width: '100%' }}>
       {notificationStates.green &&

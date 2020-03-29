@@ -14,6 +14,10 @@ const AppStyles = () => (
         background-color: ${theme.palette.white};
         max-width: 100vw;
       }
+
+      div.ms-Dialog-main > div.ms-Modal-scrollableContent > div > div.ms-Dialog-header  button {
+        display: none !important;
+      }
     `}
   </style>
 );

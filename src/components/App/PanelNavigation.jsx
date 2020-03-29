@@ -36,8 +36,8 @@ const PanelNavigation = ({ dispatch }) => (
         src={logo}
         imageFit={ImageFit.centerContain}
         alt="c19i logo."
-        width={50}
-        height={50}
+        width={30}
+        height={30}
       />
     </div>
     <div>
@@ -58,6 +58,7 @@ const PanelNavigation = ({ dispatch }) => (
             whiteSpace: 'nowrap',
             overflow: 'hidden',
             textOverflow: 'ellipsis',
+            marginRight: 10,
           }}
         >
           {constants.APP.NAME}

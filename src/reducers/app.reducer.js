@@ -3,6 +3,9 @@ import { ROUTES } from '../config/constants';
 import {
   SET_CURRENT_ROUTE,
   TOGGLE_MOBILE_MENU,
+  GELOCATION_DATA_ERROR,
+  GEOLOCATION_DATA_RECEIVED,
+  GETTING_GEOLOCATION_DATA,
 } from '../actions/app.actions';
 
 const LOCATION_CHANGE = '@@router/LOCATION_CHANGE';
@@ -11,9 +14,10 @@ const CALL_HISTORY_METHOD = '@@router/CALL_HISTORY_METHOD';
 const initialState = {
   currentRoute: ROUTES.HOME.NAME,
   showMobileMenu: false,
-  gettingUserPermissions: true,
-  errorGettingUserPermissions: false,
-  userPermissionError: undefined,
+  gettingGeolocationData: false,
+  successGettingGeolocationData: false,
+  geolocationData: undefined,
+  errorGettingGeolocationData: false,
 };
 
 const scrollToTopOfPage = () => {
@@ -49,6 +53,30 @@ const toggleMobileMenu = state => ({
   showMobileMenu: !state.showMobileMenu,
 });
 
+const geolocationDataError = state => ({
+  ...state,
+  gettingGeolocationData: false,
+  successGettingGeolocationData: false,
+  geolocationData: undefined,
+  errorGettingGeolocationData: true,
+});
+
+const successGettingGeolocationData = (state, action) => ({
+  ...state,
+  gettingGeolocationData: false,
+  successGettingGeolocationData: true,
+  geolocationData: action.data,
+  errorGettingGeolocationData: false,
+});
+
+const gettingGeolocationData = state => ({
+  ...state,
+  gettingGeolocationData: true,
+  successGettingGeolocationData: false,
+  geolocationData: undefined,
+  errorGettingGeolocationData: false,
+});
+
 export default (state = initialState, action) => {
   switch (action.type) {
     case SET_CURRENT_ROUTE:
@@ -59,6 +87,12 @@ export default (state = initialState, action) => {
       return callHistoryMethod(state);
     case TOGGLE_MOBILE_MENU:
       return toggleMobileMenu(state);
+    case GELOCATION_DATA_ERROR:
+      return geolocationDataError(state);
+    case GEOLOCATION_DATA_RECEIVED:
+      return successGettingGeolocationData(state, action);
+    case GETTING_GEOLOCATION_DATA:
+      return gettingGeolocationData(state);
     default:
       return state;
   }

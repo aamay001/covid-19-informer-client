@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import { ConfirmDialog } from '../General';
 import { ROUTES } from '../../config/constants';
 import { toggleMobileMenu } from '../../actions/app.actions';
-import { localStorage as ls } from '../../helpers';
+import { lsHelper as ls } from '../../helpers';
 import theme from '../../config/theme';
 
 const RouteNavigationLinks = ({ currentRoute, dispatch }) => {
