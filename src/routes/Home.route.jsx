@@ -9,27 +9,15 @@ import {
   LoadingModal,
 } from '../components/General';
 import { setCurrentRoute, getGeolocData } from '../actions/app.actions';
-import { lsHelper } from '../helpers';
+import { lsHelper, generalHelper } from '../helpers';
 import { ROUTES, STRINGS } from '../config/constants';
 
-const getGeolocatedLocationString = ({
-  country,
-  state,
-  county,
-  city,
-}) => `${country
-  ? `${country}, `
-  : ''}${state
-  ? `${state}, `
-  : ''}${county}${city
-  ? `${(county && ', ') + city}`
-  : ''}`;
+const { getGeolocatedLocationString } = generalHelper;
 
 class Home extends Component {
   constructor(props) {
     super(props);
     const askForLocPerms = lsHelper.getItem(STRINGS.LS.LOCATION_PERMS);
-    // const prevLocation = lsHelper.getItem(STRINGS.LS.DERIVED_LOCATION);
     this.state = {
       askForLocPerms: askForLocPerms === false
         ? askForLocPerms
@@ -39,7 +27,6 @@ class Home extends Component {
       locationConfirmed: false,
       locationNotAccepted: false,
       rememberLocation: false,
-      // prevLocation,
     };
     const { currentRoute, dispatch } = props;
     if (currentRoute !== ROUTES.HOME.NAME) {
@@ -126,7 +113,7 @@ class Home extends Component {
     return (
       <Fragment>
         <RouteRootFlex style={{ maxWidth: 550 }} id="c19i-home-route">
-          Data
+          {getGeolocatedLocationString(geolocationData)}
         </RouteRootFlex>
         <ConfirmDialog
           open={askForLocPerms}

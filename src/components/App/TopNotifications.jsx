@@ -3,29 +3,26 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { MessageBarType } from 'office-ui-fabric-react';
 import NotificationMessage from './NotificationMessage';
-import { ROUTES } from '../../config/constants';
+import { ROUTES, STRINGS } from '../../config/constants';
+import { lsHelper, generalHelper } from '../../helpers';
+
+const prevLocation = lsHelper.getItem(STRINGS.LS.DERIVED_LOCATION);
+const { getGeolocatedLocationString } = generalHelper;
 
 const TopNotifications = ({
   currentRoute,
 }) => {
   const [notificationStates, setNotificationStates] =
-    useState({ green: false, blue: false, red: true });
+    useState({ existingLocation: !!prevLocation });
   return (
     <div style={{ position: 'fixed', top: 55, width: '100%' }}>
-      {notificationStates.green &&
+      {notificationStates.existingLocation &&
         <NotificationMessage
           show={currentRoute === ROUTES.HOME.NAME}
-          type={MessageBarType.success}
-          message="Show global notification from here! (src/components/App/TopNotifications)"
-          onClick={() => alert('You touched the green notification!')}
-          onDismiss={() => setNotificationStates({ ...notificationStates, green: false })}
-        />}
-      {notificationStates.blue &&
-        <NotificationMessage
-          show={currentRoute === ROUTES.HOME.NAME}
-          message="Open the Menu and click on the APP name at the bottom to access the Status Page!"
-          onClick={() => alert('You touched the blue notification!')}
-          onDismiss={() => setNotificationStates({ ...notificationStates, blue: false })}
+          message={`Using previously saved location: ${getGeolocatedLocationString(prevLocation)}`}
+          type={MessageBarType.info}
+          onDismiss={() =>
+            setNotificationStates({ ...notificationStates, existingLocation: false })}
         />}
     </div>
   );

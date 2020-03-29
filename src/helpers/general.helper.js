@@ -119,10 +119,24 @@ export const scrollToElementWithDelay = (id, delay) =>
     }
   }, delay);
 
-export const isEditor = (user, pass) =>
-  (user && user.roles
-    ? (user.roles.map(r => r.roleId).includes(pass))
-    : false);
+export const getGeolocatedLocationString = (loc) => {
+  if (loc) {
+    const {
+      country,
+      state,
+      county,
+      city,
+    } = loc;
+    return `${country
+      ? `${country}, `
+      : ''}${state
+      ? `${state}, `
+      : ''}${county || ''}${city
+      ? `${(county && ', ') + city}`
+      : ''}`;
+  }
+  return '';
+};
 
 export default {
   titleCase,
@@ -134,5 +148,5 @@ export default {
   pushOnVisibleAction,
   popOnHiddenAction,
   popOnVisibleAction,
-  isEditor,
+  getGeolocatedLocationString,
 };

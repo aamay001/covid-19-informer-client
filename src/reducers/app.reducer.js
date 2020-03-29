@@ -1,5 +1,5 @@
 /* globals window */
-import { ROUTES } from '../config/constants';
+import { ROUTES, STRINGS } from '../config/constants';
 import {
   SET_CURRENT_ROUTE,
   TOGGLE_MOBILE_MENU,
@@ -7,6 +7,9 @@ import {
   GEOLOCATION_DATA_RECEIVED,
   GETTING_GEOLOCATION_DATA,
 } from '../actions/app.actions';
+import lsHelper from '../helpers/localStorage.helper';
+
+const prevLocation = lsHelper.getItem(STRINGS.LS.DERIVED_LOCATION);
 
 const LOCATION_CHANGE = '@@router/LOCATION_CHANGE';
 const CALL_HISTORY_METHOD = '@@router/CALL_HISTORY_METHOD';
@@ -16,7 +19,7 @@ const initialState = {
   showMobileMenu: false,
   gettingGeolocationData: false,
   successGettingGeolocationData: false,
-  geolocationData: undefined,
+  geolocationData: prevLocation,
   errorGettingGeolocationData: false,
 };
 
