@@ -5,6 +5,7 @@ import {
   Spinner,
   SpinnerSize,
 } from 'office-ui-fabric-react';
+import { theme } from '../../config';
 
 const LoadingModal = ({ show, text }) => (
   <Dialog
@@ -20,6 +21,7 @@ const LoadingModal = ({ show, text }) => (
       labelPosition="bottom"
       style={{
         height: 115,
+        fontSize: theme.fonts.medium.fontSize,
       }}
     />
   </Dialog>

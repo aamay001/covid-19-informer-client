@@ -86,6 +86,18 @@ const TopNavBar = ({
     </div>
     <div
       style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        color: theme.palette.white,
+      }}
+    >
+      <h1 style={{ margin: 0, fontSize: theme.fonts.xLargePlus.fontSize }}>
+        COVID-19 Informer
+      </h1>
+    </div>
+    <div
+      style={{
         // width: 55,
         height: 55,
         display: 'flex',
@@ -120,8 +132,8 @@ const TopNavBar = ({
           imageFit={ImageFit.centerContain}
           styles={{ root: { marginRight: 10 } }}
           alt="c19i logo."
-          width={45}
-          height={45}
+          width={35}
+          height={35}
         />
       </a>
     </div>

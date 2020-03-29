@@ -37,6 +37,10 @@ export const DEFAULT = {
 const SETTINGS = {
   API: {
     URL: process.env.REACT_APP_API_URL || DEFAULT.API.URL,
+    GEOLOCATE: '/geolocate',
+    KEYS: {
+      GEOLOCATE: process.env.REACT_APP_GEO_LOOKUP_API_KEY,
+    },
   },
   ROLLBAR: {
     TOKEN: process.env.REACT_APP_ROLLBAR_TOKEN,

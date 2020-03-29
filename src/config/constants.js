@@ -5,7 +5,7 @@ const CONSTANTS = {
   APP: {
     NAME: 'COVID-19 Informer',
     ICON: 'AppIconDefault',
-    COMPANY: 'COVID-19 Informer',
+    COMPANY: 'Andy Amaya',
   },
   ENVIRONMENT: {
     TEST: 'TEST',
@@ -24,7 +24,7 @@ const CONSTANTS = {
     SAMPLE: {
       PATH: `${APP_SETTINGS.WORKING_DIR}/sample`,
       NAME: 'Sample',
-      ENABLED: true,
+      ENABLED: false,
       SHOW_IN_MENU: true,
       SHOW_IN_NAV: true,
       ICON: 'BorderDot',
@@ -86,7 +86,9 @@ export const setRouteLabel = (route, label) => {
 // eslint-disable-next-line
 document.getElementById('title').innerText = `c19i | ${CONSTANTS.APP.NAME}`;
 
+export const STRINGS = { ...stringConstants };
+
 export default {
   ...CONSTANTS,
-  STRINGS: { ...stringConstants },
+  STRINGS,
 };

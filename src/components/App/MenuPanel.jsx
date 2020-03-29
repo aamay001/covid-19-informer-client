@@ -17,7 +17,7 @@ const panelStyles = {
       ? theme.palette.white
       : theme.palette.black,
     padding: 0,
-    maxWidth: 475,
+    maxWidth: 300,
   },
   content: {
     padding: 0,
@@ -32,10 +32,12 @@ const MenuPanel = ({
     <Panel
       hasCloseButton={false}
       isOpen={showMobileMenu}
-      isLightDismiss
       type={PanelType.customNear}
+      isBlocking={false}
       styles={panelStyles}
       onDismiss={() => dispatch(toggleMobileMenu())}
+      onAbort={() => dispatch(toggleMobileMenu())}
+      onLightDismissClick={() => dispatch(toggleMobileMenu())}
       onRenderNavigation={() =>
         PanelNavigation({ dispatch })}
       isFooterAtBottom
