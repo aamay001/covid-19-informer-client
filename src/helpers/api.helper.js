@@ -17,7 +17,7 @@ const GetUserLocationDetail = async (lat, long) => {
     params: {
       lat,
       long,
-      key: API.KEYS.GEOLOCATE,
+      code: API.KEYS.GEOLOCATE,
     },
   };
   const response = await axios.get(API.URL + API.GEOLOCATE, config);
