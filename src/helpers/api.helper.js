@@ -1,8 +1,10 @@
 import axios from 'axios';
+import { differenceInHours } from 'date-fns';
 import settings from '../config/settings';
 import strings from '../config/string.constants';
+import lsHelper from './localStorage.helper';
 
-const { ADDRESS_COMPONENTS } = strings;
+const { ADDRESS_COMPONENTS, LS } = strings;
 
 const { API, COVID_API } = settings;
 const {
@@ -44,16 +46,32 @@ const GetUserLocationDetail = async (lat, long) => {
 };
 
 const GetAllCountries = async () => {
+  let cachedData = lsHelper.getItem(LS.CACHED_COUNTRY_DATA);
+  if (cachedData && differenceInHours(cachedData.date, new Date()) > 8) {
+    cachedData = null;
+  }
+  if (cachedData) {
+    return cachedData.data;
+  }
   const response = await axios.get(COVID_API.URL + COVID_API.COUNTRIES);
   if (response.status === 200) {
+    lsHelper.setItem(LS.CACHED_COUNTRY_DATA, { date: new Date(), data: response.data });
     return response.data;
   }
   return false;
 };
 
 const GetAllJHUData = async () => {
+  let cachedData = lsHelper.getItem(LS.CACHED_JHU_DATA);
+  if (cachedData && differenceInHours(cachedData.date, new Date()) > 8) {
+    cachedData = null;
+  }
+  if (cachedData) {
+    return cachedData.data;
+  }
   const response = await axios.get(COVID_API.URL + COVID_API.JHU_CSSE);
   if (response.status === 200) {
+    lsHelper.setItem(LS.CACHED_JHU_DATA, { date: new Date(), data: response.data });
     return response.data;
   }
   return false;

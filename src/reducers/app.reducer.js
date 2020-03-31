@@ -21,6 +21,7 @@ const initialState = {
   successGettingGeolocationData: false,
   geolocationData: prevLocation,
   errorGettingGeolocationData: false,
+  prevLocationExists: !!prevLocation,
 };
 
 const scrollToTopOfPage = () => {
