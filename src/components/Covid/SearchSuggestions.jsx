@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-to-interactive-role */
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
@@ -12,47 +12,63 @@ import {
 } from '../../helpers/general.helper';
 import { theme } from '../../config';
 
+const ResultMemo = new Map();
+const RefMap = new Map();
+
 const SearchSuggestions = ({
   searchTerm,
   jhuData,
   show,
   onItemSelected,
   selectionMade,
+  focusIndex,
+  onIncrementFocusIndex,
+  onDecrementFocusIndex,
 }) => {
-  if (searchTerm.length < 3) {
+  useEffect(() => {
+    const elementRef = RefMap.get(focusIndex);
+    if (elementRef) {
+      elementRef.focus();
+    }
+  });
+  if (searchTerm.length < 3 || selectionMade || !show) {
+    RefMap.clear();
     return '';
   }
-  const st = searchTerm.toLowerCase().replace(/\W/g, ' ').split(' ');
-  const stl = searchTerm.replace(' County', '').toLowerCase();
-  const filteredResults = jhuData.filter((item) => {
-    let { city, province, country } = item;
-    city = city && city.toLowerCase();
-    province = province && province.toLowerCase();
-    country = country && country.toLowerCase();
-    if (st.includes(city) || st.includes(province) ||
-      st.includes(country) || (country || '').startsWith(stl) ||
-      (province || '').startsWith(stl) || (city || '').startsWith(stl)) {
-      return true;
-    }
-    return false;
-  }).sort((a, b) =>
-    compareTwoStrings(stl, getLocationString(b).toLocaleLowerCase()) -
-      compareTwoStrings(stl, getLocationString(a).toLocaleLowerCase()))
-    .slice(0, 9);
+  let filteredResults = ResultMemo.get(searchTerm);
+  if (!filteredResults) {
+    const st = searchTerm.toLowerCase().replace(/\W/g, ' ').split(' ');
+    const stl = searchTerm.replace(' County', '').toLowerCase();
+    filteredResults = jhuData.filter((item) => {
+      let { city, province, country } = item;
+      city = city && city.toLowerCase();
+      province = province && province.toLowerCase();
+      country = country && country.toLowerCase();
+      if (st.includes(city) || st.includes(province) ||
+        st.includes(country) || (country || '').startsWith(stl) ||
+        (province || '').startsWith(stl) || (city || '').startsWith(stl)) {
+        return true;
+      }
+      return false;
+    }).sort((a, b) =>
+      compareTwoStrings(stl, getLocationString(b).toLocaleLowerCase()) -
+        compareTwoStrings(stl, getLocationString(a).toLocaleLowerCase()))
+      .slice(0, 14);
+    ResultMemo.set(searchTerm, filteredResults);
+  }
   return (
     <Fragment>
       {((show && filteredResults.length > 0) ||
-        (filteredResults.length > 0)) && !selectionMade &&
+        (filteredResults.length > 0)) &&
         <Callout
           target="#c19i-search-box"
           isBeakVisible={false}
           directionalHint={DirectionalHint.bottomLeftEdge}
           directionalHintFixed
           calloutWidth="90%"
-          calloutMaxWidth={725}
-          gapSpace={2}
+          calloutMaxWidth={710}
+          gapSpace={3}
           coverTarget={false}
-          shouldRestoreFocus
           styles={{
             calloutMain: {
               left: '-5px',
@@ -61,7 +77,12 @@ const SearchSuggestions = ({
           }}
         >
           <ul
-            style={{ listStyle: 'none', padding: 0 }}
+            style={{
+              listStyle: 'none',
+              padding: 0,
+              marginTop: 0,
+              marginBottom: 0,
+            }}
             id="c19i-search-suggestions"
           >
             {filteredResults.map((item, index) => {
@@ -70,9 +91,21 @@ const SearchSuggestions = ({
               return (
                 <li
                   key={`${country}${province}${city}`}
-                  tabIndex={index}
+                  ref={ref => RefMap.set(index + 2, ref)}
+                  tabIndex={index + 2}
                   onClick={() => onItemSelected(item)}
-                  onKeyDown={() => onItemSelected(item)}
+                  onKeyUp={({ keyCode, shiftKey }) => {
+                    if (keyCode === 13 || keyCode === 32) {
+                      // Enter || Space
+                      onItemSelected(item);
+                    } else if (keyCode === 38 || (keyCode === 9 && shiftKey)) {
+                      // Up Arrow || Shift + Tab
+                      onDecrementFocusIndex(focusIndex);
+                    } else if (keyCode === 40 || keyCode === 9) {
+                      // Down Arrow || Tab
+                      onIncrementFocusIndex(focusIndex, filteredResults.length + 1);
+                    }
+                  }}
                   role="button"
                 >
                   {locString}
@@ -94,6 +127,13 @@ const SearchSuggestions = ({
             margin-bottom: 1px;
             font-size: ${theme.fonts.medium.fontSize};
             cursor: pointer;
+            outline: none;
+          }
+          #c19i-search-suggestions li:focus {
+            background-color: ${theme.palette.themeLighterAlt}
+          }
+          #c19i-search-suggestions li:last-child {
+            border-bottom: 0px;
           }
           #c19i-search-suggestions li:hover {
             background-color: ${theme.palette.themeLighterAlt}
@@ -115,6 +155,9 @@ SearchSuggestions.propTypes = {
   show: PropTypes.bool.isRequired,
   onItemSelected: PropTypes.func.isRequired,
   selectionMade: PropTypes.bool.isRequired,
+  focusIndex: PropTypes.number.isRequired,
+  onIncrementFocusIndex: PropTypes.func.isRequired,
+  onDecrementFocusIndex: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({

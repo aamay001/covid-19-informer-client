@@ -26,6 +26,7 @@ const { getGeolocatedLocationString } = generalHelper;
 class Home extends Component {
   constructor(props) {
     super(props);
+    const { prevLocationExists, geolocationData } = props;
     const askForLocPerms = lsHelper.getItem(STRINGS.LS.LOCATION_PERMS);
     this.state = {
       askForLocPerms: askForLocPerms === false
@@ -33,10 +34,10 @@ class Home extends Component {
         : true,
       errorGettingUserLocation: false,
       gettingUserLocation: false,
-      locationConfirmed: false,
+      locationConfirmed: prevLocationExists,
       locationNotAccepted: false,
       rememberLocation: false,
-      selectedLocation: undefined,
+      selectedLocation: geolocationData,
     };
     const { currentRoute, dispatch } = props;
     if (currentRoute !== ROUTES.HOME.NAME) {
@@ -65,6 +66,7 @@ class Home extends Component {
     const { rememberLocation } = this.state;
     this.setState({
       askForLocPerms: false,
+      locationNotAccepted: true,
     });
     if (rememberLocation) {
       lsHelper.setItem(STRINGS.LS.LOCATION_PERMS, false);
@@ -130,14 +132,15 @@ class Home extends Component {
       <Fragment>
         <RouteRootFlex style={{ maxWidth: '100vw' }} id="c19i-home-route">
           <div style={{ maxWidth: 750, width: '95%', paddingTop: 35 }}>
-            {!gettingGeolocationData && !gettingCovidData && (!askForLocPerms ||
-              (askForLocPerms && (locationConfirmed || locationNotAccepted))) &&
+            {!gettingGeolocationData && !gettingCovidData &&
+              (locationConfirmed || locationNotAccepted) &&
               <Fragment>
                 <LocationSearch
-                  searchTerm={locationConfirmed || !askForLocPerms
+                  searchTerm={locationConfirmed
                     ? getGeolocatedLocationString(geolocationData)
                     : ''}
-                  onSelection={loc => this.setState({ selectedLocation: loc })}
+                  onSelection={loc =>
+                    this.setState({ selectedLocation: loc })}
                 />
               </Fragment>}
           </div>
@@ -215,11 +218,13 @@ Home.propTypes = {
   geolocationData: PropTypes.shape({
     country: PropTypes.string,
     county: PropTypes.string,
+    province: PropTypes.string,
     state: PropTypes.string,
     city: PropTypes.string,
   }),
   errorGettingGeolocationData: PropTypes.bool.isRequired,
   gettingCovidData: PropTypes.bool.isRequired,
+  prevLocationExists: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -229,6 +234,7 @@ const mapStateToProps = state => ({
   geolocationData: state.app.geolocationData,
   errorGettingGeolocationData: state.app.errorGettingGeolocationData,
   gettingCovidData: state.covid.gettingData,
+  prevLocationExists: state.app.prevLocationExists,
 });
 
 export default connect(mapStateToProps)(Home);
