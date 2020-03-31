@@ -54,7 +54,9 @@ const SearchSuggestions = ({
       compareTwoStrings(stl, getLocationString(b).toLocaleLowerCase()) -
         compareTwoStrings(stl, getLocationString(a).toLocaleLowerCase()))
       .slice(0, 14);
-    ResultMemo.set(searchTerm, filteredResults);
+    if (filteredResults.length > 0) {
+      ResultMemo.set(searchTerm, filteredResults);
+    }
   }
   return (
     <Fragment>
