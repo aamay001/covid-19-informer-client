@@ -10,6 +10,11 @@ import { theme } from '../../config';
 const LoadingModal = ({ show, text }) => (
   <Dialog
     hidden={!show}
+    styles={{
+      main: {
+        top: '-10%',
+      },
+    }}
     modalProps={{
       isBlocking: true,
     }}
@@ -21,7 +26,11 @@ const LoadingModal = ({ show, text }) => (
       labelPosition="bottom"
       style={{
         height: 115,
-        fontSize: theme.fonts.medium.fontSize,
+      }}
+      styles={{
+        label: {
+          fontSize: theme.fonts.medium.fontSize,
+        },
       }}
     />
   </Dialog>

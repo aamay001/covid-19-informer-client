@@ -89,7 +89,7 @@ const TopNavBar = ({
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        color: theme.palette.white,
+        color: 'white',
       }}
     >
       <h1 style={{ margin: 0, fontSize: theme.fonts.xLargePlus.fontSize }}>

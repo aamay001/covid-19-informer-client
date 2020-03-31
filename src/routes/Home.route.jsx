@@ -8,7 +8,16 @@ import {
   ConfirmDialog,
   LoadingModal,
 } from '../components/General';
-import { setCurrentRoute, getGeolocData } from '../actions/app.actions';
+import {
+  LocationSearch,
+} from '../components/Covid';
+import {
+  setCurrentRoute,
+  getGeolocData,
+} from '../actions/app.actions';
+import {
+  loadCovidData,
+} from '../actions/covid.actions';
 import { lsHelper, generalHelper } from '../helpers';
 import { ROUTES, STRINGS } from '../config/constants';
 
@@ -27,6 +36,7 @@ class Home extends Component {
       locationConfirmed: false,
       locationNotAccepted: false,
       rememberLocation: false,
+      selectedLocation: undefined,
     };
     const { currentRoute, dispatch } = props;
     if (currentRoute !== ROUTES.HOME.NAME) {
@@ -38,6 +48,11 @@ class Home extends Component {
     this.onDenyUseLocation = this.onDenyUseLocation.bind(this);
     this.onSuccessGettingUserLocation = this.onSuccessGettingUserLocation.bind(this);
     this.onErrorGettingUserLocation = this.onErrorGettingUserLocation.bind(this);
+  }
+
+  componentDidMount() {
+    const { dispatch } = this.props;
+    dispatch(loadCovidData());
   }
 
   onConfirmUseLocation() {
@@ -109,14 +124,26 @@ class Home extends Component {
       successGettingGeolocationData,
       errorGettingGeolocationData,
       geolocationData,
+      gettingCovidData,
     } = this.props;
     return (
       <Fragment>
-        <RouteRootFlex style={{ maxWidth: 550 }} id="c19i-home-route">
-          {getGeolocatedLocationString(geolocationData)}
+        <RouteRootFlex style={{ maxWidth: '100vw' }} id="c19i-home-route">
+          <div style={{ maxWidth: 750, width: '95%', paddingTop: 35 }}>
+            {!gettingGeolocationData && !gettingCovidData && (!askForLocPerms ||
+              (askForLocPerms && (locationConfirmed || locationNotAccepted))) &&
+              <Fragment>
+                <LocationSearch
+                  searchTerm={locationConfirmed || !askForLocPerms
+                    ? getGeolocatedLocationString(geolocationData)
+                    : ''}
+                  onSelection={loc => this.setState({ selectedLocation: loc })}
+                />
+              </Fragment>}
+          </div>
         </RouteRootFlex>
         <ConfirmDialog
-          open={askForLocPerms}
+          open={askForLocPerms && !gettingCovidData}
           title="Use Location"
           subText="Use your location to load relevant data."
           onClickYes={this.onConfirmUseLocation}
@@ -164,8 +191,10 @@ class Home extends Component {
           />
         </ConfirmDialog>
         <LoadingModal
-          show={gettingUserLocation || gettingGeolocationData}
-          text="Getting user location..."
+          show={gettingUserLocation || gettingGeolocationData || gettingCovidData}
+          text={gettingCovidData
+            ? 'Loading data from sources...'
+            : 'Getting user location...'}
         />
       </Fragment>
     );
@@ -190,6 +219,7 @@ Home.propTypes = {
     city: PropTypes.string,
   }),
   errorGettingGeolocationData: PropTypes.bool.isRequired,
+  gettingCovidData: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -198,6 +228,7 @@ const mapStateToProps = state => ({
   successGettingGeolocationData: state.app.successGettingGeolocationData,
   geolocationData: state.app.geolocationData,
   errorGettingGeolocationData: state.app.errorGettingGeolocationData,
+  gettingCovidData: state.covid.gettingData,
 });
 
 export default connect(mapStateToProps)(Home);

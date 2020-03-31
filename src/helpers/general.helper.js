@@ -119,21 +119,22 @@ export const scrollToElementWithDelay = (id, delay) =>
     }
   }, delay);
 
-export const getGeolocatedLocationString = (loc) => {
+export const getLocationString = (loc) => {
   if (loc) {
     const {
       country,
       state,
+      province,
       county,
       city,
     } = loc;
-    return `${country
-      ? `${country}, `
-      : ''}${state
-      ? `${state}, `
-      : ''}${county || ''}${city
-      ? `${(county && ', ') + city}`
-      : ''}`;
+    return `${city
+      ? `${city}, `
+      : ''}${county
+      ? `${county}, `
+      : ''}${(state || province) || ''}${(state || province)
+      ? `${((state || province) && ', ')}`
+      : ''}${country || ''}`;
   }
   return '';
 };
@@ -148,5 +149,5 @@ export default {
   pushOnVisibleAction,
   popOnHiddenAction,
   popOnVisibleAction,
-  getGeolocatedLocationString,
+  getGeolocatedLocationString: getLocationString,
 };

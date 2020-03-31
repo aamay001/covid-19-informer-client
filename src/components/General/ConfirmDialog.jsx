@@ -30,6 +30,7 @@ const ConfirmDialog = ({
     styles={{
       main: {
         width: '90%',
+        top: '-10%',
       },
     }}
     dialogContentProps={{
