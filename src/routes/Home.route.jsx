@@ -9,6 +9,7 @@ import {
   LoadingModal,
 } from '../components/General';
 import {
+  NoLocationSelected,
   LocationSearch,
   StatsPie,
 } from '../components/Covid';
@@ -48,7 +49,7 @@ class Home extends Component {
       pickFirst: prevLocationExists || !!location,
       locationNotAccepted: false,
       rememberLocation: false,
-      selectedLocation: { stats: {} },
+      selectedLocation: undefined,
     };
     const { currentRoute, dispatch } = props;
     if (currentRoute !== ROUTES.HOME.NAME) {
@@ -176,19 +177,22 @@ class Home extends Component {
           <h1 style={{ marginBottom: 0 }}>
             {locString}
           </h1>
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              flexWrap: 'wrap',
-              justifyContent: 'space-around',
-              alignItems: 'flex-start',
-              width: '100%',
-              marginTop: 25,
-            }}
-          >
-            <StatsPie data={selectedLocation} />
-          </div>
+          {selectedLocation &&
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                flexWrap: 'wrap',
+                justifyContent: 'space-around',
+                alignItems: 'flex-start',
+                width: '100%',
+                marginTop: 25,
+              }}
+            >
+              <StatsPie data={selectedLocation} />
+            </div>}
+          {!selectedLocation &&
+            <NoLocationSelected />}
         </RouteRootFlex>
         <ConfirmDialog
           open={askForLocPerms && !gettingCovidData}

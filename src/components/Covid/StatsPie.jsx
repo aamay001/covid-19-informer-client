@@ -37,7 +37,7 @@ const StatsPie = ({ data }) => (
         radialLabelsSkipAngle={10}
         radialLabelsTextXOffset={6}
         radialLabelsTextColor="#333333"
-        radialLabelsLinkOffset={0}
+        radialLabelsLinkOffset={-20}
         radialLabelsLinkDiagonalLength={16}
         radialLabelsLinkHorizontalLength={24}
         radialLabelsLinkStrokeWidth={1}

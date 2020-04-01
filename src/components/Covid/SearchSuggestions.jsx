@@ -127,7 +127,7 @@ const SearchSuggestions = ({
           #c19i-search-suggestions li {
             list-style: none;
             border-bottom: 1px solid ${theme.palette.neutralQuaternary};
-            height: 30px;
+            height: 45px;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -145,7 +145,8 @@ const SearchSuggestions = ({
             border-bottom: 0px;
           }
           #c19i-search-suggestions li:hover {
-            background-color: ${theme.palette.themeLighterAlt}
+            background-color: ${theme.palette.themeSecondary}
+            color: white: !important;
           }
         `}
       </style>

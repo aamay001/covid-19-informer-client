@@ -74,7 +74,7 @@ const LocationSearch = ({
             selectionMade: false,
             focusIndex: 1,
           });
-          onSelection({ stats: {} });
+          onSelection(undefined);
         }}
         styles={{
           root: {
@@ -83,7 +83,7 @@ const LocationSearch = ({
             height: 50,
           },
           field: {
-            lineHeight: 1,
+            lineHeight: '1.25',
             height: 50,
           },
         }}
