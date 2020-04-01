@@ -3,7 +3,6 @@ import { Router } from 'react-router-dom';
 import { Fabric } from 'office-ui-fabric-react';
 import {
   TopNavBar,
-  MenuPanel,
   AppStyles,
   TopNotifications,
 } from './components/App';
@@ -18,7 +17,6 @@ const App = () => (
         <AppStyles />
         <TopNavBar />
         <div id="app-main-content">
-          <MenuPanel />
           <Routes />
         </div>
         <TopNotifications />
