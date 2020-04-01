@@ -53,7 +53,7 @@ const GlobalTop10 = ({ data }) => {
         {`
           #c19i-global-top10-item li {
             list-style: none;
-            border-bottom: 1px solid ${theme.palette.neutralQuaternary};
+            border-bottom: 1px solid ${theme.palette.neutralTertiary};
             height: 30px;
             display: flex;
             flex-direction: row;

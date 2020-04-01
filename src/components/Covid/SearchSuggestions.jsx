@@ -54,7 +54,7 @@ const SearchSuggestions = ({
     }).sort((a, b) =>
       compareTwoStrings(stl, getLocationString(b).toLocaleLowerCase()) -
         compareTwoStrings(stl, getLocationString(a).toLocaleLowerCase()))
-      .slice(0, 14);
+      .slice(0, 9);
     if (filteredResults.length > 0) {
       ResultMemo.set(searchTerm, filteredResults);
       if (pickFirst && filteredResults.length > 0) {
@@ -68,65 +68,78 @@ const SearchSuggestions = ({
     <Fragment>
       {(!pickFirst && ((show && filteredResults.length > 0) ||
         (filteredResults.length > 0))) &&
-        <Callout
-          target="#c19i-search-box"
-          isBeakVisible={false}
-          directionalHint={DirectionalHint.bottomLeftEdge}
-          directionalHintFixed
-          calloutWidth="90%"
-          calloutMaxWidth={710}
-          gapSpace={3}
-          coverTarget={false}
-          styles={{
-            calloutMain: {
-              left: '-5px',
-              width: '101%',
-            },
-          }}
-        >
-          <ul
-            style={{
-              listStyle: 'none',
-              padding: 0,
-              marginTop: 0,
-              marginBottom: 0,
+        <Fragment>
+          <Callout
+            isBloc
+            target="#c19i-search-box"
+            isBeakVisible={false}
+            directionalHint={DirectionalHint.bottomLeftEdge}
+            directionalHintFixed
+            calloutWidth="90%"
+            calloutMaxWidth={710}
+            gapSpace={3}
+            coverTarget={false}
+            styles={{
+              calloutMain: {
+                left: '-5px',
+                width: '101%',
+              },
             }}
-            id="c19i-search-suggestions"
           >
-            {filteredResults.map((item, index) => {
-              const { city, province, country } = item;
-              const locString = getLocationString({ country, province, city });
-              return (
-                <li
-                  key={`${country}${province}${city}`}
-                  ref={ref => RefMap.set(index + 2, ref)}
-                  tabIndex={index + 2}
-                  onClick={() => onItemSelected(item)}
-                  onKeyUp={({ keyCode, shiftKey }) => {
-                    if (keyCode === 13 || keyCode === 32) {
-                      // Enter || Space
-                      onItemSelected(item);
-                    } else if (keyCode === 38 || (keyCode === 9 && shiftKey)) {
-                      // Up Arrow || Shift + Tab
-                      onDecrementFocusIndex(focusIndex);
-                    } else if (keyCode === 40 || keyCode === 9) {
-                      // Down Arrow || Tab
-                      onIncrementFocusIndex(focusIndex, filteredResults.length + 1);
-                    }
-                  }}
-                  role="button"
-                >
-                  {locString}
-                </li>
-              );
-            })}
-          </ul>
-        </Callout>}
+            <ul
+              style={{
+                listStyle: 'none',
+                padding: 0,
+                marginTop: 0,
+                marginBottom: 0,
+              }}
+              id="c19i-search-suggestions"
+            >
+              {filteredResults.map((item, index) => {
+                const { city, province, country } = item;
+                const locString = getLocationString({ country, province, city });
+                return (
+                  <li
+                    key={`${country}${province}${city}`}
+                    ref={ref => RefMap.set(index + 2, ref)}
+                    tabIndex={index + 2}
+                    onClick={() => onItemSelected(item)}
+                    onKeyUp={(event) => {
+                      event.stopPropagation();
+                      event.preventDefault();
+                      const { keyCode, shiftKey } = event;
+                      if (keyCode === 13 || keyCode === 32) {
+                        // Enter || Space
+                        onItemSelected(item);
+                      } else if (keyCode === 38 || (keyCode === 9 && shiftKey)) {
+                        // Up Arrow || Shift + Tab
+                        onDecrementFocusIndex(focusIndex);
+                      } else if (keyCode === 40 || keyCode === 9) {
+                        // Down Arrow || Tab
+                        onIncrementFocusIndex(focusIndex, filteredResults.length + 1);
+                      }
+                    }}
+                    role="button"
+                  >
+                    {locString}
+                  </li>
+                );
+              })}
+            </ul>
+          </Callout>
+          <style>
+            {`html {
+              width: 100vw !important;
+              height: 100vh !important;
+              overflow: hidden !important;
+            }`}
+          </style>
+        </Fragment>}
       <style>
         {`
           #c19i-search-suggestions li {
             list-style: none;
-            border-bottom: 1px solid ${theme.palette.neutralQuaternary};
+            border-bottom: 1px solid ${theme.palette.neutralTertiary};
             height: 45px;
             display: flex;
             flex-direction: column;
@@ -139,14 +152,14 @@ const SearchSuggestions = ({
           }
           #c19i-search-suggestions li:focus {
             background-color: ${theme.palette.themeSecondary};
-            color: white !important;
+            color: white;
           }
           #c19i-search-suggestions li:last-child {
             border-bottom: 0px;
           }
           #c19i-search-suggestions li:hover {
-            background-color: ${theme.palette.themeSecondary}
-            color: white: !important;
+            background-color: ${theme.palette.themeSecondary};
+            color: white;
           }
         `}
       </style>

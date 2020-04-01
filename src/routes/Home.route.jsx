@@ -161,8 +161,8 @@ class Home extends Component {
           id="c19i-home-route"
         >
           <div style={{ maxWidth: 750, width: '95vw', paddingTop: 35 }}>
-            {(!gettingGeolocationData && !gettingCovidData &&
-              (locationConfirmed || locationNotAccepted) ||
+            {((!gettingGeolocationData && !gettingCovidData &&
+              (locationConfirmed || locationNotAccepted)) ||
               (!askForLocPerms && !prevLocationExists && !gettingCovidData && !location)) &&
               <Fragment>
                 <LocationSearch

@@ -44,8 +44,12 @@ const LocationSearch = ({
         placeholder="Location Search"
         componentRef={inputRef}
         value={actualSearchTerm}
+        autoComplete="off"
         tabIndex={Number(1)}
-        onKeyUp={({ keyCode }) => {
+        onKeyUp={(event) => {
+          event.stopPropagation();
+          event.preventDefault();
+          const { keyCode } = event;
           if (keyCode === 40) { // Down Arrow
             incrementFocusIndex(focusIndex, setState, state, 5);
           } else if (keyCode === 38) { // Up Arrow
