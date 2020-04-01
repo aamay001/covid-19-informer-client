@@ -149,5 +149,5 @@ export default {
   pushOnVisibleAction,
   popOnHiddenAction,
   popOnVisibleAction,
-  getGeolocatedLocationString: getLocationString,
+  getLocationString,
 };

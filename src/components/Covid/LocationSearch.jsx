@@ -18,6 +18,7 @@ const decrementFocusIndex = (index, setState, state, min = 1) =>
 const LocationSearch = ({
   searchTerm,
   onSelection,
+  pickFirst,
 }) => {
   const inputRef = useRef(null);
   const [actualSearchTerm, setSearchTerm] = useState(searchTerm || '');
@@ -64,7 +65,16 @@ const LocationSearch = ({
           setState({
             ...state,
             selectionMade: false,
+            focusIndex: 1,
           });
+        }}
+        onClear={() => {
+          setState({
+            ...state,
+            selectionMade: false,
+            focusIndex: 1,
+          });
+          onSelection({ stats: {} });
         }}
         styles={{
           root: {
@@ -78,6 +88,7 @@ const LocationSearch = ({
       />
       <SearchSuggestions
         show={isFocused || !selectionMade}
+        pickFirst={pickFirst}
         selectionMade={selectionMade}
         focusIndex={focusIndex}
         onIncrementFocusIndex={(index, max) =>
@@ -101,11 +112,13 @@ const LocationSearch = ({
 
 LocationSearch.defaultProps = {
   searchTerm: '',
+  pickFirst: false,
 };
 
 LocationSearch.propTypes = {
   searchTerm: PropTypes.string,
   onSelection: PropTypes.func.isRequired,
+  pickFirst: PropTypes.bool,
 };
 
 export default LocationSearch;

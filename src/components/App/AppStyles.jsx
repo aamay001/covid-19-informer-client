@@ -18,6 +18,30 @@ const AppStyles = () => (
       div.ms-Dialog-main > div.ms-Modal-scrollableContent > div > div.ms-Dialog-header  button {
         display: none !important;
       }
+
+      div.c19i-chart-container text {
+        font-size: ${theme.fonts.medium.fontSize} !important;
+        color: ${theme.palette.black} !important;
+        fill: ${theme.palette.black} !important;
+      }
+
+      div.c19i-chart-container div span {
+        color: black !important;
+      }
+
+      div.c19i-chart-container {
+        padding: 5px 10px 0px 10px;
+        width: 550px;
+        max-width: 90vw;
+        margin-bottom: 15px;
+        height: 385px;
+        border-radius: 10px;
+        border: 1px solid ${theme.palette.themeTertiary};
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+      }
     `}
   </style>
 );

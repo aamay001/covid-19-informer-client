@@ -1,5 +1,5 @@
 /* globals window */
-import { ROUTES, STRINGS } from '../config/constants';
+import { STRINGS } from '../config/constants';
 import {
   SET_CURRENT_ROUTE,
   TOGGLE_MOBILE_MENU,
@@ -15,7 +15,7 @@ const LOCATION_CHANGE = '@@router/LOCATION_CHANGE';
 const CALL_HISTORY_METHOD = '@@router/CALL_HISTORY_METHOD';
 
 const initialState = {
-  currentRoute: ROUTES.HOME.NAME,
+  currentRoute: '',
   showMobileMenu: false,
   gettingGeolocationData: false,
   successGettingGeolocationData: false,

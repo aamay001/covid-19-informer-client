@@ -24,13 +24,14 @@ const SearchSuggestions = ({
   focusIndex,
   onIncrementFocusIndex,
   onDecrementFocusIndex,
+  pickFirst,
 }) => {
   useEffect(() => {
     const elementRef = RefMap.get(focusIndex);
     if (elementRef) {
       elementRef.focus();
     }
-  });
+  }, [focusIndex]);
   if (searchTerm.length < 3 || selectionMade || !show) {
     RefMap.clear();
     return '';
@@ -56,12 +57,17 @@ const SearchSuggestions = ({
       .slice(0, 14);
     if (filteredResults.length > 0) {
       ResultMemo.set(searchTerm, filteredResults);
+      if (pickFirst && filteredResults.length > 0) {
+        setTimeout(() => {
+          onItemSelected(filteredResults[0]);
+        }, 100);
+      }
     }
   }
   return (
     <Fragment>
-      {((show && filteredResults.length > 0) ||
-        (filteredResults.length > 0)) &&
+      {(!pickFirst && ((show && filteredResults.length > 0) ||
+        (filteredResults.length > 0))) &&
         <Callout
           target="#c19i-search-box"
           isBeakVisible={false}
@@ -132,7 +138,8 @@ const SearchSuggestions = ({
             outline: none;
           }
           #c19i-search-suggestions li:focus {
-            background-color: ${theme.palette.themeLighterAlt}
+            background-color: ${theme.palette.themeSecondary};
+            color: white !important;
           }
           #c19i-search-suggestions li:last-child {
             border-bottom: 0px;
@@ -160,6 +167,7 @@ SearchSuggestions.propTypes = {
   focusIndex: PropTypes.number.isRequired,
   onIncrementFocusIndex: PropTypes.func.isRequired,
   onDecrementFocusIndex: PropTypes.func.isRequired,
+  pickFirst: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({

@@ -10,6 +10,7 @@ import {
 } from '../components/General';
 import {
   LocationSearch,
+  StatsPie,
 } from '../components/Covid';
 import {
   setCurrentRoute,
@@ -18,30 +19,39 @@ import {
 import {
   loadCovidData,
 } from '../actions/covid.actions';
+import { history } from '../store';
 import { lsHelper, generalHelper } from '../helpers';
 import { ROUTES, STRINGS } from '../config/constants';
 
-const { getGeolocatedLocationString } = generalHelper;
+const { getLocationString } = generalHelper;
 
 class Home extends Component {
   constructor(props) {
     super(props);
-    const { prevLocationExists, geolocationData } = props;
-    const askForLocPerms = lsHelper.getItem(STRINGS.LS.LOCATION_PERMS);
+    const { prevLocationExists, match } = props;
+    const { params: { location } } = match;
+    const askForLocPerms = location
+      ? false
+      : lsHelper.getItem(STRINGS.LS.LOCATION_PERMS);
     this.state = {
       askForLocPerms: askForLocPerms === false
         ? askForLocPerms
         : true,
       errorGettingUserLocation: false,
       gettingUserLocation: false,
-      locationConfirmed: prevLocationExists,
+      locationConfirmed: prevLocationExists || !!location,
+      pickFirst: prevLocationExists || !!location,
       locationNotAccepted: false,
       rememberLocation: false,
-      selectedLocation: geolocationData,
+      selectedLocation: { stats: {} },
     };
     const { currentRoute, dispatch } = props;
     if (currentRoute !== ROUTES.HOME.NAME) {
-      dispatch(setCurrentRoute(ROUTES.HOME.NAME));
+      if (location) {
+        dispatch(setCurrentRoute(ROUTES.WITH_SELECTION.NAME));
+      } else {
+        dispatch(setCurrentRoute(ROUTES.HOME.NAME));
+      }
     }
     this.getUserLocation = this.getUserLocation.bind(this);
     this.onConfirmUseLocation = this.onConfirmUseLocation.bind(this);
@@ -86,6 +96,7 @@ class Home extends Component {
     const { geolocationData } = this.props;
     this.setState({
       locationConfirmed: true,
+      selectedLocation: geolocationData,
     });
     if (rememberLocation) {
       lsHelper.setItem(STRINGS.LS.LOCATION_PERMS, false);
@@ -120,6 +131,8 @@ class Home extends Component {
       locationConfirmed,
       locationNotAccepted,
       rememberLocation,
+      selectedLocation,
+      pickFirst,
     } = this.state;
     const {
       gettingGeolocationData,
@@ -127,22 +140,44 @@ class Home extends Component {
       errorGettingGeolocationData,
       geolocationData,
       gettingCovidData,
+      match: { params: { location } },
     } = this.props;
     return (
       <Fragment>
-        <RouteRootFlex style={{ maxWidth: '100vw' }} id="c19i-home-route">
+        <RouteRootFlex
+          style={{ maxWidth: '100vw', paddingLeft: 20, paddingRight: 20 }}
+          id="c19i-home-route"
+        >
           <div style={{ maxWidth: 750, width: '95%', paddingTop: 35 }}>
             {!gettingGeolocationData && !gettingCovidData &&
               (locationConfirmed || locationNotAccepted) &&
               <Fragment>
                 <LocationSearch
+                  pickFirst={pickFirst}
                   searchTerm={locationConfirmed
-                    ? getGeolocatedLocationString(geolocationData)
+                    ? location || getLocationString(geolocationData)
                     : ''}
-                  onSelection={loc =>
-                    this.setState({ selectedLocation: loc })}
+                  onSelection={(loc) => {
+                    this.setState({ selectedLocation: loc, pickFirst: false });
+                    if (!pickFirst) {
+                      history.push(`/see/${getLocationString(loc)}`);
+                    }
+                  }}
                 />
               </Fragment>}
+          </div>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              flexWrap: 'wrap',
+              justifyContent: 'space-around',
+              alignItems: 'flex-start',
+              width: '100%',
+              marginTop: 25,
+            }}
+          >
+            <StatsPie data={selectedLocation} />
           </div>
         </RouteRootFlex>
         <ConfirmDialog
@@ -182,7 +217,7 @@ class Home extends Component {
           onClickYes={this.onLocationConfirmed}
         >
           <p style={{ color: 'dodgerblue' }}>
-            {getGeolocatedLocationString(geolocationData)}
+            {getLocationString(geolocationData)}
           </p>
           Hit No to find your location manually.
           <Checkbox
@@ -208,6 +243,7 @@ Home.defaultProps = {
   dispatch: () => {},
   currentRoute: ROUTES.HOME.NAME,
   geolocationData: {},
+  match: undefined,
 };
 
 Home.propTypes = {
@@ -221,10 +257,16 @@ Home.propTypes = {
     province: PropTypes.string,
     state: PropTypes.string,
     city: PropTypes.string,
+    stats: PropTypes.shape({}),
   }),
   errorGettingGeolocationData: PropTypes.bool.isRequired,
   gettingCovidData: PropTypes.bool.isRequired,
   prevLocationExists: PropTypes.bool.isRequired,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      location: PropTypes.string,
+    }),
+  }),
 };
 
 const mapStateToProps = state => ({

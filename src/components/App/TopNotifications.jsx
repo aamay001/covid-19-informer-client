@@ -7,7 +7,7 @@ import { ROUTES, STRINGS } from '../../config/constants';
 import { lsHelper, generalHelper } from '../../helpers';
 
 const prevLocation = lsHelper.getItem(STRINGS.LS.DERIVED_LOCATION);
-const { getGeolocatedLocationString } = generalHelper;
+const { getLocationString } = generalHelper;
 
 const TopNotifications = ({
   currentRoute,
@@ -19,7 +19,7 @@ const TopNotifications = ({
       {notificationStates.existingLocation &&
         <NotificationMessage
           show={currentRoute === ROUTES.HOME.NAME}
-          message={`Using previously saved location: ${getGeolocatedLocationString(prevLocation)}`}
+          message={`Using previously saved location: ${getLocationString(prevLocation)}`}
           type={MessageBarType.info}
           onDismiss={() =>
             setNotificationStates({ ...notificationStates, existingLocation: false })}
