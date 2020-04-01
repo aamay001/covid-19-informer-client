@@ -12,6 +12,7 @@ import {
   NoLocationSelected,
   LocationSearch,
   StatsPie,
+  GlobalTop10,
 } from '../components/Covid';
 import {
   setCurrentRoute,
@@ -147,6 +148,9 @@ class Home extends Component {
       errorGettingGeolocationData,
       geolocationData,
       gettingCovidData,
+      successGettingData,
+      countries,
+      prevLocationExists,
       match: { params: { location } },
     } = this.props;
     const locString = getLocationString(selectedLocation);
@@ -157,8 +161,9 @@ class Home extends Component {
           id="c19i-home-route"
         >
           <div style={{ maxWidth: 750, width: '95vw', paddingTop: 35 }}>
-            {!gettingGeolocationData && !gettingCovidData &&
-              (locationConfirmed || locationNotAccepted) &&
+            {(!gettingGeolocationData && !gettingCovidData &&
+              (locationConfirmed || locationNotAccepted) ||
+              (!askForLocPerms && !prevLocationExists && !gettingCovidData && !location)) &&
               <Fragment>
                 <LocationSearch
                   pickFirst={pickFirst}
@@ -174,25 +179,42 @@ class Home extends Component {
                 />
               </Fragment>}
           </div>
+          {!selectedLocation &&
+            <NoLocationSelected />}
+          <h1 style={{ marginBottom: 0, marginTop: 15 }}>
+            Global Stats
+          </h1>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              flexWrap: 'wrap',
+              justifyContent: 'space-around',
+              alignItems: 'flex-start',
+              width: '100%',
+              marginTop: 25,
+            }}
+          >
+            {!gettingCovidData && successGettingData && countries &&
+              <GlobalTop10 data={countries} />}
+          </div>
           <h1 style={{ marginBottom: 0 }}>
             {locString}
           </h1>
-          {selectedLocation &&
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'row',
-                flexWrap: 'wrap',
-                justifyContent: 'space-around',
-                alignItems: 'flex-start',
-                width: '100%',
-                marginTop: 25,
-              }}
-            >
-              <StatsPie data={selectedLocation} />
-            </div>}
-          {!selectedLocation &&
-            <NoLocationSelected />}
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              flexWrap: 'wrap',
+              justifyContent: 'space-around',
+              alignItems: 'flex-start',
+              width: '100%',
+              marginTop: 25,
+            }}
+          >
+            {selectedLocation &&
+              <StatsPie data={selectedLocation} />}
+          </div>
         </RouteRootFlex>
         <ConfirmDialog
           open={askForLocPerms && !gettingCovidData}
@@ -286,6 +308,8 @@ Home.propTypes = {
       location: PropTypes.string,
     }),
   }),
+  successGettingData: PropTypes.bool.isRequired,
+  countries: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -296,6 +320,8 @@ const mapStateToProps = state => ({
   errorGettingGeolocationData: state.app.errorGettingGeolocationData,
   gettingCovidData: state.covid.gettingData,
   prevLocationExists: state.app.prevLocationExists,
+  successGettingData: state.covid.successGettingData,
+  countries: state.covid.countries,
 });
 
 export default connect(mapStateToProps)(Home);

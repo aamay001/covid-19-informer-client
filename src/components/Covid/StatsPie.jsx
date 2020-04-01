@@ -2,13 +2,20 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Text } from 'office-ui-fabric-react';
 import { ResponsivePie } from '@nivo/pie';
+import JHUSource from './JHUSource';
 import { theme } from '../../config';
 
 const StatsPie = ({ data }) => (
   <div className="c19i-chart-container">
     <div>
       <Text>
-        <h2 style={{ margin: 0, color: theme.palette.black }}>
+        <h2
+          style={{
+            margin: 0,
+            color: theme.palette.black,
+            paddingTop: 5,
+          }}
+        >
           Case Stats
         </h2>
       </Text>
@@ -37,7 +44,7 @@ const StatsPie = ({ data }) => (
         radialLabelsSkipAngle={10}
         radialLabelsTextXOffset={6}
         radialLabelsTextColor="#333333"
-        radialLabelsLinkOffset={-20}
+        radialLabelsLinkOffset={-15}
         radialLabelsLinkDiagonalLength={16}
         radialLabelsLinkHorizontalLength={24}
         radialLabelsLinkStrokeWidth={1}
@@ -68,16 +75,7 @@ const StatsPie = ({ data }) => (
       />
     </div>
     <div>
-      {data.updatedAt &&
-        <p
-          style={{
-            fontSize: theme.fonts.small.fontSize,
-            color: theme.palette.themeTertiary,
-            display: 'block',
-          }}
-        >
-          {`As of ${data.updatedAt} - Source JHU`}
-        </p>}
+      <JHUSource date={data.updatedAt} />
     </div>
   </div>
 );

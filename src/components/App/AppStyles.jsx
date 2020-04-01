@@ -39,7 +39,7 @@ const AppStyles = () => (
         border: 1px solid ${theme.palette.themeTertiary};
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
+        justify-content: center;
         align-items: center;
       }
     `}
