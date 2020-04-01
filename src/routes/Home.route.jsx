@@ -22,6 +22,7 @@ import {
 } from '../actions/covid.actions';
 import { history } from '../store';
 import { lsHelper, generalHelper } from '../helpers';
+import { theme } from '../config';
 import { ROUTES, STRINGS } from '../config/constants';
 
 const { getLocationString } = generalHelper;
@@ -154,7 +155,7 @@ class Home extends Component {
           style={{ maxWidth: '100vw', paddingLeft: 20, paddingRight: 20 }}
           id="c19i-home-route"
         >
-          <div style={{ maxWidth: 750, width: '95%', paddingTop: 35 }}>
+          <div style={{ maxWidth: 750, width: '95vw', paddingTop: 35 }}>
             {!gettingGeolocationData && !gettingCovidData &&
               (locationConfirmed || locationNotAccepted) &&
               <Fragment>
@@ -193,6 +194,7 @@ class Home extends Component {
           open={askForLocPerms && !gettingCovidData}
           title="Use Location"
           subText="Use your location to load relevant data."
+          subTextColor={theme.palette.themeSecondary}
           onClickYes={this.onConfirmUseLocation}
           onClickNo={this.onDenyUseLocation}
         >
@@ -209,9 +211,13 @@ class Home extends Component {
           open={errorGettingUserLocation || errorGettingGeolocationData}
           title="User Location"
           subText="It looks like the app could not determine your location!"
+          subTextColor={theme.palette.black}
           showNoButton={false}
           confirmText="OK"
-          onClickYes={() => this.setState({ errorGettingUserLocation: false })}
+          onClickYes={() => this.setState({
+            errorGettingUserLocation: false,
+            locationConfirmed: true,
+          })}
         >
           Search for a location manually instead.
         </ConfirmDialog>
@@ -220,7 +226,7 @@ class Home extends Component {
             !locationConfirmed && !locationNotAccepted}
           title="Confirm Location"
           subText="Is this your location?"
-          subTextColor="black"
+          subTextColor={theme.palette.black}
           onClickNo={() =>
             this.setState({ locationNotAccepted: true })}
           onClickYes={this.onLocationConfirmed}

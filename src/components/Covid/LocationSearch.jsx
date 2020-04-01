@@ -80,9 +80,11 @@ const LocationSearch = ({
           root: {
             paddingTop: 0,
             paddingBottom: 0,
+            height: 50,
           },
           field: {
             lineHeight: 1,
+            height: 50,
           },
         }}
       />

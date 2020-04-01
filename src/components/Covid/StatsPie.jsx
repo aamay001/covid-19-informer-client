@@ -15,13 +15,13 @@ const StatsPie = ({ data }) => (
     </div>
     <div style={{ height: 315, width: '100%' }}>
       <ResponsivePie
-        data={Object.keys(data.stats).map(key => ({
+        data={Object.keys(data.stats || {}).map(key => ({
           id: key,
           label: key,
           value: parseInt(data.stats[key], 10),
         }))}
         margin={{
-          top: 40, right: 80, bottom: 80, left: 80,
+          top: 40, right: 80, bottom: 90, left: 80,
         }}
         colors={{
           scheme: theme.palette.darkTheme
@@ -31,7 +31,7 @@ const StatsPie = ({ data }) => (
         innerRadius={0.5}
         padAngle={3}
         cornerRadius={3}
-        fit
+        fit={false}
         borderWidth={1}
         borderColor={{ from: 'color', modifiers: [['darker', 1.7]] }}
         radialLabelsSkipAngle={10}
@@ -49,11 +49,11 @@ const StatsPie = ({ data }) => (
           {
             anchor: 'bottom',
             direction: 'row',
-            translateY: 60,
-            itemWidth: 150,
-            itemHeight: 18,
+            translateY: 80,
+            itemWidth: 110,
+            itemHeight: 15,
             itemTextColor: '#999',
-            symbolSize: 18,
+            symbolSize: 15,
             symbolShape: 'circle',
             effects: [
               {

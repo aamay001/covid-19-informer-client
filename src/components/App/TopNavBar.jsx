@@ -70,8 +70,8 @@ const TopNavBar = () => (
     >
       <Toggle
         checked={darkModeState}
-        onText="Dark Mode On"
-        offText="Dark Mode Off"
+        onText="🌙"
+        offText="🔆"
         styles={{ text: { color: 'white', fontSize: theme.fonts.medium.fontSize } }}
         onChange={(e, state) => toggleDarkMode(state)}
       />
