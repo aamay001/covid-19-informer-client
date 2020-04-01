@@ -32,7 +32,7 @@ const AppStyles = () => (
       div.c19i-chart-container {
         padding: 5px 10px 0px 10px;
         width: 550px;
-        max-width: 90vw;
+        max-width: 95vw;
         margin-bottom: 15px;
         height: 385px;
         border-radius: 10px;

@@ -1,40 +1,15 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import {
-  Icon,
-  IconType,
   Image,
   ImageFit,
-  CommandButton,
+  Toggle,
 } from 'office-ui-fabric-react';
-import { toggleMobileMenu } from '../../actions/app.actions';
 import { ROUTES } from '../../config/constants';
 import logo from '../../content/images/logo.png';
-import theme from '../../config/theme';
+import { theme } from '../../config';
+import { toggleDarkMode, darkModeState } from '../../config/theme';
 
-const reportItems = () => {
-  let items;
-  if (ROUTES.REPORTS.SUB_ROUTES && ROUTES.REPORTS.SUB_ROUTES.length > 0) {
-    items = ROUTES.REPORTS.SUB_ROUTES
-      .filter(sr => (sr.ENABLED))
-      .map(sr => ({
-        key: `c19i_${sr.NAME}`,
-        text: sr.NAME,
-        iconProps: { iconName: sr.ICON },
-        href: sr.PATH,
-        target: '_blank',
-      }));
-  } else {
-    items = [];
-  }
-  return items;
-};
-
-const TopNavBar = ({
-  dispatch,
-  showMobileMenu,
-}) => (
+const TopNavBar = () => (
   <nav
     style={{
       backgroundColor: theme.palette.darkTheme
@@ -51,51 +26,6 @@ const TopNavBar = ({
       top: 0,
     }}
   >
-    <div>
-      <button
-        type="button"
-        style={{
-          padding: 0,
-          MozAppearance: 'none',
-          WebkitAppearance: 'none',
-          appearance: 'none',
-          backgroundColor: theme.palette.darkTheme
-            ? theme.palette.blueDark
-            : theme.palette.black,
-          border: 'none',
-          height: 55,
-          width: 55,
-          outline: 'none',
-        }}
-        onClick={() => dispatch(toggleMobileMenu())}
-      >
-        <Icon
-          iconName={showMobileMenu
-            ? 'Cancel'
-            : 'GlobalNavButton'}
-          iconType={IconType.Default}
-          style={{
-            color: theme.palette.darkTheme
-              ? theme.palette.black
-              : theme.palette.white,
-            fontSize: 30,
-            display: 'block',
-          }}
-        />
-      </button>
-    </div>
-    <div
-      style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        color: 'white',
-      }}
-    >
-      <h1 style={{ margin: 0, fontSize: theme.fonts.xLargePlus.fontSize }}>
-        COVID-19 Informer
-      </h1>
-    </div>
     <div
       style={{
         // width: 55,
@@ -103,29 +33,9 @@ const TopNavBar = ({
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        marginRight: 10,
+        marginLeft: 10,
       }}
     >
-      {'REPORTS' in ROUTES && ROUTES.REPORTS.SHOW_IN_TOP_NAV && ROUTES.REPORTS.ENABLED &&
-        <CommandButton
-          style={{ marginRight: 15 }}
-          iconProps={{
-            styles: {
-              root: {
-                color: 'white',
-              },
-            },
-            iconName: ROUTES.REPORTS.ICON,
-          }}
-          text={ROUTES.REPORTS.NAME}
-          menuProps={{ items: reportItems('REPORTS') }}
-          iconColor="white"
-          styles={{
-            label: {
-              color: 'white',
-            },
-          }}
-        />}
       <a href={ROUTES.HOME.PATH}>
         <Image
           src={logo}
@@ -137,21 +47,36 @@ const TopNavBar = ({
         />
       </a>
     </div>
+    <div
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        color: 'white',
+      }}
+    >
+      <h1 style={{ margin: 0, fontSize: theme.fonts.xLarge.fontSize }}>
+        COVID-19 Informer
+      </h1>
+    </div>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingTop: 7,
+      }}
+    >
+      <Toggle
+        checked={darkModeState}
+        onText="Dark Mode On"
+        offText="Dark Mode Off"
+        styles={{ text: { color: 'white', fontSize: theme.fonts.medium.fontSize } }}
+        onChange={(e, state) => toggleDarkMode(state)}
+      />
+    </div>
   </nav>
 );
 
-TopNavBar.defaultProps = {
-  dispatch: () => {},
-  showMobileMenu: false,
-};
-
-TopNavBar.propTypes = {
-  dispatch: PropTypes.func,
-  showMobileMenu: PropTypes.bool,
-};
-
-const mapStateToProps = state => ({
-  showMobileMenu: state.app.showMobileMenu,
-});
-
-export default connect(mapStateToProps)(TopNavBar);
+export default TopNavBar;

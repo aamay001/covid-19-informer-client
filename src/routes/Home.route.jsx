@@ -14,6 +14,7 @@ import {
 } from '../components/Covid';
 import {
   setCurrentRoute,
+  routeToLanding,
   getGeolocData,
 } from '../actions/app.actions';
 import {
@@ -28,7 +29,10 @@ const { getLocationString } = generalHelper;
 class Home extends Component {
   constructor(props) {
     super(props);
-    const { prevLocationExists, match } = props;
+    const {
+      prevLocationExists,
+      match,
+    } = props;
     const { params: { location } } = match;
     const askForLocPerms = location
       ? false
@@ -50,6 +54,7 @@ class Home extends Component {
       if (location) {
         dispatch(setCurrentRoute(ROUTES.WITH_SELECTION.NAME));
       } else {
+        dispatch(routeToLanding());
         dispatch(setCurrentRoute(ROUTES.HOME.NAME));
       }
     }
@@ -142,6 +147,7 @@ class Home extends Component {
       gettingCovidData,
       match: { params: { location } },
     } = this.props;
+    const locString = getLocationString(selectedLocation);
     return (
       <Fragment>
         <RouteRootFlex
@@ -166,6 +172,9 @@ class Home extends Component {
                 />
               </Fragment>}
           </div>
+          <h1 style={{ marginBottom: 0 }}>
+            {locString}
+          </h1>
           <div
             style={{
               display: 'flex',

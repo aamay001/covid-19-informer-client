@@ -5,7 +5,7 @@ const CONSTANTS = {
   APP: {
     NAME: 'COVID-19 Informer',
     ICON: 'AppIconDefault',
-    COMPANY: 'Andy Amaya',
+    COMPANY: '',
   },
   ENVIRONMENT: {
     TEST: 'TEST',
@@ -32,12 +32,6 @@ const CONSTANTS = {
   },
 };
 
-export const REGEX = {
-  PASSWORD: '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$',
-  PHONE: '([0-9]{3})(-)([0-9]{3})(-)([0-9]{4})',
-  EMAIL: "[a-zA-Z0-9]+(?:(\\.|_)[A-Za-z0-9!#$%&'*+/=?^`{|}~-]+)*@(?!([a-zA-Z0-9]*\\.[a-zA-Z0-9]*\\.[a-zA-Z0-9]*\\.))(?:[A-Za-z0-9](?:[a-zA-Z0-9-]*[A-Za-z0-9])?\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?",
-};
-
 export const { ROUTES } = CONSTANTS;
 export const { APP } = CONSTANTS;
 
@@ -48,7 +42,7 @@ export const setRouteLabel = (route, label) => {
 };
 
 // eslint-disable-next-line
-document.getElementById('title').innerText = `c19i | ${CONSTANTS.APP.NAME}`;
+document.getElementById('title').innerText = `${CONSTANTS.APP.NAME}`;
 
 export const STRINGS = { ...stringConstants };
 
