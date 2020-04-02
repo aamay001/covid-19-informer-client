@@ -68,7 +68,8 @@ const StatsPie = ({ data }) => (
       />
     </div>
     <div>
-      <JHUSource date={data.updatedAt} />
+      {data.updatedAt &&
+        <JHUSource date={data.updatedAt} />}
     </div>
   </div>
 );

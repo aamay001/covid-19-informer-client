@@ -35,6 +35,7 @@ class Home extends Component {
     super(props);
     const {
       prevLocationExists,
+      geolocationData,
       match,
     } = props;
     const { params: { location } } = match;
@@ -49,9 +50,11 @@ class Home extends Component {
       gettingUserLocation: false,
       locationConfirmed: prevLocationExists || !!location,
       pickFirst: prevLocationExists || !!location,
-      locationNotAccepted: false,
+      locationNotAccepted: askForLocPerms === false,
       rememberLocation: false,
-      selectedLocation: undefined,
+      selectedLocation: prevLocationExists
+        ? geolocationData
+        : undefined,
     };
     const { currentRoute, dispatch } = props;
     if (currentRoute !== ROUTES.HOME.NAME) {
@@ -106,6 +109,7 @@ class Home extends Component {
     this.setState({
       locationConfirmed: true,
       selectedLocation: geolocationData,
+      pickFirst: true,
     });
     if (rememberLocation) {
       lsHelper.setItem(STRINGS.LS.LOCATION_PERMS, false);
@@ -151,7 +155,6 @@ class Home extends Component {
       gettingCovidData,
       successGettingData,
       countries,
-      prevLocationExists,
       match: { params: { location } },
     } = this.props;
     const locString = getLocationString(selectedLocation);
@@ -162,27 +165,41 @@ class Home extends Component {
           id="c19i-home-route"
         >
           <div style={{ maxWidth: 750, width: '95vw', paddingTop: 35 }}>
-            {((!gettingGeolocationData && !gettingCovidData &&
-              (locationConfirmed || locationNotAccepted)) ||
-              (!askForLocPerms && !prevLocationExists && !gettingCovidData && !location)) &&
-              <Fragment>
-                <LocationSearch
-                  pickFirst={pickFirst}
-                  searchTerm={locationConfirmed
-                    ? location || getLocationString(geolocationData)
-                    : ''}
-                  onSelection={(loc) => {
-                    this.setState({ selectedLocation: loc, pickFirst: false });
-                    if (!pickFirst) {
-                      history.push(`/see/${getLocationString(loc)}`);
-                    }
-                  }}
-                />
-              </Fragment>}
+            {(locationConfirmed || locationNotAccepted) &&
+              <LocationSearch
+                pickFirst={pickFirst}
+                searchTerm={locationConfirmed
+                  ? location || locString
+                  : ''}
+                onSelection={(loc) => {
+                  this.setState({ selectedLocation: loc, pickFirst: false });
+                  if (!pickFirst) {
+                    history.push(`/see/${getLocationString(loc)}`);
+                  }
+                }}
+              />}
           </div>
-          {!selectedLocation &&
+          {!selectedLocation && (locationConfirmed || locationNotAccepted) &&
             <NoLocationSelected />}
-          <h1 style={{ marginBottom: 0, marginTop: 15 }}>
+          {locString &&
+            <h1 style={{ marginBottom: 0, marginTop: 15 }}>
+              {locString}
+            </h1>}
+          {selectedLocation &&
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                flexWrap: 'wrap',
+                justifyContent: 'space-around',
+                alignItems: 'flex-start',
+                width: '100%',
+                marginTop: 25,
+              }}
+            >
+              <StatsPie data={selectedLocation} />
+            </div>}
+          <h1 style={{ marginBottom: 0, marginTop: 5 }}>
             Global Stats
           </h1>
           <div
@@ -201,23 +218,6 @@ class Home extends Component {
                 <GlobalStatsPie />
                 <GlobalTop10 data={countries} />
               </Fragment>}
-          </div>
-          <h1 style={{ marginBottom: 0 }}>
-            {locString}
-          </h1>
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              flexWrap: 'wrap',
-              justifyContent: 'space-around',
-              alignItems: 'flex-start',
-              width: '100%',
-              marginTop: 25,
-            }}
-          >
-            {selectedLocation &&
-              <StatsPie data={selectedLocation} />}
           </div>
         </RouteRootFlex>
         <ConfirmDialog
