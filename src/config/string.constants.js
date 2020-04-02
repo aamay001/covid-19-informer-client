@@ -5,6 +5,7 @@ export default {
     DERIVED_LOCATION: 'c19i-dervdloc',
     CACHED_JHU_DATA: 'c19i-jhudstr',
     CACHED_COUNTRY_DATA: 'c19i-cntrystr',
+    CACHED_GLOBAL_TOTALS: 'c19i-gtotsstr',
   },
   ADDRESS_COMPONENTS: {
     COUNTRY: 'country',

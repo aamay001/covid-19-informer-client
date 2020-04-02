@@ -40,17 +40,18 @@ const StatsPie = ({ data }) => (
         cornerRadius={3}
         fit={false}
         borderWidth={1}
+        sliceLabel={i => new Intl.NumberFormat().format(i.value)}
         borderColor={{ from: 'color', modifiers: [['darker', 1.7]] }}
         radialLabelsSkipAngle={10}
-        radialLabelsTextXOffset={6}
-        radialLabelsTextColor="#333333"
+        radialLabelsTextXOffset={10}
+        radialLabelsTextColor={theme.palette.black}
         radialLabelsLinkOffset={-15}
         radialLabelsLinkDiagonalLength={16}
         radialLabelsLinkHorizontalLength={24}
         radialLabelsLinkStrokeWidth={1}
         radialLabelsLinkColor={{ from: 'color' }}
         slicesLabelsSkipAngle={10}
-        slicesLabelsTextColor="#333333"
+        slicesLabelsTextColor={theme.palette.black}
         animate
         legends={[
           {
@@ -59,17 +60,9 @@ const StatsPie = ({ data }) => (
             translateY: 80,
             itemWidth: 110,
             itemHeight: 15,
-            itemTextColor: '#999',
+            itemTextColor: theme.palette.black,
             symbolSize: 15,
             symbolShape: 'circle',
-            effects: [
-              {
-                on: 'hover',
-                style: {
-                  itemTextColor: '#000',
-                },
-              },
-            ],
           },
         ]}
       />

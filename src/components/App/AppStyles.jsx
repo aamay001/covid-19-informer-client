@@ -20,9 +20,7 @@ const AppStyles = () => (
       }
 
       div.c19i-chart-container text {
-        font-size: ${theme.fonts.medium.fontSize} !important;
-        color: ${theme.palette.black} !important;
-        fill: ${theme.palette.black} !important;
+        font-size: ${theme.fonts.small.fontSize} !important;
       }
 
       div.c19i-chart-container div span {

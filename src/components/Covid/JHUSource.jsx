@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { parse } from 'date-fns';
 import { theme } from '../../config';
 
 const JHUSource = ({ date }) => (
@@ -14,7 +15,7 @@ const JHUSource = ({ date }) => (
           width: '100%',
         }}
       >
-        {`${new Date(date).toLocaleDateString()} - `}
+        {`${parse(date).toLocaleDateString()} - `}
         <a href="https://coronavirus.jhu.edu/" target="_blank" rel="noopener noreferrer">
           {'JHU '}
         </a>

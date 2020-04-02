@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Text } from 'office-ui-fabric-react';
 import { theme } from '../../config';
-import WorldOMeterSource from './WorldOMeterASource';
+import WorldOMeterSource from './WorldOMeterSource';
 
 const GlobalTop10 = ({ data }) => {
   const sortedData = data.sort((a, b) => b.cases - b.cases)
@@ -54,7 +54,7 @@ const GlobalTop10 = ({ data }) => {
           #c19i-global-top10-item li {
             list-style: none;
             border-bottom: 1px solid ${theme.palette.neutralTertiary};
-            height: 30px;
+            height: 27px;
             display: flex;
             flex-direction: row;
             justify-content: space-between;

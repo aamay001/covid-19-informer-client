@@ -13,6 +13,7 @@ import {
   LocationSearch,
   StatsPie,
   GlobalTop10,
+  GlobalStatsPie,
 } from '../components/Covid';
 import {
   setCurrentRoute,
@@ -196,7 +197,10 @@ class Home extends Component {
             }}
           >
             {!gettingCovidData && successGettingData && countries &&
-              <GlobalTop10 data={countries} />}
+              <Fragment>
+                <GlobalStatsPie />
+                <GlobalTop10 data={countries} />
+              </Fragment>}
           </div>
           <h1 style={{ marginBottom: 0 }}>
             {locString}
