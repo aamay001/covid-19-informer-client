@@ -35,6 +35,11 @@ const LocationSearch = ({
   useEffect(() => {
     if (inputRef && focusIndex === 1) {
       inputRef.current.focus();
+      return;
+    }
+    if (inputRef && focusIndex === -2) {
+      // eslint-disable-next-line no-underscore-dangle
+      inputRef.current._inputElement.current.blur();
     }
   });
   return (
@@ -107,6 +112,7 @@ const LocationSearch = ({
           setState({
             ...state,
             isFocused: false,
+            focusIndex: -2,
             selectionMade: true,
           });
           onSelection(item);
