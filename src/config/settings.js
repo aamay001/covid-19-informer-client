@@ -70,6 +70,7 @@ const SETTINGS = {
 export const APP = {
   SITE_URL: process.env.PUBLIC_URL || '/',
   WORKING_DIR: process.env.REACT_APP_WORKING_DIR || '',
+  DATA_REFRESH_INTERVAL: process.env.REACT_APP_DATA_REFRESH_INTERVAL || 8,
 };
 
 export const { AUTH } = SETTINGS;
