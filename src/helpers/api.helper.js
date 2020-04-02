@@ -47,7 +47,7 @@ const GetUserLocationDetail = async (lat, long) => {
 
 const GetAllCountries = async () => {
   let cachedData = lsHelper.getItem(LS.CACHED_COUNTRY_DATA);
-  if (cachedData && differenceInHours(cachedData.date, new Date()) > APP.DATA_REFRESH_INTERVAL) {
+  if (cachedData && differenceInHours(new Date(), cachedData.date) > APP.DATA_REFRESH_INTERVAL) {
     cachedData = null;
   }
   if (cachedData) {
@@ -63,7 +63,7 @@ const GetAllCountries = async () => {
 
 const GetAllJHUData = async () => {
   let cachedData = lsHelper.getItem(LS.CACHED_JHU_DATA);
-  if (cachedData && differenceInHours(cachedData.date, new Date()) > APP.DATA_REFRESH_INTERVAL) {
+  if (cachedData && differenceInHours(new Date(), cachedData.date) > APP.DATA_REFRESH_INTERVAL) {
     cachedData = null;
   }
   if (cachedData) {
@@ -79,7 +79,7 @@ const GetAllJHUData = async () => {
 
 const GetGlobalTotals = async () => {
   let cachedData = lsHelper.getItem(LS.CACHED_GLOBAL_TOTALS);
-  if (cachedData && differenceInHours(cachedData.date, new Date()) > APP.DATA_REFRESH_INTERVAL) {
+  if (cachedData && differenceInHours(new Date(), cachedData.date) > APP.DATA_REFRESH_INTERVAL) {
     cachedData = null;
   }
   if (cachedData) {
