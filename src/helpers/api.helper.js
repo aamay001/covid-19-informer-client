@@ -87,7 +87,7 @@ const GetGlobalTotals = async () => {
   }
   const response = await axios.get(COVID_API.URL + COVID_API.GLOBAL_TOTALS);
   if (response.status === 200) {
-    lsHelper.setItem(LS.GLOBAL_TOTALS, { date: new Date(), data: response.data });
+    lsHelper.setItem(LS.CACHED_GLOBAL_TOTALS, { date: new Date(), data: response.data });
     return response.data;
   }
   return false;
