@@ -15,6 +15,7 @@ import {
   GlobalTop10,
   GlobalStatsPie,
   GlobalHistoricalChart,
+  CountryHistoricalChart,
 } from '../components/Covid';
 import {
   setCurrentRoute,
@@ -200,6 +201,7 @@ class Home extends Component {
               }}
             >
               <StatsPie data={selectedLocation} />
+              <CountryHistoricalChart country={selectedLocation.country} />
             </div>}
           <h1 style={{ marginBottom: 0, marginTop: 5 }}>
             Global Stats

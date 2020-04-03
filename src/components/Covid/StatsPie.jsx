@@ -52,6 +52,9 @@ const StatsPie = ({ data }) => (
         radialLabelsLinkColor={{ from: 'color' }}
         radialLabelsSkipAngle={5}
         enableSlicesLabels={false}
+        animate
+        motionStiffness={50}
+        motionDamping={5}
         legends={[
           {
             anchor: 'bottom',

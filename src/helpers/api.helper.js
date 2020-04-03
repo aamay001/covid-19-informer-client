@@ -14,9 +14,6 @@ const {
   CITY,
 } = ADDRESS_COMPONENTS;
 
-// Temp Clear
-lsHelper.clear();
-
 const GetUserLocationDetail = async (lat, long) => {
   const config = {
     params: {
@@ -113,10 +110,35 @@ const GetGlobalHistorical = async () => {
   return false;
 };
 
+const GetHistoricalByCountry = async (country) => {
+  const cachedData = lsHelper.getItem(LS.CACHED_HISTORICAL_COUNTRY);
+  if (cachedData && cachedData[country] &&
+      differenceInHours(new Date(), cachedData[country].updated) > APP.DATA_REFRESH_INTERVAL) {
+    delete cachedData[country];
+  }
+  if (cachedData && cachedData[country]) {
+    return cachedData[country];
+  }
+  const response = await axios.get(COVID_API.URL + COVID_API.JHU_HISTORICAL_BY_COUNTRY(country));
+  if (response.status === 200) {
+    const data = {
+      ...(cachedData || {}),
+      [country]: {
+        data: response.data,
+        updated: new Date().toString(),
+      },
+    };
+    lsHelper.setItem(LS.CACHED_HISTORICAL_COUNTRY, data);
+    return data[country];
+  }
+  return false;
+};
+
 export default {
   GetUserLocationDetail,
   GetAllCountries,
   GetAllJHUData,
   GetGlobalTotals,
   GetGlobalHistorical,
+  GetHistoricalByCountry,
 };
