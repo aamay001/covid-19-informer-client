@@ -62,6 +62,7 @@ const GlobalTotalsPie = () => {
             fit={false}
             borderWidth={1}
             sliceLabel={i => new Intl.NumberFormat().format(i.value)}
+            tooltipFormat={i => new Intl.NumberFormat().format(i)}
             radialLabel={i => i.id}
             radialLabelsLinkOffset={-10}
             radialLabelsTextXOffset={10}
