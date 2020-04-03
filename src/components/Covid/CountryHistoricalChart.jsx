@@ -61,7 +61,7 @@ const CountryHistoricalChart = ({ country }) => {
               paddingTop: 5,
             }}
           >
-            Historical Cases
+            Historical Cases in Country
           </h2>
         </Text>
       </div>
