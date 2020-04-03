@@ -14,6 +14,9 @@ const {
   CITY,
 } = ADDRESS_COMPONENTS;
 
+// Temp Clear
+lsHelper.clear();
+
 const GetUserLocationDetail = async (lat, long) => {
   const config = {
     params: {
