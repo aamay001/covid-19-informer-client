@@ -12,7 +12,7 @@ const GlobalTop10 = ({ data }) => {
       className="c19i-chart-container"
       style={{
         justifyContent: 'space-between',
-        marginTop: 7,
+        marginTop: 0,
       }}
     >
       <div>
