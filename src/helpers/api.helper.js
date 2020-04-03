@@ -93,9 +93,26 @@ const GetGlobalTotals = async () => {
   return false;
 };
 
+const GetGlobalHistorical = async () => {
+  let cachedData = lsHelper.getItem(LS.CACHED_GLOBAL_HISTORICAL);
+  if (cachedData && differenceInHours(new Date(), cachedData.date) > APP.DATA_REFRESH_INTERVAL) {
+    cachedData = null;
+  }
+  if (cachedData) {
+    return cachedData.data;
+  }
+  const response = await axios.get(COVID_API.URL + COVID_API.JHU_HISTORICAL_ALL);
+  if (response.status === 200) {
+    lsHelper.setItem(LS.CACHED_GLOBAL_HISTORICAL, { date: new Date(), data: response.data });
+    return response.data;
+  }
+  return false;
+};
+
 export default {
   GetUserLocationDetail,
   GetAllCountries,
   GetAllJHUData,
   GetGlobalTotals,
+  GetGlobalHistorical,
 };
