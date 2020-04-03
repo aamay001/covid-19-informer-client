@@ -6,21 +6,25 @@ import { theme } from '../../config';
 import api from '../../helpers/api.helper';
 
 const GlobalTotalsPie = () => {
-  const [data, setData] = useState(undefined);
-  const isDataAvailble = !!data === false;
+  const [state, setData] = useState({});
+  const isDataAvailble = !!state === false;
   useEffect(() => {
     api.GetGlobalTotals()
       .then((res) => {
-        setData(Object.keys(res)
-          .filter(key =>
-            ['recovered', 'active', 'deaths', 'cases'].includes(key))
-          .map(key => ({
-            id: key,
-            label: key,
-            value: parseInt(res[key], 10),
-          })));
+        setData({
+          data: Object.keys(res)
+            .filter(key =>
+              ['recovered', 'active', 'deaths', 'cases'].includes(key))
+            .map(key => ({
+              id: key,
+              label: key,
+              value: parseInt(res[key], 10),
+            })),
+          date: res.updated,
+        });
       });
   }, [isDataAvailble]);
+  const { data, date } = state;
   return (
     <div className="c19i-chart-container">
       <div>
@@ -67,8 +71,8 @@ const GlobalTotalsPie = () => {
             radialLabelsLinkColor={{ from: 'color' }}
           />
         </div>}
-      {data &&
-        <WorldOMeterSource date={data.updated} />}
+      {date &&
+        <WorldOMeterSource date={date} />}
     </div>
   );
 };
