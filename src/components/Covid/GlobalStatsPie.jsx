@@ -11,7 +11,14 @@ const GlobalTotalsPie = () => {
   useEffect(() => {
     api.GetGlobalTotals()
       .then((res) => {
-        setData(res);
+        setData(Object.keys(res)
+          .filter(key =>
+            ['recovered', 'active', 'deaths', 'cases'].includes(key))
+          .map(key => ({
+            id: key,
+            label: key,
+            value: parseInt(res[key], 10),
+          })));
       });
   }, [isDataAvailble]);
   return (
@@ -36,14 +43,7 @@ const GlobalTotalsPie = () => {
       {data &&
         <div style={{ height: 315, width: '100%' }}>
           <ResponsivePie
-            data={Object.keys(data || {})
-              .filter(key =>
-                ['recovered', 'active', 'deaths', 'cases'].includes(key))
-              .map(key => ({
-                id: key,
-                label: key,
-                value: parseInt(data[key], 10),
-              }))}
+            data={data}
             margin={{
               top: 25, right: 100, bottom: 50, left: 90,
             }}
