@@ -6,6 +6,7 @@ export default {
     CACHED_JHU_DATA: 'c19i-jhudstr',
     CACHED_COUNTRY_DATA: 'c19i-cntrystr',
     CACHED_GLOBAL_TOTALS: 'c19i-gtotsstr',
+    CACHED_GLOBAL_HISTORICAL: 'c19i-ghiststr',
   },
   ADDRESS_COMPONENTS: {
     COUNTRY: 'country',
