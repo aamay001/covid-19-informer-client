@@ -24,7 +24,7 @@ const GlobalTop10 = ({ data }) => {
               paddingTop: 5,
             }}
           >
-            Global Top 10 Total Cases
+            Top 10 Total Cases
           </h2>
         </Text>
       </div>
