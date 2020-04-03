@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-to-interactive-role */
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
@@ -7,6 +7,7 @@ import {
   DirectionalHint,
 } from 'office-ui-fabric-react';
 import { compareTwoStrings } from 'string-similarity';
+import union from 'lodash.union';
 import {
   getLocationString,
 } from '../../helpers/general.helper';
@@ -18,6 +19,7 @@ const RefMap = new Map();
 const SearchSuggestions = ({
   searchTerm,
   jhuData,
+  countries,
   show,
   onItemSelected,
   selectionMade,
@@ -26,13 +28,37 @@ const SearchSuggestions = ({
   onDecrementFocusIndex,
   pickFirst,
 }) => {
+  const [mergedData, setData] = useState(undefined);
   useEffect(() => {
     const elementRef = RefMap.get(focusIndex);
     if (elementRef) {
       elementRef.focus();
     }
   }, [focusIndex]);
-  if (searchTerm.length < 3 || selectionMade || !show) {
+  const isDataReady = !!mergedData;
+  useEffect(() => {
+    setData(union(
+      jhuData.filter(d => d.province != null),
+      countries.map((c) => {
+        const merged = {
+          ...c,
+          stats: {
+            cases: c.cases,
+            recovered: c.recovered,
+            deaths: c.deaths,
+          },
+          updatedAt: new Date(c.updated).toString(),
+          wom: true,
+        };
+        delete merged.cases;
+        delete merged.updated;
+        delete merged.deaths;
+        delete merged.recovered;
+        return merged;
+      }),
+    ));
+  }, [isDataReady, countries, jhuData]);
+  if (searchTerm.length < 3 || selectionMade || !show || !isDataReady) {
     RefMap.clear();
     return '';
   }
@@ -40,7 +66,7 @@ const SearchSuggestions = ({
   if (!filteredResults) {
     const st = searchTerm.toLowerCase().replace(/\W/g, ' ').split(' ');
     const stl = searchTerm.replace(' County', '').toLowerCase();
-    filteredResults = jhuData.filter((item) => {
+    filteredResults = mergedData.filter((item) => {
       let { city, province, country } = item;
       city = city && city.toLowerCase();
       province = province && province.toLowerCase();
@@ -170,6 +196,7 @@ const SearchSuggestions = ({
 SearchSuggestions.defaultProps = {
   searchTerm: '',
   jhuData: [],
+  countries: [],
 };
 
 SearchSuggestions.propTypes = {
@@ -182,10 +209,12 @@ SearchSuggestions.propTypes = {
   onIncrementFocusIndex: PropTypes.func.isRequired,
   onDecrementFocusIndex: PropTypes.func.isRequired,
   pickFirst: PropTypes.bool.isRequired,
+  countries: PropTypes.arrayOf(PropTypes.shape({})),
 };
 
 const mapStateToProps = state => ({
   jhuData: state.covid.jhuData,
+  countries: state.covid.countries,
 });
 
 export default connect(mapStateToProps)(SearchSuggestions);

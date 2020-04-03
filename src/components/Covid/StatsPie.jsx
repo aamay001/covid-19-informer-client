@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Text } from 'office-ui-fabric-react';
 import { ResponsivePie } from '@nivo/pie';
 import JHUSource from './JHUSource';
+import WoMSource from './WorldOMeterSource';
 import { theme } from '../../config';
 
 const StatsPie = ({ data }) => (
@@ -67,7 +68,9 @@ const StatsPie = ({ data }) => (
     </div>
     <div>
       {data.updatedAt &&
-        <JHUSource date={data.updatedAt} />}
+        (data.wom
+          ? <WoMSource date={data.updatedAt} />
+          : <JHUSource date={data.updatedAt} />)}
     </div>
   </div>
 );
@@ -76,6 +79,7 @@ StatsPie.propTypes = {
   data: PropTypes.shape({
     stats: PropTypes.shape({}),
     updatedAt: PropTypes.string,
+    wom: PropTypes.bool,
   }).isRequired,
 };
 
