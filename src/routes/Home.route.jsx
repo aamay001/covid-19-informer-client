@@ -14,6 +14,7 @@ import {
   StatsPie,
   GlobalTop10,
   GlobalStatsPie,
+  GlobalHistoricalChart,
 } from '../components/Covid';
 import {
   setCurrentRoute,
@@ -215,8 +216,9 @@ class Home extends Component {
           >
             {!gettingCovidData && successGettingData && countries &&
               <Fragment>
-                <GlobalStatsPie />
+                <GlobalHistoricalChart />
                 <GlobalTop10 data={countries} />
+                <GlobalStatsPie />
               </Fragment>}
           </div>
         </RouteRootFlex>
