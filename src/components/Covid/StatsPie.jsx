@@ -28,7 +28,7 @@ const StatsPie = ({ data }) => (
           value: parseInt(data.stats[key], 10),
         }))}
         margin={{
-          top: 40, right: 80, bottom: 90, left: 80,
+          top: 25, right: 100, bottom: 80, left: 90,
         }}
         colors={{
           scheme: theme.palette.darkTheme
@@ -40,19 +40,17 @@ const StatsPie = ({ data }) => (
         cornerRadius={3}
         fit={false}
         borderWidth={1}
-        sliceLabel={i => new Intl.NumberFormat().format(i.value)}
+        radialLabel={i => new Intl.NumberFormat().format(i.value)}
         borderColor={{ from: 'color', modifiers: [['darker', 1.7]] }}
-        radialLabelsSkipAngle={10}
         radialLabelsTextXOffset={10}
         radialLabelsTextColor={theme.palette.black}
-        radialLabelsLinkOffset={-15}
+        radialLabelsLinkOffset={-10}
         radialLabelsLinkDiagonalLength={16}
         radialLabelsLinkHorizontalLength={24}
         radialLabelsLinkStrokeWidth={1}
         radialLabelsLinkColor={{ from: 'color' }}
-        slicesLabelsSkipAngle={10}
-        slicesLabelsTextColor={theme.palette.black}
-        animate
+        radialLabelsSkipAngle={5}
+        enableSlicesLabels={false}
         legends={[
           {
             anchor: 'bottom',
