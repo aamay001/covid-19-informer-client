@@ -58,28 +58,28 @@ const SearchSuggestions = ({
       }),
     ));
   }, [isDataReady, countries, jhuData]);
-  if (searchTerm.length < 3 || selectionMade || !show || !isDataReady) {
+  if (searchTerm.trim().length < 2 || selectionMade || !show || !isDataReady) {
     RefMap.clear();
     return '';
   }
   let filteredResults = ResultMemo.get(searchTerm);
   if (!filteredResults) {
-    const st = searchTerm.toLowerCase().replace(/\W/g, ' ').split(' ');
-    const stl = searchTerm.replace(' County', '').toLowerCase();
+    const st = searchTerm.trim().toLowerCase().replace(/\W/g, ' ').split(' ');
+    const stl = searchTerm.trim().replace(' County', '').toLowerCase();
     filteredResults = mergedData.filter((item) => {
       let { city, province, country } = item;
       city = city && city.toLowerCase();
       province = province && province.toLowerCase();
       country = country && country.toLowerCase();
       if (st.includes(city) || st.includes(province) ||
-        st.includes(country) || (country || '').startsWith(stl) ||
-        (province || '').startsWith(stl) || (city || '').startsWith(stl)) {
+        st.includes(country) || (country || '').includes(stl) ||
+        (province || '').includes(stl) || (city || '').includes(stl)) {
         return true;
       }
       return false;
     }).sort((a, b) =>
-      compareTwoStrings(stl, getLocationString(b).toLocaleLowerCase()) -
-        compareTwoStrings(stl, getLocationString(a).toLocaleLowerCase()))
+      compareTwoStrings(stl, getLocationString(b).toLowerCase()) -
+        compareTwoStrings(stl, getLocationString(a).toLowerCase()))
       .slice(0, 9);
     if (filteredResults.length > 0) {
       ResultMemo.set(searchTerm, filteredResults);

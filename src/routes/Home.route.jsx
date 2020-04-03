@@ -174,8 +174,9 @@ class Home extends Component {
                   : ''}
                 onSelection={(loc) => {
                   this.setState({ selectedLocation: loc, pickFirst: false });
-                  if (!pickFirst) {
-                    history.push(`/see/${getLocationString(loc)}`);
+                  const lStr = getLocationString(loc);
+                  if (!pickFirst && lStr.length > 0) {
+                    history.push(`/see/${lStr}`);
                   }
                 }}
               />}
