@@ -17,7 +17,7 @@ const GlobalHistoricalLineChart = () => {
               id: 'cases',
               data: Object.keys(res.cases)
                 .filter((f, index, arr) =>
-                  (index % 10 === 0 || index === 0 || index === arr.length - 1))
+                  (index === 0 || index === arr.length - 1 || index % 10 === 0))
                 .map(d => ({
                   x: d,
                   y: res.cases[d],
@@ -27,7 +27,7 @@ const GlobalHistoricalLineChart = () => {
               id: 'deaths',
               data: Object.keys(res.deaths)
                 .filter((f, index, arr) =>
-                  (index % 10 === 0 || index === 0 || index === arr.length - 1))
+                  (index === 0 || index === arr.length - 1 || index % 10 === 0))
                 .map(d => ({
                   x: d,
                   y: res.deaths[d],
@@ -37,7 +37,7 @@ const GlobalHistoricalLineChart = () => {
               id: 'recovered',
               data: Object.keys(res.recovered)
                 .filter((f, index, arr) =>
-                  (index % 10 === 0 || index === 0 || index === arr.length - 1))
+                  (index === 0 || index === arr.length - 1 || index % 10 === 0))
                 .map(d => ({
                   x: d,
                   y: res.recovered[d],

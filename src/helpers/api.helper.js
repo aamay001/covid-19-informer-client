@@ -103,7 +103,7 @@ const GetGlobalHistorical = async () => {
   }
   const response = await axios.get(COVID_API.URL + COVID_API.JHU_HISTORICAL_ALL);
   if (response.status === 200) {
-    const data = { ...response.data, updated: new Date().now };
+    const data = { ...response.data, updated: new Date().toString() };
     lsHelper.setItem(LS.CACHED_GLOBAL_HISTORICAL, { date: new Date(), data });
     return data;
   }
