@@ -40,7 +40,19 @@ const GlobalTop10 = ({ data }) => {
         >
           {sortedData.map(item => (
             <li key={item.country}>
-              <span>{item.country}</span>
+              <span>
+                <img
+                  src={item.countryInfo.flag}
+                  alt="Country flag"
+                  style={{
+                    width: 28,
+                    height: 15,
+                    marginRight: 10,
+                    opacity: 0.85,
+                  }}
+                />
+                {item.country}
+              </span>
               <span>{new Intl.NumberFormat().format(item.cases)}</span>
             </li>
           ))}
