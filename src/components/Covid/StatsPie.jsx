@@ -17,7 +17,7 @@ const StatsPie = ({ data }) => (
             paddingTop: 5,
           }}
         >
-          Case Stats
+          Location Totals
         </h2>
       </Text>
     </div>
