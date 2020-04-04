@@ -13,14 +13,17 @@ const NotificationMessage = ({
   show,
   onClick,
   onDismiss,
+  direction,
+  actions,
 }) => (
   <>
     {show &&
-      <Fade down>
+      <Fade down={direction === 'down'} up={direction === 'up'}>
         <MessageBar
           messageBarType={type}
           onClick={onClick}
           onDismiss={onDismiss}
+          actions={actions}
           styles={{
             ...(type === MessageBarType.warning
               ? { icon: { color: theme.palette.black } }
@@ -44,6 +47,8 @@ NotificationMessage.defaultProps = {
   onClick: undefined,
   onDismiss: undefined,
   type: undefined,
+  direction: 'down',
+  actions: undefined,
 };
 
 NotificationMessage.propTypes = {
@@ -52,6 +57,11 @@ NotificationMessage.propTypes = {
   show: PropTypes.bool.isRequired,
   onClick: PropTypes.func,
   onDismiss: PropTypes.func,
+  direction: PropTypes.oneOf([
+    'up',
+    'down',
+  ]),
+  actions: PropTypes.node,
 };
 
 export default NotificationMessage;

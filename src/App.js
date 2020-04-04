@@ -5,6 +5,7 @@ import {
   TopNavBar,
   AppStyles,
   TopNotifications,
+  BottomNotifications,
 } from './components/App';
 import Routes from './routes';
 import { history } from './store';
@@ -20,6 +21,7 @@ const App = () => (
           <Routes />
         </div>
         <TopNotifications />
+        <BottomNotifications />
       </div>
     </Router>
   </Fabric>
