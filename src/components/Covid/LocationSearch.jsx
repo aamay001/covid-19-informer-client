@@ -134,7 +134,6 @@ const LocationSearch = ({
           calloutProps={{
             directionalHint: DirectionalHint.bottomCenter,
           }}
-          isWide
           closeButtonAriaLabel="Close"
           styles={{
             headline: {
