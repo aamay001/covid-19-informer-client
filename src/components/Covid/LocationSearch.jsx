@@ -9,6 +9,7 @@ import {
   SearchBox,
   TeachingBubble,
   DirectionalHint,
+  Label,
 } from 'office-ui-fabric-react';
 import SearchSuggestions from './SearchSuggestions';
 import lsHelper from '../../helpers/localStorage.helper';
@@ -55,9 +56,15 @@ const LocationSearch = ({
   });
   return (
     <Fragment>
+      <Label htmlFor="c19i-search-box">
+        Location Search
+      </Label>
+      <span style={{ color: 'gray', marginBottom: 5, display: 'inline-block' }}>
+        Search by Country or Province (State) and Country
+      </span>
       <SearchBox
         id="c19i-search-box"
-        placeholder="start typing to filter available options"
+        placeholder="Country or Provice, Country"
         componentRef={inputRef}
         value={actualSearchTerm}
         autoComplete="off"
