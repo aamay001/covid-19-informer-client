@@ -1,6 +1,7 @@
 
 export default {
   LS: {
+    SEARCH_LOCATION_HELPER: 'c19i-srchlp',
     COOKIES_ACCEPTED: 'c19i-cookies',
     LOCATION_PERMS: 'c19i-locperms',
     DERIVED_LOCATION: 'c19i-dervdloc',

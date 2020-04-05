@@ -5,9 +5,18 @@ import React, {
   useRef,
 } from 'react';
 import PropTypes from 'prop-types';
-import { SearchBox } from 'office-ui-fabric-react';
+import {
+  SearchBox,
+  TeachingBubble,
+  DirectionalHint,
+} from 'office-ui-fabric-react';
 import SearchSuggestions from './SearchSuggestions';
+import lsHelper from '../../helpers/localStorage.helper';
 import { getLocationString } from '../../helpers/general.helper';
+import { STRINGS } from '../../config/constants';
+import { theme } from '../../config';
+
+const searchHelperShown = !lsHelper.getItem(STRINGS.LS.SEARCH_LOCATION_HELPER);
 
 const incrementFocusIndex = (index, setState, state, max) =>
   setState({ ...state, focusIndex: Math.min(max, index + 1) });
@@ -26,11 +35,13 @@ const LocationSearch = ({
     isFocused: false,
     selectionMade: false,
     focusIndex: -1,
+    showSearchHelper: searchHelperShown,
   });
   const {
     isFocused,
     selectionMade,
     focusIndex,
+    showSearchHelper,
   } = state;
   useEffect(() => {
     if (inputRef && focusIndex === 1) {
@@ -46,7 +57,7 @@ const LocationSearch = ({
     <Fragment>
       <SearchBox
         id="c19i-search-box"
-        placeholder="Location Search"
+        placeholder="start typing to filter results"
         componentRef={inputRef}
         value={actualSearchTerm}
         autoComplete="off"
@@ -118,6 +129,48 @@ const LocationSearch = ({
           onSelection(item);
         }}
       />
+      {inputRef && showSearchHelper &&
+        <TeachingBubble
+          calloutProps={{
+            directionalHint: DirectionalHint.bottomCenter,
+          }}
+          isWide
+          closeButtonAriaLabel="Close"
+          styles={{
+            headline: {
+              color: 'white',
+            },
+            subText: {
+              color: 'white',
+            },
+            primaryButton: {
+              backgroundColor: 'white',
+            },
+            subComponentStyles: {
+              callout: {
+                calloutMain: {
+                  background: theme.palette.darkTheme
+                    ? theme.palette.blueDark
+                    : undefined,
+                },
+              },
+            },
+          }}
+          primaryButtonProps={{
+            onClick: () => {
+              setState({
+                ...state,
+                showSearchHelper: false,
+              });
+              lsHelper.setItem(STRINGS.LS.SEARCH_LOCATION_HELPER, true);
+            },
+            children: 'OK',
+          }}
+          target="#c19i-search-box"
+          headline="Location Search"
+        >
+          Available data lets you search by Country or Province (State) and Country.
+        </TeachingBubble>}
     </Fragment>
   );
 };
