@@ -57,7 +57,7 @@ const LocationSearch = ({
     <Fragment>
       <SearchBox
         id="c19i-search-box"
-        placeholder="start typing to filter results"
+        placeholder="start typing to filter available options"
         componentRef={inputRef}
         value={actualSearchTerm}
         autoComplete="off"
