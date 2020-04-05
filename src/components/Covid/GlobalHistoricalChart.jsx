@@ -1,5 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { Text, Spinner, SpinnerSize } from 'office-ui-fabric-react';
+import React, { useEffect, useState, Fragment } from 'react';
+import {
+  Text,
+  Spinner,
+  SpinnerSize,
+  Icon,
+} from 'office-ui-fabric-react';
 import { ResponsiveLine } from '@nivo/line';
 import JHUSource from './JHUSource';
 import { theme } from '../../config';
@@ -11,44 +16,51 @@ const GlobalHistoricalLineChart = () => {
   useEffect(() => {
     api.GetGlobalHistorical()
       .then((res) => {
-        setData({
-          data: [
-            {
-              id: 'cases',
-              data: Object.keys(res.cases)
-                .filter((f, index, arr) =>
-                  (index === 0 || index === arr.length - 1 || index % 10 === 0))
-                .map(d => ({
-                  x: d,
-                  y: res.cases[d],
-                })),
-            },
-            {
-              id: 'deaths',
-              data: Object.keys(res.deaths)
-                .filter((f, index, arr) =>
-                  (index === 0 || index === arr.length - 1 || index % 10 === 0))
-                .map(d => ({
-                  x: d,
-                  y: res.deaths[d],
-                })),
-            },
-            {
-              id: 'recovered',
-              data: Object.keys(res.recovered)
-                .filter((f, index, arr) =>
-                  (index === 0 || index === arr.length - 1 || index % 10 === 0))
-                .map(d => ({
-                  x: d,
-                  y: res.recovered[d],
-                })),
-            },
-          ],
-          date: res.updated,
-        });
+        if (res) {
+          setData({
+            data: [
+              {
+                id: 'cases',
+                data: Object.keys(res.cases)
+                  .filter((f, index, arr) =>
+                    (index === 0 || index === arr.length - 1 || index % 10 === 0))
+                  .map(d => ({
+                    x: d,
+                    y: res.cases[d],
+                  })),
+              },
+              {
+                id: 'deaths',
+                data: Object.keys(res.deaths)
+                  .filter((f, index, arr) =>
+                    (index === 0 || index === arr.length - 1 || index % 10 === 0))
+                  .map(d => ({
+                    x: d,
+                    y: res.deaths[d],
+                  })),
+              },
+              {
+                id: 'recovered',
+                data: Object.keys(res.recovered)
+                  .filter((f, index, arr) =>
+                    (index === 0 || index === arr.length - 1 || index % 10 === 0))
+                  .map(d => ({
+                    x: d,
+                    y: res.recovered[d],
+                  })),
+              },
+            ],
+            date: res.updated,
+            noData: false,
+          });
+        } else {
+          setData({
+            noData: true,
+          });
+        }
       });
   }, [isDataAvailble]);
-  const { data, date } = state;
+  const { data, date, noData } = state;
   return (
     <div className="c19i-chart-container" id="c19i-global-cases-over-time">
       <div>
@@ -64,11 +76,16 @@ const GlobalHistoricalLineChart = () => {
           </h2>
         </Text>
       </div>
-      {!data &&
+      {!data && !noData &&
         <div style={{ marginTop: 15 }}>
           <Spinner size={SpinnerSize.large} />
         </div>}
-      {data &&
+      {noData &&
+        <Fragment>
+          <Icon iconName="Warning" styles={{ root: { fontSize: 35 } }} />
+          <span>Data could not be loaded for this module.</span>
+        </Fragment>}
+      {data && !noData &&
         <div style={{ height: 315, width: '100%' }}>
           <ResponsiveLine
             data={data}
@@ -139,7 +156,7 @@ const GlobalHistoricalLineChart = () => {
           />
         </div>}
       <div>
-        {date &&
+        {date && !noData &&
           <JHUSource date={date} />}
       </div>
       <style>

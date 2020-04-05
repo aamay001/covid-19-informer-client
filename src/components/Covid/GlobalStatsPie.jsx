@@ -1,5 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { Text, Spinner, SpinnerSize } from 'office-ui-fabric-react';
+import React, { useEffect, useState, Fragment } from 'react';
+import {
+  Text,
+  Spinner,
+  SpinnerSize,
+  Icon,
+} from 'office-ui-fabric-react';
 import { ResponsivePie } from '@nivo/pie';
 import WorldOMeterSource from './WorldOMeterSource';
 import { theme } from '../../config';
@@ -11,20 +16,27 @@ const GlobalTotalsPie = () => {
   useEffect(() => {
     api.GetGlobalTotals()
       .then((res) => {
-        setData({
-          data: Object.keys(res)
-            .filter(key =>
-              ['recovered', 'active', 'deaths', 'cases'].includes(key))
-            .map(key => ({
-              id: key,
-              label: key,
-              value: parseInt(res[key], 10),
-            })),
-          date: res.updated,
-        });
+        if (res) {
+          setData({
+            data: Object.keys(res)
+              .filter(key =>
+                ['recovered', 'active', 'deaths', 'cases'].includes(key))
+              .map(key => ({
+                id: key,
+                label: key,
+                value: parseInt(res[key], 10),
+              })),
+            date: res.updated,
+            noData: false,
+          });
+        } else {
+          setData({
+            noData: true,
+          });
+        }
       });
   }, [isDataAvailble]);
-  const { data, date } = state;
+  const { data, date, noData } = state;
   return (
     <div className="c19i-chart-container">
       <div>
@@ -44,7 +56,12 @@ const GlobalTotalsPie = () => {
         <div style={{ marginTop: 15 }}>
           <Spinner size={SpinnerSize.large} />
         </div>}
-      {data &&
+      {noData &&
+        <Fragment>
+          <Icon iconName="Warning" styles={{ root: { fontSize: 35 } }} />
+          <span>Data could not be loaded for this module.</span>
+        </Fragment>}
+      {data && !noData &&
         <div style={{ height: 315, width: '100%' }}>
           <ResponsivePie
             data={data}
@@ -72,7 +89,7 @@ const GlobalTotalsPie = () => {
             radialLabelsLinkColor={{ from: 'color' }}
           />
         </div>}
-      {date &&
+      {date && !noData &&
         <WorldOMeterSource date={date} />}
     </div>
   );

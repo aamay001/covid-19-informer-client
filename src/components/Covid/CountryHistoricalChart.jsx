@@ -1,6 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { Text, Spinner, SpinnerSize } from 'office-ui-fabric-react';
+import {
+  Text,
+  Spinner,
+  SpinnerSize,
+  Icon,
+} from 'office-ui-fabric-react';
 import { ResponsiveLine } from '@nivo/line';
 import JHUSource from './JHUSource';
 import { theme } from '../../config';
@@ -12,44 +17,51 @@ const CountryHistoricalChart = ({ country }) => {
   useEffect(() => {
     api.GetHistoricalByCountry(country)
       .then((res) => {
-        setData({
-          data: [
-            {
-              id: 'cases',
-              data: Object.keys(res.data.timeline.cases)
-                .filter((f, index, arr) =>
-                  (index === 0 || index === arr.length - 1 || index % 10 === 0))
-                .map(d => ({
-                  x: d,
-                  y: res.data.timeline.cases[d],
-                })),
-            },
-            {
-              id: 'deaths',
-              data: Object.keys(res.data.timeline.deaths)
-                .filter((f, index, arr) =>
-                  (index === 0 || index === arr.length - 1 || index % 10 === 0))
-                .map(d => ({
-                  x: d,
-                  y: res.data.timeline.deaths[d],
-                })),
-            },
-            {
-              id: 'recovered',
-              data: Object.keys(res.data.timeline.recovered)
-                .filter((f, index, arr) =>
-                  (index === 0 || index === arr.length - 1 || index % 10 === 0))
-                .map(d => ({
-                  x: d,
-                  y: res.data.timeline.recovered[d],
-                })),
-            },
-          ],
-          date: res.updated,
-        });
+        if (res) {
+          setData({
+            data: [
+              {
+                id: 'cases',
+                data: Object.keys(res.data.timeline.cases)
+                  .filter((f, index, arr) =>
+                    (index === 0 || index === arr.length - 1 || index % 10 === 0))
+                  .map(d => ({
+                    x: d,
+                    y: res.data.timeline.cases[d],
+                  })),
+              },
+              {
+                id: 'deaths',
+                data: Object.keys(res.data.timeline.deaths)
+                  .filter((f, index, arr) =>
+                    (index === 0 || index === arr.length - 1 || index % 10 === 0))
+                  .map(d => ({
+                    x: d,
+                    y: res.data.timeline.deaths[d],
+                  })),
+              },
+              {
+                id: 'recovered',
+                data: Object.keys(res.data.timeline.recovered)
+                  .filter((f, index, arr) =>
+                    (index === 0 || index === arr.length - 1 || index % 10 === 0))
+                  .map(d => ({
+                    x: d,
+                    y: res.data.timeline.recovered[d],
+                  })),
+              },
+            ],
+            date: res.updated,
+            noData: false,
+          });
+        } else {
+          setData({
+            noData: true,
+          });
+        }
       });
   }, [isDataAvailble, country]);
-  const { data, date } = state;
+  const { data, date, noData } = state;
   return (
     <div className="c19i-chart-container" id="c19i-global-cases-over-time">
       <div>
@@ -69,7 +81,12 @@ const CountryHistoricalChart = ({ country }) => {
         <div style={{ marginTop: 15 }}>
           <Spinner size={SpinnerSize.large} />
         </div>}
-      {data &&
+      {noData &&
+        <Fragment>
+          <Icon iconName="Warning" styles={{ root: { fontSize: 35 } }} />
+          <span>Data could not be loaded for this module.</span>
+        </Fragment>}
+      {data && !noData &&
         <div style={{ height: 315, width: '100%' }}>
           <ResponsiveLine
             data={data}
@@ -141,7 +158,7 @@ const CountryHistoricalChart = ({ country }) => {
           />
         </div>}
       <div>
-        {date &&
+        {date && !noData &&
           <JHUSource date={date} />}
       </div>
       <style>
