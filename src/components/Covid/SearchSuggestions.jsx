@@ -126,7 +126,8 @@ const SearchSuggestions = ({
                 const locString = getLocationString({ country, province, city });
                 return (
                   <li
-                    key={`${country}${province}${city}`}
+                    // eslint-disable-next-line react/no-array-index-key
+                    key={`${country}${province}${city}-${index}`}
                     ref={ref => RefMap.set(index + 2, ref)}
                     tabIndex={index + 2}
                     onClick={() => onItemSelected(item)}
