@@ -2,24 +2,48 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Text } from 'office-ui-fabric-react';
+import uuid from 'uuid/v4';
 import { theme } from '../../config';
 import JHUSource from './JHUSource';
 
+const getLocalProvinceText = (country) => {
+  if (country === 'USA' || country === 'US') {
+    return 'States';
+  }
+  return 'Provinces';
+};
+
 const StateCountyTop10 = ({ selectedLocation, counties, jhuData }) => {
-  if (selectedLocation && ['US', 'USA'].includes(selectedLocation.country) && counties) {
+  const isAcceptableCountry = [
+    'US',
+    'USA',
+    'France',
+    'United Kingdom',
+    'UK',
+    'Canada',
+    'China',
+    'Australia',
+  ]
+    .includes(selectedLocation.country);
+  if (selectedLocation && isAcceptableCountry && counties) {
     let sortedData;
     let isCounties = false;
-    if (selectedLocation.province) {
+    if (selectedLocation.province && ['US', 'USA'].includes(selectedLocation.country)) {
       isCounties = true;
       sortedData = counties.data
         .filter(c => c.province === selectedLocation.province)
         .sort((a, b) => b.stats.confirmed - a.stats.confirmed)
         .slice(0, 10);
-    } else {
+    } else if (jhuData) {
       sortedData = jhuData
-        .filter(c => c.country === 'US' && c.province !== null)
-        .sort((a, b) => b.stats.confirmed - a.stats.confirmed )
+        .filter(c => (c.country === selectedLocation.country ||
+          (c.country === 'United Kingdom' && selectedLocation.country === 'UK') ||
+          (c.country === 'US' && selectedLocation.country === 'USA')) &&
+          c.province !== null)
+        .sort((a, b) => b.stats.confirmed - a.stats.confirmed)
         .slice(0, 10);
+    } else {
+      return null;
     }
     return (
       <div
@@ -38,7 +62,7 @@ const StateCountyTop10 = ({ selectedLocation, counties, jhuData }) => {
                 paddingTop: 5,
               }}
             >
-              {`Top 10 ${isCounties ? 'Counties' : 'States'} in ${isCounties ? 'State' : 'Country'}`}
+              {`Top 10 ${isCounties ? 'Counties' : getLocalProvinceText(selectedLocation.country)} in ${isCounties ? 'State' : 'Country'}`}
             </h2>
           </Text>
         </div>
@@ -53,7 +77,7 @@ const StateCountyTop10 = ({ selectedLocation, counties, jhuData }) => {
             id="c19i-statecounty-top10-item"
           >
             {sortedData.map(item => (
-              <li key={item.county}>
+              <li key={uuid()}>
                 <span>
                   {item.county || item.province}
                 </span>
@@ -106,7 +130,7 @@ StateCountyTop10.propTypes = {
       PropTypes.shape({}),
     ),
   }),
-  jhuData: PropTypes.arrayOf(PropTypes.shape({})),
+  jhuData: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
 };
 
 const mapStateToProps = state => ({
