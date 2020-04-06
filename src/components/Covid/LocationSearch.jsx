@@ -140,6 +140,7 @@ const LocationSearch = ({
         <TeachingBubble
           calloutProps={{
             directionalHint: DirectionalHint.bottomCenter,
+            directionalHintFixed: true,
           }}
           closeButtonAriaLabel="Close"
           styles={{
