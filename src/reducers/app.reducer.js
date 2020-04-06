@@ -39,7 +39,11 @@ const setCurrentRoute = (state, action) => ({
 
 const routeChanged = (state, { payload: { pathname }}) => {
   scrollToTopOfPage();
-  document.title = `COVID-19 Informer | ${pathname.replace('/see/', '')}`;
+  if (pathname !== '/') {
+    document.title = `COVID-19 Informer | ${pathname.replace('/see/', '')}`;
+  } else {
+    document.title = 'COVID-19 Informer';
+  }
   return {
     ...state,
     showMobileMenu: false,
