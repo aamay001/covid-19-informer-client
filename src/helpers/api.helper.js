@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import axios from 'axios';
 import { differenceInHours } from 'date-fns';
 import settings, { APP } from '../config/settings';
@@ -22,7 +23,13 @@ const GetUserLocationDetail = async (lat, long) => {
       code: API.KEYS.GEOLOCATE,
     },
   };
-  const response = await axios.get(API.URL + API.GEOLOCATE, config);
+  let response;
+  try {
+    response = await axios.get(API.URL + API.GEOLOCATE, config);
+  } catch (e) {
+    console.error(e);
+    return false;
+  }
   if (response.status === 202) {
     const locationData = {};
     response.data.forEach((ac) => {
@@ -53,7 +60,13 @@ const GetAllCountries = async () => {
   if (cachedData) {
     return cachedData.data;
   }
-  const response = await axios.get(COVID_API.URL + COVID_API.COUNTRIES);
+  let response;
+  try {
+    response = await axios.get(COVID_API.URL + COVID_API.COUNTRIES);
+  } catch (e) {
+    console.error(e);
+    return false;
+  }
   if (response.status === 200) {
     lsHelper.setItem(LS.CACHED_COUNTRY_DATA, { date: new Date(), data: response.data });
     return response.data;
@@ -69,7 +82,13 @@ const GetAllJHUData = async () => {
   if (cachedData) {
     return cachedData.data;
   }
-  const response = await axios.get(COVID_API.URL + COVID_API.JHU_CSSE);
+  let response;
+  try {
+    response = await axios.get(COVID_API.URL + COVID_API.JHU_CSSE);
+  } catch (e) {
+    console.error(e);
+    return false;
+  }
   if (response.status === 200) {
     lsHelper.setItem(LS.CACHED_JHU_DATA, { date: new Date(), data: response.data });
     return response.data;
@@ -85,7 +104,13 @@ const GetGlobalTotals = async () => {
   if (cachedData) {
     return cachedData.data;
   }
-  const response = await axios.get(COVID_API.URL + COVID_API.GLOBAL_TOTALS);
+  let response;
+  try {
+    response = await axios.get(COVID_API.URL + COVID_API.GLOBAL_TOTALS);
+  } catch (e) {
+    console.error(e);
+    return false;
+  }
   if (response.status === 200) {
     lsHelper.setItem(LS.CACHED_GLOBAL_TOTALS, { date: new Date(), data: response.data });
     return response.data;
@@ -101,7 +126,13 @@ const GetGlobalHistorical = async () => {
   if (cachedData) {
     return cachedData.data;
   }
-  const response = await axios.get(COVID_API.URL + COVID_API.JHU_HISTORICAL_ALL);
+  let response;
+  try {
+    response = await axios.get(COVID_API.URL + COVID_API.JHU_HISTORICAL_ALL);
+  } catch (e) {
+    console.error(e);
+    return false;
+  }
   if (response.status === 200) {
     const data = { ...response.data, updated: new Date().toString() };
     lsHelper.setItem(LS.CACHED_GLOBAL_HISTORICAL, { date: new Date(), data });
@@ -119,7 +150,13 @@ const GetHistoricalByCountry = async (country) => {
   if (cachedData && cachedData[country]) {
     return cachedData[country];
   }
-  const response = await axios.get(COVID_API.URL + COVID_API.JHU_HISTORICAL_BY_COUNTRY(country));
+  let response;
+  try {
+    response = await axios.get(COVID_API.URL + COVID_API.JHU_HISTORICAL_BY_COUNTRY(country));
+  } catch (e) {
+    console.error(e);
+    return false;
+  }
   if (response.status === 200) {
     const data = {
       ...(cachedData || {}),
@@ -142,7 +179,13 @@ const GetAllCounties = async () => {
   if (cachedData) {
     return cachedData;
   }
-  const response = await axios.get(COVID_API.URL + COVID_API.JHU_COUNTIES);
+  let response;
+  try {
+    response = await axios.get(COVID_API.URL + COVID_API.JHU_COUNTIES);
+  } catch (e) {
+    console.error(e);
+    return false;
+  }
   if (response.status === 200) {
     const data = { data: response.data, date: new Date().toString() };
     lsHelper.setItem(LS.CACHED_US_COUNTIES, data);

@@ -5,12 +5,22 @@ import { Text } from 'office-ui-fabric-react';
 import { theme } from '../../config';
 import JHUSource from './JHUSource';
 
-const StateCountyTop10 = ({ selectedLocation, counties }) => {
+const StateCountyTop10 = ({ selectedLocation, counties, jhuData }) => {
   if (selectedLocation && ['US', 'USA'].includes(selectedLocation.country) && counties) {
-    const sortedData = counties.data
-      .filter(c => c.province === selectedLocation.province)
-      .sort((a, b) => b.stats.confirmed - a.stats.confirmed)
-      .slice(0, 10);
+    let sortedData;
+    let isCounties = false;
+    if (selectedLocation.province) {
+      isCounties = true;
+      sortedData = counties.data
+        .filter(c => c.province === selectedLocation.province)
+        .sort((a, b) => b.stats.confirmed - a.stats.confirmed)
+        .slice(0, 10);
+    } else {
+      sortedData = jhuData
+        .filter(c => c.country === 'US' && c.province !== null)
+        .sort((a, b) => b.stats.confirmed - a.stats.confirmed )
+        .slice(0, 10);
+    }
     return (
       <div
         className="c19i-chart-container"
@@ -28,7 +38,7 @@ const StateCountyTop10 = ({ selectedLocation, counties }) => {
                 paddingTop: 5,
               }}
             >
-              Top 10 Counties in State
+              {`Top 10 ${isCounties ? 'Counties' : 'States'} in ${isCounties ? 'State' : 'Country'}`}
             </h2>
           </Text>
         </div>
@@ -45,7 +55,7 @@ const StateCountyTop10 = ({ selectedLocation, counties }) => {
             {sortedData.map(item => (
               <li key={item.county}>
                 <span>
-                  {item.county}
+                  {item.county || item.province}
                 </span>
                 <span>{new Intl.NumberFormat().format(item.stats.confirmed)}</span>
               </li>
@@ -96,10 +106,12 @@ StateCountyTop10.propTypes = {
       PropTypes.shape({}),
     ),
   }),
+  jhuData: PropTypes.arrayOf(PropTypes.shape({})),
 };
 
 const mapStateToProps = state => ({
   counties: state.covid.counties,
+  jhuData: state.covid.jhuData,
 });
 
 export default connect(mapStateToProps)(StateCountyTop10);

@@ -1,4 +1,4 @@
-/* globals window */
+/* globals window document */
 import { STRINGS } from '../config/constants';
 import {
   SET_CURRENT_ROUTE,
@@ -37,8 +37,9 @@ const setCurrentRoute = (state, action) => ({
   currentRoute: action.currentRoute,
 });
 
-const routeChanged = (state) => {
+const routeChanged = (state, { payload: { pathname }}) => {
   scrollToTopOfPage();
+  document.title = `COVID-19 Informer | ${pathname.replace('/see/', '')}`;
   return {
     ...state,
     showMobileMenu: false,
@@ -86,7 +87,7 @@ export default (state = initialState, action) => {
     case SET_CURRENT_ROUTE:
       return setCurrentRoute(state, action);
     case LOCATION_CHANGE:
-      return routeChanged(state);
+      return routeChanged(state, action);
     case CALL_HISTORY_METHOD:
       return callHistoryMethod(state);
     case TOGGLE_MOBILE_MENU:
