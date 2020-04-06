@@ -10,6 +10,7 @@ const initialState = {
   successGettingData: false,
   countries: [],
   jhuData: [],
+  counties: [],
 };
 
 const gettingCovidData = state => ({
@@ -19,13 +20,14 @@ const gettingCovidData = state => ({
   successGettingData: false,
 });
 
-const successGettingCovidData = (state, { countries, jhuData }) => ({
+const successGettingCovidData = (state, { countries, jhuData, counties }) => ({
   ...state,
   gettingData: false,
   errorGettingData: false,
   successGettingData: true,
   countries,
   jhuData,
+  counties,
 });
 
 const errorGettingDataCovidData = state => ({

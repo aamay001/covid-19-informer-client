@@ -134,6 +134,23 @@ const GetHistoricalByCountry = async (country) => {
   return false;
 };
 
+const GetAllCounties = async () => {
+  let cachedData = lsHelper.getItem(LS.CACHED_US_COUNTIES);
+  if (cachedData && differenceInHours(new Date(), cachedData.date) > APP.DATA_REFRESH_INTERVAL) {
+    cachedData = null;
+  }
+  if (cachedData) {
+    return cachedData;
+  }
+  const response = await axios.get(COVID_API.URL + COVID_API.JHU_COUNTIES);
+  if (response.status === 200) {
+    const data = { data: response.data, date: new Date().toString() };
+    lsHelper.setItem(LS.CACHED_US_COUNTIES, data);
+    return data;
+  }
+  return false;
+};
+
 export default {
   GetUserLocationDetail,
   GetAllCountries,
@@ -141,4 +158,5 @@ export default {
   GetGlobalTotals,
   GetGlobalHistorical,
   GetHistoricalByCountry,
+  GetAllCounties,
 };

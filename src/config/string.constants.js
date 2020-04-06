@@ -10,6 +10,7 @@ export default {
     CACHED_HISTORICAL_COUNTRY: 'c191-chiststr',
     CACHED_GLOBAL_TOTALS: 'c19i-gtotsstr',
     CACHED_GLOBAL_HISTORICAL: 'c19i-ghiststr',
+    CACHED_US_COUNTIES: 'c19i-uscnties',
   },
   ADDRESS_COMPONENTS: {
     COUNTRY: 'country',

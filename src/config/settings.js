@@ -51,6 +51,7 @@ const SETTINGS = {
     COUNTRY_BY_ID: id => `/countries/${id}`,
     COUNTRY_BY_iso2: iso2 => `/countries/${iso2}`,
     JHU_CSSE: '/v2/jhucsse',
+    JHU_COUNTIES: '/v2/jhucsse/counties',
     JHU_HISTORICAL: '/v2/historical',
     JHU_HISTORICAL_BY_COUNTRY: country => `/v2/historical/${country}`,
     JHU_HISTORICAL_BY_PROVINCE: (country, province) => `/v2/historical/${country}/${province}`,

@@ -6,10 +6,11 @@ const gettingCovidData = () => ({
 });
 
 export const COVID_DATA_RECEIVED = 'COVID_DATA_RECEIVED';
-const covidDataReceived = (countries, jhuData) => ({
+const covidDataReceived = (countries, jhuData, counties) => ({
   type: COVID_DATA_RECEIVED,
   countries,
   jhuData,
+  counties,
 });
 
 export const ERROR_GETTING_COVID_DATA = 'ERROR_GETTING_COVID_DATA';
@@ -25,7 +26,14 @@ export const loadCovidData = () => (dispatch) => {
         api.GetAllJHUData()
           .then((jhuData) => {
             if (jhuData) {
-              dispatch(covidDataReceived(countries, jhuData));
+              api.GetAllCounties()
+                .then((counties) => {
+                  if (counties) {
+                    dispatch(covidDataReceived(countries, jhuData, counties));
+                  } else {
+                    dispatch(covidDataReceived(countries, jhuData));
+                  }
+                });
             } else {
               dispatch(errorGettingCovidData());
             }
