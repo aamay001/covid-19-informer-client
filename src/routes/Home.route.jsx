@@ -7,16 +7,12 @@ import {
   RouteRootFlex,
   ConfirmDialog,
   LoadingModal,
+  GlobalSection,
+  LocationSection,
 } from '../components/General';
 import {
   NoLocationSelected,
   LocationSearch,
-  StatsPie,
-  GlobalTop10,
-  GlobalStatsPie,
-  GlobalHistoricalChart,
-  CountryHistoricalChart,
-  StateCountyTop10,
 } from '../components/Covid';
 import {
   setCurrentRoute,
@@ -180,8 +176,6 @@ class Home extends Component {
       errorGettingGeolocationData,
       geolocationData,
       gettingCovidData,
-      successGettingData,
-      countries,
       match: { params: { location } },
     } = this.props;
     const locString = getLocationString(selectedLocation);
@@ -203,47 +197,11 @@ class Home extends Component {
           </div>
           {!selectedLocation && (locationConfirmed || locationNotAccepted) &&
             <NoLocationSelected />}
-          {locString &&
-            <h1 style={{ marginBottom: 0, marginTop: 15 }}>
-              {locString}
-            </h1>}
-          {selectedLocation &&
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'row',
-                flexWrap: 'wrap',
-                justifyContent: 'space-around',
-                alignItems: 'flex-start',
-                width: '100%',
-                marginTop: 25,
-              }}
-            >
-              <StatsPie data={selectedLocation} />
-              <CountryHistoricalChart country={selectedLocation.country} />
-              <StateCountyTop10 selectedLocation={selectedLocation} />
-            </div>}
-          <h1 style={{ marginBottom: 0, marginTop: 5 }}>
-            Global Stats
-          </h1>
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              flexWrap: 'wrap',
-              justifyContent: 'space-around',
-              alignItems: 'flex-start',
-              width: '100%',
-              marginTop: 25,
-            }}
-          >
-            {!gettingCovidData && successGettingData && countries &&
-              <Fragment>
-                <GlobalHistoricalChart />
-                <GlobalTop10 data={countries} />
-                <GlobalStatsPie />
-              </Fragment>}
-          </div>
+          <LocationSection
+            selectedLocation={selectedLocation}
+            locString={locString}
+          />
+          <GlobalSection />
         </RouteRootFlex>
         <ConfirmDialog
           open={askForLocPerms && !gettingCovidData}
@@ -337,8 +295,6 @@ Home.propTypes = {
       location: PropTypes.string,
     }),
   }),
-  successGettingData: PropTypes.bool.isRequired,
-  countries: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -349,8 +305,6 @@ const mapStateToProps = state => ({
   errorGettingGeolocationData: state.app.errorGettingGeolocationData,
   gettingCovidData: state.covid.gettingData,
   prevLocationExists: state.app.prevLocationExists,
-  successGettingData: state.covid.successGettingData,
-  countries: state.covid.countries,
 });
 
 export default connect(mapStateToProps)(Home);
