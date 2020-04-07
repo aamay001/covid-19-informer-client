@@ -34,10 +34,14 @@ const LocationSection = ({
   </Fragment>
 );
 
+LocationSection.defaultProps = {
+  selectedLocation: undefined,
+};
+
 LocationSection.propTypes = {
   selectedLocation: PropTypes.shape({
     country: PropTypes.string,
-  }).isRequired,
+  }),
   locString: PropTypes.string.isRequired,
 };
 
