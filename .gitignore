@@ -27,3 +27,4 @@ package-lock.json
 launch.json
 
 .env
+.vscode/settings.json
