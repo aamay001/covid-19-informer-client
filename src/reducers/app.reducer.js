@@ -1,4 +1,4 @@
-/* globals window document */
+/* globals window */
 import { STRINGS } from '../config/constants';
 import {
   SET_CURRENT_ROUTE,
@@ -37,13 +37,8 @@ const setCurrentRoute = (state, action) => ({
   currentRoute: action.currentRoute,
 });
 
-const routeChanged = (state, { payload: { pathname } }) => {
+const routeChanged = (state) => {
   scrollToTopOfPage();
-  if (pathname !== '/') {
-    document.title = `COVID-19 Informer | ${pathname.replace('/see/', '')}`;
-  } else {
-    document.title = 'COVID-19 Informer';
-  }
   return {
     ...state,
     showMobileMenu: false,

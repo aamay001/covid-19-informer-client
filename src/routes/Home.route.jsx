@@ -27,8 +27,14 @@ import {
   loadCovidData,
 } from '../actions/covid.actions';
 import { history } from '../store';
-import { lsHelper, generalHelper } from '../helpers';
+import {
+  lsHelper,
+  generalHelper,
+  og,
+  flags,
+} from '../helpers';
 import { theme } from '../config';
+import logo from '../content/images/logo.png';
 import { ROUTES, STRINGS } from '../config/constants';
 
 const { getLocationString } = generalHelper;
@@ -74,6 +80,7 @@ class Home extends Component {
     this.onDenyUseLocation = this.onDenyUseLocation.bind(this);
     this.onSuccessGettingUserLocation = this.onSuccessGettingUserLocation.bind(this);
     this.onErrorGettingUserLocation = this.onErrorGettingUserLocation.bind(this);
+    this.locationSelected = this.locationSelected.bind(this);
   }
 
   componentDidMount() {
@@ -139,6 +146,23 @@ class Home extends Component {
     });
   }
 
+  locationSelected(loc) {
+    const { pickFirst } = this.state;
+    this.setState({ selectedLocation: loc, pickFirst: false });
+    const lStr = getLocationString(loc);
+    if (loc && loc.countryInfo && loc.countryInfo.flag) {
+      og.setImage(loc.countryInfo.flag);
+    } else if (loc && ['US', 'USA'].includes(loc.country)) {
+      og.setImage(flags.US.get(loc.province).url);
+    } else {
+      og.setImage(logo);
+    }
+    og.setTitle(`COVID-19 Informer${lStr ? ` | ${lStr}` : ''}`);
+    if (!pickFirst && lStr.length > 0) {
+      history.push(`/see/${lStr}`);
+    }
+  }
+
   render() {
     const {
       askForLocPerms,
@@ -174,13 +198,7 @@ class Home extends Component {
                 searchTerm={locationConfirmed
                   ? location || locString
                   : ''}
-                onSelection={(loc) => {
-                  this.setState({ selectedLocation: loc, pickFirst: false });
-                  const lStr = getLocationString(loc);
-                  if (!pickFirst && lStr.length > 0) {
-                    history.push(`/see/${lStr}`);
-                  }
-                }}
+                onSelection={this.locationSelected}
               />}
           </div>
           {!selectedLocation && (locationConfirmed || locationNotAccepted) &&
