@@ -137,7 +137,10 @@ class Home extends Component {
       navigator.geolocation.getCurrentPosition(
         this.onSuccessGettingUserLocation,
         this.onErrorGettingUserLocation,
-        { enableHighAccuracy: true },
+        {
+          enableHighAccuracy: true,
+          timeout: 120000,
+        },
       );
     });
   }
