@@ -41,7 +41,7 @@ const WHONewsFeed = () => {
                       .replace('&nbsp;', '')
                       .replace('<p></p>', '')
                       .replace('<div></div>')
-                      .substr(0, 350)}...`,
+                      .substr(0, 300)}...`,
                   }}
                 />
                 <a href={d.link} target="_new">
@@ -106,7 +106,8 @@ const WHONewsFeed = () => {
           #c19i-who-news-content * {
             padding: 0;
             margin: 0;
-            line-height: 1.05;
+            line-height: 1.15;
+            color: ${theme.palette.black} !important;
           }
           #c19i-home-route div a:nth-child(3) {
             width: 100%;
