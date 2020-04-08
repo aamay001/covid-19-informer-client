@@ -36,6 +36,8 @@ const WHONewsFeed = () => {
                   // eslint-disable-next-line react/no-danger
                   dangerouslySetInnerHTML={{
                     __html: `${d.content.trim()
+                      .replace(/(style=")(.*?)"/g, '')
+                      .replace(/(<img)(.*?)(\/>)/g, '')
                       .replace('&nbsp;', '')
                       .replace('<p></p>', '')
                       .replace('<div></div>')
@@ -65,6 +67,61 @@ const WHONewsFeed = () => {
   } = state;
   return (
     <div className="c19i-chart-container">
+      <style>
+        {`
+          div.c19i-who-news-item {
+            padding: 0 25px 0 40px;
+            width: 100%;
+            height: 300px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: center;
+            overflow-y: hidden;
+            color: ${theme.palette.black} !important;
+          }
+          div.c19i-who-news-item a,
+          div.c19i-who-news-item a:visited,
+          div.c19i-who-news-item a:hover {
+            color: ${theme.palette.black};
+          }
+          div.c19i-who-news-item a h1 {
+            padding-top: 10;
+            margin-bottom: 0;
+            font-size: ${theme.fonts.large.fontSize};
+            font-weight: bold;
+          }
+          div.c19i-who-news-item a sub {
+            color: gray;
+          }
+          #c19i-who-news-content {
+            margin-top: 5px;
+            margin-bottom: 10px;
+            min-height: 150px;
+            max-height: 195px;
+            padding-top: 5px;
+            padding-right: 10px;
+            overflow-y: hidden;
+          }
+          #c19i-who-news-content * {
+            padding: 0;
+            margin: 0;
+            line-height: 1.05;
+          }
+          #c19i-home-route div a:nth-child(3) {
+            width: 100%;
+            display: block;
+            border: 1px solid ${theme.palette.themeTertiary};
+            padding: 7px;
+            text-align: center;
+            border-radius: 10px;
+          }
+          #c19i-home-route div a:nth-child(3):hover {
+            background-color: ${theme.palette.themeSecondary};
+            color: white;
+          }
+        `}
+      </style>
       <div>
         <Text>
           <h2
@@ -130,61 +187,6 @@ const WHONewsFeed = () => {
         </div>}
       {date && !noData &&
         <WHOSource date={date} />}
-      <style>
-        {`
-          div.c19i-who-news-item {
-            padding: 0 25px 0 40px;
-            width: 100%;
-            height: 300px;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            justify-content: center;
-            overflow-y: hidden;
-            color: ${theme.palette.black} !important;
-          }
-          div.c19i-who-news-item a,
-          div.c19i-who-news-item a:visited,
-          div.c19i-who-news-item a:hover {
-            color: ${theme.palette.black};
-          }
-          div.c19i-who-news-item a h1 {
-            padding-top: 10;
-            margin-bottom: 0;
-            font-size: ${theme.fonts.large.fontSize};
-            font-weight: bold;
-          }
-          div.c19i-who-news-item a sub {
-            color: gray;
-          }
-          #c19i-who-news-content {
-            margin-top: 5px;
-            margin-bottom: 10px;
-            min-height: 150px;
-            max-height: 195px;
-            padding-top: 5px;
-            padding-right: 10px;
-            overflow-y: hidden;
-          }
-          #c19i-who-news-content * {
-            padding: 0;
-            margin: 0;
-            line-height: 1.05;
-          }
-          #c19i-home-route div a:nth-child(3) {
-            width: 100%;
-            display: block;
-            border: 1px solid ${theme.palette.themeTertiary};
-            padding: 7px;
-            text-align: center;
-            border-radius: 10px;
-          }
-          #c19i-home-route div a:nth-child(3):hover {
-            background-color: ${theme.palette.themeSecondary};
-            color: white;
-          }
-        `}
-      </style>
     </div>
   );
 };
