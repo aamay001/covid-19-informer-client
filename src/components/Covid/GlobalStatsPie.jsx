@@ -52,7 +52,7 @@ const GlobalTotalsPie = () => {
           </h2>
         </Text>
       </div>
-      {!data &&
+      {!data && !noData &&
         <div style={{ marginTop: 15 }}>
           <Spinner size={SpinnerSize.large} />
         </div>}

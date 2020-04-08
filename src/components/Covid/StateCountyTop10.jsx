@@ -111,7 +111,7 @@ const StateCountyTop10 = ({ selectedLocation, counties, jhuData }) => {
             #c19i-statecounty-top10-item li {
               list-style: none;
               border-bottom: 1px solid ${theme.palette.neutralTertiary};
-              height: 27px;
+              height: 30px;
               display: flex;
               flex-direction: row;
               justify-content: space-between;
@@ -120,7 +120,6 @@ const StateCountyTop10 = ({ selectedLocation, counties, jhuData }) => {
               padding-right: 10px;
               font-size: ${theme.fonts.medium.fontSize};
               outline: none;
-              margin-top: 1px;
             }
             #c19i-statecounty-top10-item li[is-province="true"] {
               cursor: pointer;

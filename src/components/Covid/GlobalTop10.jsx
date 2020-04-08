@@ -57,8 +57,7 @@ const GlobalTop10 = ({ data }) => {
                   src={item.countryInfo.flag}
                   alt="Country flag"
                   style={{
-                    width: 28,
-                    height: 15,
+                    height: 17,
                     marginRight: 10,
                     opacity: 0.85,
                   }}
@@ -78,7 +77,7 @@ const GlobalTop10 = ({ data }) => {
           #c19i-global-top10-item li {
             list-style: none;
             border-bottom: 1px solid ${theme.palette.neutralTertiary};
-            height: 27px;
+            height: 30px;
             display: flex;
             flex-direction: row;
             justify-content: space-between;
@@ -88,7 +87,6 @@ const GlobalTop10 = ({ data }) => {
             font-size: ${theme.fonts.medium.fontSize};
             outline: none;
             cursor: pointer;
-            margin-top: 1px;
           }
           #c19i-global-top10-item li span {
             color: ${theme.palette.black} !important;

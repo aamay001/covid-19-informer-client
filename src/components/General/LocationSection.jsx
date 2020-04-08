@@ -5,6 +5,7 @@ import {
   StatsPie,
   CountryHistoricalChart,
 } from '../Covid';
+import flags from '../../helpers/flag.helper';
 
 const LocationSection = ({
   selectedLocation,
@@ -13,6 +14,20 @@ const LocationSection = ({
   <Fragment>
     {locString &&
       <h1 style={{ marginBottom: 0, marginTop: 15 }}>
+        {((selectedLocation.countryInfo && selectedLocation.countryInfo.flag) ||
+        flags.US.get(selectedLocation.province)) &&
+          <span style={{ verticalAlign: 'top' }}>
+            <img
+              src={(selectedLocation.countryInfo &&
+                selectedLocation.countryInfo.flag) ||
+                flags.US.get(selectedLocation.province).url}
+              alt="Country flag"
+              style={{
+                height: 25,
+                marginRight: 7,
+              }}
+            />
+          </span>}
         {locString}
       </h1>}
     {selectedLocation &&
@@ -41,6 +56,10 @@ LocationSection.defaultProps = {
 LocationSection.propTypes = {
   selectedLocation: PropTypes.shape({
     country: PropTypes.string,
+    province: PropTypes.string,
+    countryInfo: PropTypes.shape({
+      flag: PropTypes.string,
+    }),
   }),
   locString: PropTypes.string.isRequired,
 };
