@@ -80,18 +80,19 @@ const StateCountyTop10 = ({ selectedLocation, counties, jhuData }) => {
           >
             {sortedData.map(item => (
               <li
+                is-province={(!item.county).toString()}
                 key={uuid()}
                 onKeyPress={({ keyCode }) => {
                   if (keyCode === 13 || keyCode === 32) {
-                    window.location = item.county
-                      ? `/see/${item.county}, ${item.province}`
-                      : `/see/${item.province}`;
+                    if (!item.county) {
+                      window.location = `/see/${item.province}`;
+                    }
                   }
                 }}
                 onClick={() => {
-                  window.location = item.county
-                    ? `/see/${item.county}, ${item.province}`
-                    : `/see/${item.province}`;
+                  if (!item.county) {
+                    window.location = `/see/${item.province}`;
+                  }
                 }}
               >
                 <span>
@@ -119,14 +120,16 @@ const StateCountyTop10 = ({ selectedLocation, counties, jhuData }) => {
               padding-right: 10px;
               font-size: ${theme.fonts.medium.fontSize};
               outline: none;
-              cursor: pointer;
               margin-top: 1px;
+            }
+            #c19i-statecounty-top10-item li[is-province="true"] {
+              cursor: pointer;
             }
             #c19i-statecounty-top10-item li span {
               color: ${theme.palette.black} !important;
             }
-            #c19i-statecounty-top10-item li:hover,
-            #c19i-statecounty-top10-item li:hover * {
+            #c19i-statecounty-top10-item li[is-province="true"]:hover,
+            #c19i-statecounty-top10-item li[is-province="true"]:hover * {
               background-color: ${theme.palette.themeSecondary};
               color: white !important;
             }
