@@ -1,3 +1,5 @@
+/* globals window */
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -77,7 +79,21 @@ const StateCountyTop10 = ({ selectedLocation, counties, jhuData }) => {
             id="c19i-statecounty-top10-item"
           >
             {sortedData.map(item => (
-              <li key={uuid()}>
+              <li
+                key={uuid()}
+                onKeyPress={({ keyCode }) => {
+                  if (keyCode === 13 || keyCode === 32) {
+                    window.location = item.county
+                      ? `/see/${item.county}, ${item.province}`
+                      : `/see/${item.province}`;
+                  }
+                }}
+                onClick={() => {
+                  window.location = item.county
+                    ? `/see/${item.county}, ${item.province}`
+                    : `/see/${item.province}`;
+                }}
+              >
                 <span>
                   {item.county || item.province}
                 </span>
@@ -103,9 +119,16 @@ const StateCountyTop10 = ({ selectedLocation, counties, jhuData }) => {
               padding-right: 10px;
               font-size: ${theme.fonts.medium.fontSize};
               outline: none;
+              cursor: pointer;
+              margin-top: 1px;
             }
             #c19i-statecounty-top10-item li span {
               color: ${theme.palette.black} !important;
+            }
+            #c19i-statecounty-top10-item li:hover,
+            #c19i-statecounty-top10-item li:hover * {
+              background-color: ${theme.palette.themeSecondary};
+              color: white !important;
             }
           `}
         </style>

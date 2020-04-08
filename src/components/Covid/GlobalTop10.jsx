@@ -1,3 +1,5 @@
+/* globals window */
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Text } from 'office-ui-fabric-react';
@@ -39,7 +41,17 @@ const GlobalTop10 = ({ data }) => {
           id="c19i-global-top10-item"
         >
           {sortedData.map(item => (
-            <li key={item.country}>
+            <li
+              key={item.country}
+              onKeyPress={({ keyCode }) => {
+                if (keyCode === 13 || keyCode === 32) {
+                  window.location = `/see/${item.country}`;
+                }
+              }}
+              onClick={() => {
+                window.location = `/see/${item.country}`;
+              }}
+            >
               <span>
                 <img
                   src={item.countryInfo.flag}
@@ -75,9 +87,16 @@ const GlobalTop10 = ({ data }) => {
             padding-right: 10px;
             font-size: ${theme.fonts.medium.fontSize};
             outline: none;
+            cursor: pointer;
+            margin-top: 1px;
           }
           #c19i-global-top10-item li span {
             color: ${theme.palette.black} !important;
+          }
+          #c19i-global-top10-item li:hover,
+          #c19i-global-top10-item li:hover * {
+            background-color: ${theme.palette.themeSecondary};
+            color: white !important;
           }
         `}
       </style>
