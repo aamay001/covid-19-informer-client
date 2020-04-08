@@ -7,7 +7,6 @@ import strings from '../config/string.constants';
 import lsHelper from './localStorage.helper';
 
 const { ADDRESS_COMPONENTS, LS } = strings;
-const rssParser = new RssParser();
 
 const {
   API,
@@ -200,6 +199,7 @@ const GetAllCounties = async () => {
 };
 
 const GetWHONews = async () => {
+  const rssParser = new RssParser();
   let cachedData = lsHelper.getItem(LS.CACHED_WHO_NEWS);
   if (cachedData && differenceInHours(new Date(), cachedData.date) > APP.DATA_REFRESH_INTERVAL) {
     cachedData = null;
@@ -209,7 +209,13 @@ const GetWHONews = async () => {
   }
   let feed;
   try {
-    feed = await rssParser.parseURL(API.URL + API.WHO_NEWS);
+    const config = {
+      params: {
+        code: API.KEYS.WHO_NEWS,
+      },
+    };
+    const res = await axios.get(API.URL + API.WHO_NEWS, config);
+    feed = await rssParser.parseString(res.data);
   } catch (e) {
     console.error(e);
     return false;

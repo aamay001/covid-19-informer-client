@@ -41,6 +41,7 @@ const SETTINGS = {
     WHO_NEWS: '/whonews',
     KEYS: {
       GEOLOCATE: process.env.REACT_APP_GEO_LOOKUP_API_KEY,
+      WHO_NEWS: process.env.REACT_APP_WHO_NEWS_KEY,
     },
   },
   COVID_API: {
