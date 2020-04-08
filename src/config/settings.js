@@ -38,6 +38,7 @@ const SETTINGS = {
   API: {
     URL: process.env.REACT_APP_API_URL || DEFAULT.API.URL,
     GEOLOCATE: '/geolocate',
+    WHO_NEWS: '/whonews',
     KEYS: {
       GEOLOCATE: process.env.REACT_APP_GEO_LOOKUP_API_KEY,
     },

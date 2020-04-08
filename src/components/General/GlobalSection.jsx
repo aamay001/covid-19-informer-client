@@ -5,6 +5,7 @@ import {
   GlobalHistoricalChart,
   GlobalStatsPie,
   GlobalTop10,
+  WHONewsFeed,
 } from '../Covid';
 
 const GlobalSection = ({
@@ -32,6 +33,7 @@ const GlobalSection = ({
           <GlobalHistoricalChart />
           <GlobalTop10 data={countries} />
           <GlobalStatsPie />
+          <WHONewsFeed />
         </Fragment>}
     </div>
   </Fragment>

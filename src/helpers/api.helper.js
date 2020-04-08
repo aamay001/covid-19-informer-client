@@ -1,13 +1,18 @@
 /* eslint-disable no-console */
 import axios from 'axios';
 import { differenceInHours } from 'date-fns';
+import RssParser from 'rss-parser';
 import settings, { APP } from '../config/settings';
 import strings from '../config/string.constants';
 import lsHelper from './localStorage.helper';
 
 const { ADDRESS_COMPONENTS, LS } = strings;
+const rssParser = new RssParser();
 
-const { API, COVID_API } = settings;
+const {
+  API,
+  COVID_API,
+} = settings;
 const {
   COUNTRY,
   STATE,
@@ -194,6 +199,29 @@ const GetAllCounties = async () => {
   return false;
 };
 
+const GetWHONews = async () => {
+  let cachedData = lsHelper.getItem(LS.CACHED_WHO_NEWS);
+  if (cachedData && differenceInHours(new Date(), cachedData.date) > APP.DATA_REFRESH_INTERVAL) {
+    cachedData = null;
+  }
+  if (cachedData) {
+    return cachedData;
+  }
+  let feed;
+  try {
+    feed = await rssParser.parseURL(API.URL + API.WHO_NEWS);
+  } catch (e) {
+    console.error(e);
+    return false;
+  }
+  if (feed) {
+    const data = { data: feed.items, date: new Date().toString() };
+    lsHelper.setItem(LS.CACHED_WHO_NEWS, data);
+    return data;
+  }
+  return false;
+};
+
 export default {
   GetUserLocationDetail,
   GetAllCountries,
@@ -202,4 +230,5 @@ export default {
   GetGlobalHistorical,
   GetHistoricalByCountry,
   GetAllCounties,
+  GetWHONews,
 };
