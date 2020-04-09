@@ -19,7 +19,12 @@
  */
 const setItem = (key, item) => {
   if (window.localStorage) {
-    window.localStorage.setItem(key, JSON.stringify(item));
+    try {
+      window.localStorage.setItem(key, JSON.stringify(item));
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.error(e);
+    }
   }
 };
 
