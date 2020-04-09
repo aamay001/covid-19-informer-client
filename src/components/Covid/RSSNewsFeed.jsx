@@ -57,7 +57,7 @@ const RSSNewsFeed = ({
           });
         }
       });
-  }, [isDataAvailble]);
+  }, [isDataAvailble, apiMethod]);
   const {
     data,
     date,
