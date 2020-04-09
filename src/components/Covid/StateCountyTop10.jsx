@@ -101,7 +101,7 @@ const StateCountyTop10 = ({ selectedLocation, counties, jhuData }) => {
                   {isUSA && flags.US.get(item.province) && !item.county &&
                     <img
                       src={flags.US.get(item.province).url}
-                      alt="Country flag"
+                      alt="State flag."
                       style={{
                         height: 17,
                         marginRight: 10,
