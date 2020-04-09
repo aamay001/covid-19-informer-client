@@ -33,12 +33,12 @@ const AppStyles = () => (
         max-width: 95vw;
         margin-bottom: 15px;
         height: 400px;
-        border-radius: 10px;
-        border: 1px solid ${theme.palette.themeTertiary};
+
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
+        box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
       }
 
       // LINKS
