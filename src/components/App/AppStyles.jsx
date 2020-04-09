@@ -40,6 +40,71 @@ const AppStyles = () => (
         justify-content: center;
         align-items: center;
       }
+
+      // LINKS
+      a, a:active, a:visited, a:hover, a:focus {
+        color: ${theme.palette.themeTertiary};
+        text-decoration: none;
+      }
+
+      /* RSS NEWS FEED */
+      div.c19i-who-news-item {
+            padding: 0 20px 0 35px;
+            width: 100%;
+            max-height: 310px;
+            min-height: 250px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: center;
+            overflow-y: hidden;
+            color: ${theme.palette.black} !important;
+          }
+          div.c19i-who-news-item a,
+          div.c19i-who-news-item a:visited,
+          div.c19i-who-news-item a:hover {
+            color: ${theme.palette.black};
+          }
+          div.c19i-who-news-item a h1 {
+            padding-top: 0px;
+            margin-top: 7px;
+            margin-bottom: 0;
+            font-size: ${theme.fonts.large.fontSize};
+            font-weight: bold;
+            max-height: 70px;
+            line-height: 1.25;
+            overflow: hidden;
+          }
+          div.c19i-who-news-item a sub {
+            color: gray;
+          }
+          #c19i-who-news-content {
+            margin-top: 5px;
+            margin-bottom: 10px;
+            min-height: 160px;
+            max-height: 215px;
+            padding-top: 5px;
+            padding-right: 10px;
+            overflow-y: hidden;
+          }
+          #c19i-who-news-content * {
+            padding: 0;
+            margin: 0;
+            line-height: 1.15;
+            color: ${theme.palette.black} !important;
+          }
+          #c19i-home-route div a:nth-child(3) {
+            width: 100%;
+            display: block;
+            border: 1px solid ${theme.palette.themeTertiary};
+            padding: 7px;
+            text-align: center;
+            border-radius: 10px;
+          }
+          #c19i-home-route div a:nth-child(3):hover {
+            background-color: ${theme.palette.themeSecondary};
+            color: white;
+          }
     `}
   </style>
 );
