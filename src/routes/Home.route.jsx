@@ -185,7 +185,7 @@ class Home extends Component {
     return (
       <Fragment>
         <RouteRootFlex
-          style={{ maxWidth: '100vw', paddingLeft: 10, paddingRight: 10 }}
+          style={{ maxWidth: 1500, paddingLeft: 10, paddingRight: 10 }}
           id="c19i-home-route"
         >
           <div style={{ maxWidth: 750, width: '95vw', paddingTop: 35 }}>
