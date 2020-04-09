@@ -7,6 +7,7 @@ import GlobalHistoricalChart from './GlobalHistoricalChart';
 import CountryHistoricalChart from './CountryHistoricalChart';
 import StateCountyTop10 from './StateCountyTop10';
 import RSSFeed from './RSSNewsFeed';
+import GeoChoropleth from './GeoChoropleth';
 
 export {
   LocationSearch,
@@ -18,4 +19,5 @@ export {
   CountryHistoricalChart,
   StateCountyTop10,
   RSSFeed,
+  GeoChoropleth,
 };

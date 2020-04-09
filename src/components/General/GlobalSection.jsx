@@ -6,6 +6,7 @@ import {
   GlobalStatsPie,
   GlobalTop10,
   RSSFeed,
+  GeoChoropleth,
 } from '../Covid';
 
 const GlobalSection = ({
@@ -29,14 +30,15 @@ const GlobalSection = ({
       }}
     >
       {!gettingCovidData && successGettingData && countries &&
-      <Fragment>
-        <GlobalHistoricalChart />
-        <GlobalTop10 data={countries} />
-        <GlobalStatsPie />
-        <RSSFeed title="WHO News" source="WHO" apiMethod="GetWHONews" />
-        <RSSFeed title="CDC Newsroom" source="CDC" apiMethod="GetCDCNews" />
-        <RSSFeed title="ECDC Risk Assessments" source="ECDC" apiMethod="GetECDCNews" />
-      </Fragment>}
+        <Fragment>
+          <GlobalHistoricalChart />
+          <GlobalTop10 data={countries} />
+          <GlobalStatsPie />
+          <RSSFeed title="WHO News" source="WHO" apiMethod="GetWHONews" />
+          <RSSFeed title="CDC Newsroom" source="CDC" apiMethod="GetCDCNews" />
+          <RSSFeed title="ECDC Risk Assessments" source="ECDC" apiMethod="GetECDCNews" />
+          <GeoChoropleth data={countries} />
+        </Fragment>}
     </div>
   </Fragment>
 );

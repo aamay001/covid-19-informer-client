@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@nivo/bar": "^0.61.1",
+    "@nivo/geo": "^0.61.1",
     "@nivo/line": "^0.61.1",
     "@nivo/pie": "^0.61.1",
     "@types/react": "^16.9.27",
