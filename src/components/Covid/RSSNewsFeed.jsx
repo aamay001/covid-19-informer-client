@@ -145,6 +145,7 @@ RSSNewsFeed.propTypes = {
   apiMethod: PropTypes.oneOf([
     'GetWHONews',
     'GetCDCNews',
+    'GetECDCNews',
   ]).isRequired,
   source: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
