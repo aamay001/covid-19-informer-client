@@ -16,6 +16,7 @@ import parse from 'date-fns/parse';
 import RSSNewsFeedItem from './RSSNewsFeedItem';
 import CDCSource from './CDCSource';
 import WHOSource from './WHOSource';
+import ECDCSource from './ECDCSource';
 import api from '../../helpers/api.helper';
 import { theme } from '../../config';
 
@@ -133,6 +134,7 @@ const RSSNewsFeed = ({
         <Fragment>
           {source === 'WHO' && <WHOSource date={date} />}
           {source === 'CDC' && <CDCSource date={date} />}
+          {source === 'ECDC' && <ECDCSource date={date} />}
         </Fragment>
       )}
     </div>

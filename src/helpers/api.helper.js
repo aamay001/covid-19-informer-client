@@ -260,6 +260,37 @@ const GetCDCNews = async () => {
   return false;
 };
 
+const GetECDCNews = async () => {
+  const rssParser = new RssParser();
+  let cachedData = lsHelper.getItem(LS.CACHED_ECDC_NEWS);
+  if (cachedData && differenceInHours(new Date(), cachedData.date) > APP.DATA_REFRESH_INTERVAL) {
+    cachedData = null;
+  }
+  if (cachedData) {
+    return cachedData;
+  }
+  let feed;
+  try {
+    const config = {
+      params: {
+        feed: 'ECDC',
+        code: API.KEYS.WHO_NEWS,
+      },
+    };
+    const res = await axios.get(API.URL + API.RSS_FEED, config);
+    feed = await rssParser.parseString(res.data);
+  } catch (e) {
+    console.error(e);
+    return false;
+  }
+  if (feed) {
+    const data = { data: feed.items, date: new Date().toString() };
+    lsHelper.setItem(LS.CACHED_ECDC_NEWS, data);
+    return data;
+  }
+  return false;
+};
+
 export default {
   GetUserLocationDetail,
   GetAllCountries,
@@ -270,4 +301,5 @@ export default {
   GetAllCounties,
   GetWHONews,
   GetCDCNews,
+  GetECDCNews,
 };

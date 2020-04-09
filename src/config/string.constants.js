@@ -13,6 +13,7 @@ export default {
     CACHED_US_COUNTIES: 'c19i-uscnties',
     CACHED_WHO_NEWS: 'c19i-whonws',
     CACHED_CDC_NEWS: 'c19i-cdcnws',
+    CACHED_ECDC_NEWS: 'c19i-ecdcnws',
   },
   ADDRESS_COMPONENTS: {
     COUNTRY: 'country',
