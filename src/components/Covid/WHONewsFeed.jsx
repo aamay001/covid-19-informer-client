@@ -20,34 +20,44 @@ const WHONewsFeed = () => {
       .then((res) => {
         if (res) {
           setState({
-            data: res.data.map(d => (
-              <div
-                className="c19i-who-news-item"
-                key={d.title}
-              >
-                <a href={d.link} target="_new">
-                  <h1>
-                    {d.title}
-                  </h1>
-                  <sub>{parse(d.pubDate).toLocaleString()}</sub>
-                </a>
+            data: res.data.map((d) => {
+              let date = parse(d.pubDate);
+              // eslint-disable-next-line eqeqeq
+              date = date == 'Invalid Date'
+                ? d.pubDate.replace('Z', '')
+                : parse(d.pubDate).toLocaleString();
+              return (
                 <div
-                  id="c19i-who-news-content"
-                  // eslint-disable-next-line react/no-danger
-                  dangerouslySetInnerHTML={{
-                    __html: `${d.content.trim()
-                      .replace(/(style=")(.*?)"/g, '')
-                      .replace(/(<img)(.*?)(\/>)/g, '')
-                      .replace('&nbsp;', '')
-                      .replace('<p></p>', '')
-                      .replace('<div></div>')
-                      .substr(0, 300)}...`,
-                  }}
-                />
-                <a href={d.link} target="_new">
-                  Read Full Story
-                </a>
-              </div>)).slice(0, 9),
+                  className="c19i-who-news-item"
+                  key={d.title}
+                >
+                  <a href={d.link} target="_new">
+                    <h1>
+                      {d.title}
+                    </h1>
+                    <sub>
+                      {date}
+                    </sub>
+                  </a>
+                  <div
+                    id="c19i-who-news-content"
+                    // eslint-disable-next-line react/no-danger
+                    dangerouslySetInnerHTML={{
+                      __html: `${d.content.trim()
+                        .replace(/(style=")(.*?)"/g, '')
+                        .replace(/(<img)(.*?)(\/>)/g, '')
+                        .replace('&nbsp;', '')
+                        .replace('<p></p>', '')
+                        .replace('<div></div>')
+                        .substr(0, 300)}...`,
+                    }}
+                  />
+                  <a href={d.link} target="_new">
+                    Read Full Story
+                  </a>
+                </div>
+              );
+            }).slice(0, 9),
             date: res.date,
             noData: false,
             activeItemIndex: 0,
