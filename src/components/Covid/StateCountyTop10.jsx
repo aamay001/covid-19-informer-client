@@ -7,6 +7,7 @@ import { Text } from 'office-ui-fabric-react';
 import uuid from 'uuid/v4';
 import { theme } from '../../config';
 import JHUSource from './JHUSource';
+import flags from '../../helpers/flag.helper';
 
 const getLocalProvinceText = (country) => {
   if (country === 'USA' || country === 'US') {
@@ -25,15 +26,16 @@ const StateCountyTop10 = ({ selectedLocation, counties, jhuData }) => {
     'Canada',
     'China',
     'Australia',
-  ]
-    .includes(selectedLocation.country);
+  ].includes(selectedLocation.country);
+  const isUSA = ['US', 'USA'].includes(selectedLocation.country);
   if (selectedLocation && isAcceptableCountry && counties) {
     let sortedData;
     let isCounties = false;
-    if (selectedLocation.province && ['US', 'USA'].includes(selectedLocation.country)) {
+    if (selectedLocation.province && isUSA) {
       isCounties = true;
       sortedData = counties.data
-        .filter(c => c.province === selectedLocation.province)
+        .filter(c => c.province === selectedLocation.province
+          && c.country === selectedLocation.country)
         .sort((a, b) => b.stats.confirmed - a.stats.confirmed)
         .slice(0, 10);
     } else if (jhuData) {
@@ -96,6 +98,16 @@ const StateCountyTop10 = ({ selectedLocation, counties, jhuData }) => {
                 }}
               >
                 <span>
+                  {isUSA && flags.US.get(item.province) && !item.county &&
+                    <img
+                      src={flags.US.get(item.province).url}
+                      alt="Country flag"
+                      style={{
+                        height: 17,
+                        marginRight: 10,
+                        opacity: 0.85,
+                      }}
+                    />}
                   {item.county || item.province}
                 </span>
                 <span>{new Intl.NumberFormat().format(item.stats.confirmed)}</span>
