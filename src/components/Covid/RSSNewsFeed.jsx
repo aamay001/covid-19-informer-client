@@ -92,7 +92,6 @@ const RSSNewsFeed = ({
         <div style={{ height: 315, width: '100%' }}>
           <ItemCarousel
             gutter={12}
-            outsideChevron
             numberOfCards={1}
             activeItemIndex={activeItemIndex}
             requestToChangeActive={(i) => {

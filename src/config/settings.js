@@ -38,7 +38,7 @@ const SETTINGS = {
   API: {
     URL: process.env.REACT_APP_API_URL || DEFAULT.API.URL,
     GEOLOCATE: '/geolocate',
-    WHO_NEWS: '/whonews',
+    RSS_FEED: '/rss',
     KEYS: {
       GEOLOCATE: process.env.REACT_APP_GEO_LOOKUP_API_KEY,
       WHO_NEWS: process.env.REACT_APP_WHO_NEWS_KEY,
@@ -58,7 +58,6 @@ const SETTINGS = {
     JHU_HISTORICAL_BY_COUNTRY: country => `/v2/historical/${country}`,
     JHU_HISTORICAL_BY_PROVINCE: (country, province) => `/v2/historical/${country}/${province}`,
     JHU_HISTORICAL_ALL: '/v2/historical/all',
-    CDC_NEWS: 'https://tools.cdc.gov/api/v2/resources/media/132608.rss',
   },
   ROLLBAR: {
     TOKEN: process.env.REACT_APP_ROLLBAR_TOKEN,

@@ -211,10 +211,11 @@ const GetWHONews = async () => {
   try {
     const config = {
       params: {
+        feed: 'WHO',
         code: API.KEYS.WHO_NEWS,
       },
     };
-    const res = await axios.get(API.URL + API.WHO_NEWS, config);
+    const res = await axios.get(API.URL + API.RSS_FEED, config);
     feed = await rssParser.parseString(res.data);
   } catch (e) {
     console.error(e);
@@ -239,7 +240,14 @@ const GetCDCNews = async () => {
   }
   let feed;
   try {
-    feed = await rssParser.parseURL(COVID_API.CDC_NEWS);
+    const config = {
+      params: {
+        feed: 'CDC',
+        code: API.KEYS.WHO_NEWS,
+      },
+    };
+    const res = await axios.get(API.URL + API.RSS_FEED, config);
+    feed = await rssParser.parseString(res.data);
   } catch (e) {
     console.error(e);
     return false;
