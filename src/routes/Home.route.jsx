@@ -9,6 +9,7 @@ import {
   LoadingModal,
   GlobalSection,
   LocationSection,
+  Footer,
 } from '../components/General';
 import {
   NoLocationSelected,
@@ -265,6 +266,7 @@ class Home extends Component {
             ? 'Loading data from sources...'
             : 'Getting user location...'}
         />
+        <Footer />
       </Fragment>
     );
   }

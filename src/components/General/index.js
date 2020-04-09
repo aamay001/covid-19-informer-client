@@ -11,6 +11,7 @@ import SimpleCard from './SimpleCard';
 import FilterPanel from './FilterPanel';
 import GlobalSection from './GlobalSection';
 import LocationSection from './LocationSection';
+import Footer from './Footer';
 
 export {
   FullLogo,
@@ -26,4 +27,5 @@ export {
   FilterPanel,
   GlobalSection,
   LocationSection,
+  Footer,
 };
