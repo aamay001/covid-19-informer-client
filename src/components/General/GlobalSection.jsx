@@ -5,7 +5,7 @@ import {
   GlobalHistoricalChart,
   GlobalStatsPie,
   GlobalTop10,
-  WHONewsFeed,
+  RSSFeed,
 } from '../Covid';
 
 const GlobalSection = ({
@@ -29,12 +29,13 @@ const GlobalSection = ({
       }}
     >
       {!gettingCovidData && successGettingData && countries &&
-        <Fragment>
-          <GlobalHistoricalChart />
-          <GlobalTop10 data={countries} />
-          <GlobalStatsPie />
-          <WHONewsFeed />
-        </Fragment>}
+      <Fragment>
+        <GlobalHistoricalChart />
+        <GlobalTop10 data={countries} />
+        <GlobalStatsPie />
+        <RSSFeed title="WHO News" source="WHO" apiMethod="GetWHONews" />
+        <RSSFeed title="CDC Newsroom" source="CDC" apiMethod="GetCDCNews" />
+      </Fragment>}
     </div>
   </Fragment>
 );

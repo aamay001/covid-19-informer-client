@@ -58,6 +58,7 @@ const SETTINGS = {
     JHU_HISTORICAL_BY_COUNTRY: country => `/v2/historical/${country}`,
     JHU_HISTORICAL_BY_PROVINCE: (country, province) => `/v2/historical/${country}/${province}`,
     JHU_HISTORICAL_ALL: '/v2/historical/all',
+    CDC_NEWS: 'https://tools.cdc.gov/api/v2/resources/media/132608.rss',
   },
   ROLLBAR: {
     TOKEN: process.env.REACT_APP_ROLLBAR_TOKEN,

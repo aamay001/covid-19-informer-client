@@ -6,7 +6,7 @@ import GlobalStatsPie from './GlobalStatsPie';
 import GlobalHistoricalChart from './GlobalHistoricalChart';
 import CountryHistoricalChart from './CountryHistoricalChart';
 import StateCountyTop10 from './StateCountyTop10';
-import WHONewsFeed from './WHONewsFeed';
+import RSSFeed from './RSSNewsFeed';
 
 export {
   LocationSearch,
@@ -17,5 +17,5 @@ export {
   GlobalHistoricalChart,
   CountryHistoricalChart,
   StateCountyTop10,
-  WHONewsFeed,
+  RSSFeed,
 };

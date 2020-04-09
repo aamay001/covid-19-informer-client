@@ -228,6 +228,30 @@ const GetWHONews = async () => {
   return false;
 };
 
+const GetCDCNews = async () => {
+  const rssParser = new RssParser();
+  let cachedData = lsHelper.getItem(LS.CACHED_CDC_NEWS);
+  if (cachedData && differenceInHours(new Date(), cachedData.date) > APP.DATA_REFRESH_INTERVAL) {
+    cachedData = null;
+  }
+  if (cachedData) {
+    return cachedData;
+  }
+  let feed;
+  try {
+    feed = await rssParser.parseURL(COVID_API.CDC_NEWS);
+  } catch (e) {
+    console.error(e);
+    return false;
+  }
+  if (feed) {
+    const data = { data: feed.items, date: new Date().toString() };
+    lsHelper.setItem(LS.CACHED_CDC_NEWS, data);
+    return data;
+  }
+  return false;
+};
+
 export default {
   GetUserLocationDetail,
   GetAllCountries,
@@ -237,4 +261,5 @@ export default {
   GetHistoricalByCountry,
   GetAllCounties,
   GetWHONews,
+  GetCDCNews,
 };

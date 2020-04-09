@@ -16,18 +16,10 @@ const WHOSource = ({ date }) => (
         }}
       >
         {`${parse(date).toLocaleDateString()} - `}
-        <a href="https://www.who.int/" target="_blank" rel="noopener noreferrer">
+        <a href="https://www.who.int/" target="_new">
           World Health Organization
         </a>
       </p>}
-    <style>
-      {`
-        a, a:active, a:visited, a:hover, a:focus {
-          color: ${theme.palette.themeTertiary};
-          text-decoration: none;
-        }
-      `}
-    </style>
   </div>
 );
 

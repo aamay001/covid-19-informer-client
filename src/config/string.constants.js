@@ -12,6 +12,7 @@ export default {
     CACHED_GLOBAL_HISTORICAL: 'c19i-ghiststr',
     CACHED_US_COUNTIES: 'c19i-uscnties',
     CACHED_WHO_NEWS: 'c19i-whonws',
+    CACHED_CDC_NEWS: 'c19i-cdcnws',
   },
   ADDRESS_COMPONENTS: {
     COUNTRY: 'country',
