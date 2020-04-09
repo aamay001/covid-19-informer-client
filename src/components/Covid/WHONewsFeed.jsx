@@ -33,7 +33,8 @@ const WHONewsFeed = () => {
                 >
                   <a href={d.link} target="_new">
                     <h1>
-                      {d.title}
+                      {d.title.trim().substr(0, 85)}
+                      {(d.title.trim().length > 85 ? '...' : '')}
                     </h1>
                     <sub>
                       {date}
@@ -80,9 +81,10 @@ const WHONewsFeed = () => {
       <style>
         {`
           div.c19i-who-news-item {
-            padding: 0 25px 0 40px;
+            padding: 0 20px 0 35px;
             width: 100%;
-            height: 300px;
+            max-height: 310px;
+            min-height: 250px;
             display: flex;
             flex-direction: column;
             align-items: flex-start;
@@ -96,10 +98,14 @@ const WHONewsFeed = () => {
             color: ${theme.palette.black};
           }
           div.c19i-who-news-item a h1 {
-            padding-top: 10;
+            padding-top: 0px;
+            margin-top: 7px;
             margin-bottom: 0;
             font-size: ${theme.fonts.large.fontSize};
             font-weight: bold;
+            max-height: 70px;
+            line-height: 1.25;
+            overflow: hidden;
           }
           div.c19i-who-news-item a sub {
             color: gray;
@@ -107,8 +113,8 @@ const WHONewsFeed = () => {
           #c19i-who-news-content {
             margin-top: 5px;
             margin-bottom: 10px;
-            min-height: 150px;
-            max-height: 195px;
+            min-height: 160px;
+            max-height: 215px;
             padding-top: 5px;
             padding-right: 10px;
             overflow-y: hidden;
@@ -159,6 +165,7 @@ const WHONewsFeed = () => {
         <div style={{ height: 315, width: '100%' }}>
           <ItemCarousel
             gutter={12}
+            outsideChevron
             numberOfCards={1}
             activeItemIndex={activeItemIndex}
             requestToChangeActive={(i) => {

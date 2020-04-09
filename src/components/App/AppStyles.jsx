@@ -8,7 +8,7 @@ const AppStyles = () => (
         box-sizing: border-box;
         scroll-behavior: smooth;
         -webkit-overflow-scrolling: touch;
-      } 
+      }
 
       html {
         background-color: ${theme.palette.white};
@@ -32,7 +32,7 @@ const AppStyles = () => (
         width: 450px;
         max-width: 95vw;
         margin-bottom: 15px;
-        height: 385px;
+        height: 400px;
         border-radius: 10px;
         border: 1px solid ${theme.palette.themeTertiary};
         display: flex;

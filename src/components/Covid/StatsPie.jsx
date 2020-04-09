@@ -59,6 +59,7 @@ const StatsPie = ({ data }) => (
           {
             anchor: 'bottom',
             direction: 'row',
+            translateX: 25,
             translateY: 80,
             itemWidth: 110,
             itemHeight: 15,
