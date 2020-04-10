@@ -20,7 +20,7 @@ const Footer = () => (
     <a href="https://andyamaya.com/" target="_new">Andy Amaya</a>
     {' '}
     during the Quarantine 2020! 👍🏽
-    <p>Stay Safe, Stay Indoors!</p>
+    <p>Stay Safe, Stay Home!</p>
   </div>
 );
 
