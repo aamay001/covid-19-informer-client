@@ -7,7 +7,7 @@ import { theme } from '../../config';
 import WorldOMeterSource from './WorldOMeterSource';
 
 const GlobalTop10 = ({ data }) => {
-  const sortedData = data.sort((a, b) => b.cases - b.cases)
+  const sortedData = data.sort((a, b) => b.cases - a.cases)
     .slice(0, 10);
   return (
     <div
