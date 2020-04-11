@@ -46,9 +46,9 @@ const SETTINGS = {
   },
   COVID_API: {
     URL: process.env.REACT_APP_COVID_API,
-    COUNTRIES: '/countries',
+    COUNTRIES: '/v2/countries',
     US_STATE_TOTALS: '/states',
-    GLOBAL_TOTALS: '/all',
+    GLOBAL_TOTALS: '/v2/all',
     COUNTRY: countryName => `/countries/${countryName}`,
     COUNTRY_BY_ID: id => `/countries/${id}`,
     COUNTRY_BY_iso2: iso2 => `/countries/${iso2}`,
