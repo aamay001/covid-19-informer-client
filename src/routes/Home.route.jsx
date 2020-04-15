@@ -10,6 +10,7 @@ import {
   GlobalSection,
   LocationSection,
   Footer,
+  WideAd,
 } from '../components/General';
 import {
   NoLocationSelected,
@@ -266,6 +267,7 @@ class Home extends Component {
             ? 'Loading data from sources...'
             : 'Getting user location...'}
         />
+        <WideAd />
         <Footer />
       </Fragment>
     );

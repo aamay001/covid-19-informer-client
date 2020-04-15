@@ -12,6 +12,7 @@ import FilterPanel from './FilterPanel';
 import GlobalSection from './GlobalSection';
 import LocationSection from './LocationSection';
 import Footer from './Footer';
+import WideAd from './WideAd';
 
 export {
   FullLogo,
@@ -28,4 +29,5 @@ export {
   GlobalSection,
   LocationSection,
   Footer,
+  WideAd,
 };
