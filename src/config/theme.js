@@ -6,10 +6,7 @@ import ls from '../helpers/localStorage.helper';
 
 export const toggleDarkMode = (value) => {
   ls.setItem('c19i-app-dark-mode', value);
-  const restart = window.confirm('Application needs to be reloaded to toggle dark mode. Do it now?');
-  if (restart) {
-    window.location.reload();
-  }
+  window.location.reload();
 };
 
 const darkModeState = ls.getItem('c19i-app-dark-mode');
