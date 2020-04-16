@@ -1,5 +1,6 @@
 /* globals document */
 import React, { Component } from 'react';
+import { theme } from '../../config';
 
 class AmazonAds extends Component {
   componentDidMount() {
@@ -12,7 +13,16 @@ class AmazonAds extends Component {
 
   render() {
     return (
-      <div ref={(el) => { this.parentDiv = el; }} style={{ marginLeft: 'auto', marginRight: 'auto' }}>
+      <div
+        ref={(el) => { this.parentDiv = el; }}
+        style={{
+          marginLeft: 'auto',
+          marginRight: 'auto',
+          padding: 10,
+          color: theme.palette.black,
+          backgroundColor: theme.palette.white,
+        }}
+      >
         <div id="amzn-assoc-ad-03b97141-dc44-4401-9f6d-7745e1682edb" />
       </div>
     );
