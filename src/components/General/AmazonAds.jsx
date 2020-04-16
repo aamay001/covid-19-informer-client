@@ -18,7 +18,6 @@ class AmazonAds extends Component {
         style={{
           padding: '0 10px 0px 10px',
           color: theme.palette.black,
-          backgroundColor: theme.palette.white,
           display: 'flex',
           justifyContent: 'center',
         }}
