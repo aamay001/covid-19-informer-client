@@ -105,6 +105,16 @@ const AppStyles = () => (
         background-color: ${theme.palette.themeSecondary};
         color: white;
       }
+      .amzn-native-header {
+        color: ${theme.palette.black} !important;
+      }
+      .amzn-native-product {
+        color: ${theme.palette.black} !important;
+        background-color: ${theme.palette.white} !important;
+      }
+      .amzn-native-product-title-container a {
+        color: ${theme.palette.themeSecondary} !important;
+      }
     `}
   </style>
 );

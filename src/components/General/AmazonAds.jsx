@@ -21,6 +21,8 @@ class AmazonAds extends Component {
           padding: 10,
           color: theme.palette.black,
           backgroundColor: theme.palette.white,
+          display: 'flex',
+          justifyContent: 'center',
         }}
       >
         <div id="amzn-assoc-ad-03b97141-dc44-4401-9f6d-7745e1682edb" />
