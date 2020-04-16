@@ -16,7 +16,7 @@ class AmazonAds extends Component {
       <div
         ref={(el) => { this.parentDiv = el; }}
         style={{
-          padding: '0 10px 0px 10px',
+          padding: '0px 10px 0px 10px',
           color: theme.palette.black,
           display: 'flex',
           justifyContent: 'center',
