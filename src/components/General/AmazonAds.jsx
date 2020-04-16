@@ -12,7 +12,7 @@ class AmazonAds extends Component {
 
   render() {
     return (
-      <div ref={(el) => { this.parentDiv = el; }}>
+      <div ref={(el) => { this.parentDiv = el; }} style={{ marginLeft: 'auto', marginRight: 'auto' }}>
         <div id="amzn-assoc-ad-03b97141-dc44-4401-9f6d-7745e1682edb" />
       </div>
     );
