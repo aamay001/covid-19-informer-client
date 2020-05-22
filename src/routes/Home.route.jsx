@@ -10,7 +10,6 @@ import {
   GlobalSection,
   LocationSection,
   Footer,
-  AmazonAds,
 } from '../components/General';
 import {
   NoLocationSelected,
@@ -267,7 +266,6 @@ class Home extends Component {
             ? 'Loading data from sources...'
             : 'Getting user location...'}
         />
-        <AmazonAds />
         <Footer />
       </Fragment>
     );

@@ -82,23 +82,23 @@ const StateCountyTop10 = ({ selectedLocation, counties, jhuData }) => {
           >
             {sortedData.map(item => (
               <li
-                is-province={(!item.county).toString()}
+                is-province={(!isCounties).toString()}
                 key={uuid()}
                 onKeyPress={({ keyCode }) => {
                   if (keyCode === 13 || keyCode === 32) {
-                    if (!item.county) {
-                      window.location = `/see/${item.province}`;
+                    if (!isCounties) {
+                      window.location = `/see/${item.province}, ${item.country}`;
                     }
                   }
                 }}
                 onClick={() => {
-                  if (!item.county) {
-                    window.location = `/see/${item.province}`;
+                  if (!isCounties) {
+                    window.location = `/see/${item.province}, ${item.country}`;
                   }
                 }}
               >
                 <span>
-                  {isUSA && flags.US.get(item.province) && !item.county &&
+                  {isUSA && flags.US.get(item.province) && !isCounties &&
                     <img
                       src={flags.US.get(item.province).url}
                       alt="State flag."
@@ -108,7 +108,9 @@ const StateCountyTop10 = ({ selectedLocation, counties, jhuData }) => {
                         opacity: 0.85,
                       }}
                     />}
-                  {item.county || item.province}
+                  {isCounties
+                    ? item.county
+                    : item.province}
                 </span>
                 <span>{new Intl.NumberFormat().format(item.stats.confirmed)}</span>
               </li>

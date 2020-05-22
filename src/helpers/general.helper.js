@@ -125,14 +125,8 @@ export const getLocationString = (loc) => {
       country,
       state,
       province,
-      county,
-      city,
     } = loc;
-    return `${city
-      ? `${city}, `
-      : ''}${county
-      ? `${county}, `
-      : ''}${(state || province) || ''}${(state || province)
+    return `${(state || province) || ''}${(state || province)
       ? `${((state || province) && ', ')}`
       : ''}${country || ''}`;
   }
