@@ -31,7 +31,7 @@ const NotificationMessage = ({
             ...(type === MessageBarType.info
               ? {
                 root: {
-                  background: 'rgba(113, 175, 229, 0.2)',
+                  background: 'rgb(198, 219, 239)',
                 },
               }
               : {}),
