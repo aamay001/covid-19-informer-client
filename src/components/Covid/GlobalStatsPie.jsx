@@ -66,7 +66,10 @@ const GlobalTotalsPie = () => {
           <ResponsivePie
             data={data}
             margin={{
-              top: 25, right: 100, bottom: 50, left: 90,
+              top: 25,
+              right: 100,
+              bottom: 50,
+              left: 95,
             }}
             colors={{
               scheme: theme.palette.darkTheme

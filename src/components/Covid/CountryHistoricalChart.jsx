@@ -94,7 +94,7 @@ const CountryHistoricalChart = ({ country }) => {
               top: 30,
               right: 25,
               bottom: 75,
-              left: 70,
+              left: 90,
             }}
             curve="natural"
             xScale={{
