@@ -24,6 +24,12 @@ export const DEFAULT = {
   },
 };
 
+const COVID_API_CONFIG = {
+  VERSION_ROOT: process.env.REACT_APP_COVID_API_VERSION_ROOT || '/',
+};
+
+const { VERSION_ROOT } = COVID_API_CONFIG;
+
 /**
  * @name SETTINGS
  * @type {object}
@@ -46,18 +52,18 @@ const SETTINGS = {
   },
   COVID_API: {
     URL: process.env.REACT_APP_COVID_API,
-    COUNTRIES: '/v2/countries',
-    US_STATE_TOTALS: '/v2/states',
-    GLOBAL_TOTALS: '/v2/all',
-    COUNTRY: countryName => `/v2/countries/${countryName}`,
-    COUNTRY_BY_ID: id => `/v2/countries/${id}`,
-    COUNTRY_BY_iso2: iso2 => `/v2/countries/${iso2}`,
-    JHU_CSSE: '/v2/jhucsse',
-    JHU_COUNTIES: '/v2/jhucsse/counties',
-    JHU_HISTORICAL: '/v2/historical',
-    JHU_HISTORICAL_BY_COUNTRY: country => `/v2/historical/${country}`,
-    JHU_HISTORICAL_BY_PROVINCE: (country, province) => `/v2/historical/${country}/${province}`,
-    JHU_HISTORICAL_ALL: '/v2/historical/all',
+    COUNTRIES: `${VERSION_ROOT}/countries`,
+    US_STATE_TOTALS: `${VERSION_ROOT}/states`,
+    GLOBAL_TOTALS: `${VERSION_ROOT}/all`,
+    COUNTRY: countryName => `${VERSION_ROOT}/countries/${countryName}`,
+    COUNTRY_BY_ID: id => `${VERSION_ROOT}/countries/${id}`,
+    COUNTRY_BY_iso2: iso2 => `${VERSION_ROOT}/countries/${iso2}`,
+    JHU_CSSE: `${VERSION_ROOT}/jhucsse`,
+    JHU_COUNTIES: `${VERSION_ROOT}/jhucsse/counties`,
+    JHU_HISTORICAL: `${VERSION_ROOT}/historical`,
+    JHU_HISTORICAL_BY_COUNTRY: country => `${VERSION_ROOT}/historical/${country}`,
+    JHU_HISTORICAL_BY_PROVINCE: (country, province) => `${VERSION_ROOT}/historical/${country}/${province}`,
+    JHU_HISTORICAL_ALL: `${VERSION_ROOT}/historical/all`,
   },
   ROLLBAR: {
     TOKEN: process.env.REACT_APP_ROLLBAR_TOKEN,
