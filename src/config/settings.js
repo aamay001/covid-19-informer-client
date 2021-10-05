@@ -61,9 +61,9 @@ const SETTINGS = {
     JHU_CSSE: `${VERSION_ROOT}/jhucsse`,
     JHU_COUNTIES: `${VERSION_ROOT}/jhucsse/counties`,
     JHU_HISTORICAL: `${VERSION_ROOT}/historical`,
-    JHU_HISTORICAL_BY_COUNTRY: country => `${VERSION_ROOT}/historical/${country}`,
+    JHU_HISTORICAL_BY_COUNTRY: country => `${VERSION_ROOT}/historical/${country}?lastdays=all`,
     JHU_HISTORICAL_BY_PROVINCE: (country, province) => `${VERSION_ROOT}/historical/${country}/${province}`,
-    JHU_HISTORICAL_ALL: `${VERSION_ROOT}/historical/all`,
+    JHU_HISTORICAL_ALL: `${VERSION_ROOT}/historical/all?lastdays=all`,
   },
   ROLLBAR: {
     TOKEN: process.env.REACT_APP_ROLLBAR_TOKEN,
@@ -79,6 +79,7 @@ export const APP = {
   SITE_URL: process.env.PUBLIC_URL || '/',
   WORKING_DIR: process.env.REACT_APP_WORKING_DIR || '',
   DATA_REFRESH_INTERVAL: process.env.REACT_APP_DATA_REFRESH_INTERVAL || 8,
+  DATA_SUMMARIZATION_INTERVAL: process.REACT_APP_DATA_SUMMARIZATION_INTERVAL || 90,
 };
 
 export const { AUTH } = SETTINGS;
