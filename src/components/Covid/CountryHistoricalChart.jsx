@@ -10,6 +10,7 @@ import { ResponsiveLine } from '@nivo/line';
 import JHUSource from './JHUSource';
 import { theme } from '../../config';
 import api from '../../helpers/api.helper';
+import { APP } from '../../config/settings';
 
 const CountryHistoricalChart = ({ country }) => {
   const [state, setData] = useState({});
@@ -24,7 +25,8 @@ const CountryHistoricalChart = ({ country }) => {
                 id: 'cases',
                 data: Object.keys(res.data.timeline.cases)
                   .filter((f, index, arr) =>
-                    (index === 0 || index === arr.length - 1 || index % 10 === 0))
+                    (index === 0 || index === arr.length - 1 ||
+                      index % APP.DATA_SUMMARIZATION_INTERVAL === 0))
                   .map(d => ({
                     x: d,
                     y: res.data.timeline.cases[d],
@@ -34,7 +36,8 @@ const CountryHistoricalChart = ({ country }) => {
                 id: 'deaths',
                 data: Object.keys(res.data.timeline.deaths)
                   .filter((f, index, arr) =>
-                    (index === 0 || index === arr.length - 1 || index % 10 === 0))
+                    (index === 0 || index === arr.length - 1 ||
+                      index % APP.DATA_SUMMARIZATION_INTERVAL === 0))
                   .map(d => ({
                     x: d,
                     y: res.data.timeline.deaths[d],
@@ -44,7 +47,8 @@ const CountryHistoricalChart = ({ country }) => {
                 id: 'recovered',
                 data: Object.keys(res.data.timeline.recovered)
                   .filter((f, index, arr) =>
-                    (index === 0 || index === arr.length - 1 || index % 10 === 0))
+                    (index === 0 || index === arr.length - 1 ||
+                      index % APP.DATA_SUMMARIZATION_INTERVAL === 0))
                   .map(d => ({
                     x: d,
                     y: res.data.timeline.recovered[d],

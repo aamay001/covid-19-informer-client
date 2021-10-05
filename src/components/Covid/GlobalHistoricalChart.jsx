@@ -9,6 +9,7 @@ import { ResponsiveLine } from '@nivo/line';
 import JHUSource from './JHUSource';
 import { theme } from '../../config';
 import api from '../../helpers/api.helper';
+import { APP } from '../../config/settings';
 
 const GlobalHistoricalLineChart = () => {
   const [state, setData] = useState({});
@@ -23,7 +24,8 @@ const GlobalHistoricalLineChart = () => {
                 id: 'cases',
                 data: Object.keys(res.cases)
                   .filter((f, index, arr) =>
-                    (index === 0 || index === arr.length - 1 || index % 10 === 0))
+                    (index === 0 || index === arr.length - 1 ||
+                      index % APP.DATA_SUMMARIZATION_INTERVAL === 0))
                   .map(d => ({
                     x: d,
                     y: res.cases[d],
@@ -33,7 +35,8 @@ const GlobalHistoricalLineChart = () => {
                 id: 'deaths',
                 data: Object.keys(res.deaths)
                   .filter((f, index, arr) =>
-                    (index === 0 || index === arr.length - 1 || index % 10 === 0))
+                    (index === 0 || index === arr.length - 1 ||
+                      index % APP.DATA_SUMMARIZATION_INTERVAL === 0))
                   .map(d => ({
                     x: d,
                     y: res.deaths[d],
@@ -43,7 +46,8 @@ const GlobalHistoricalLineChart = () => {
                 id: 'recovered',
                 data: Object.keys(res.recovered)
                   .filter((f, index, arr) =>
-                    (index === 0 || index === arr.length - 1 || index % 10 === 0))
+                    (index === 0 || index === arr.length - 1 ||
+                      index % APP.DATA_SUMMARIZATION_INTERVAL === 0))
                   .map(d => ({
                     x: d,
                     y: res.recovered[d],
