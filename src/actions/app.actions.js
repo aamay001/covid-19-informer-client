@@ -37,6 +37,11 @@ export const geolocationDataError = () => ({
   type: GELOCATION_DATA_ERROR,
 });
 
+export const CLEAR_GEOLOCATION_ERROR = 'CLEAR_GEOLOCATION_ERROR';
+export const clearGettingGeolocationError = () => ({
+  type: CLEAR_GEOLOCATION_ERROR,
+});
+
 export const getGeolocData = (lat, long) => (dispatch) => {
   dispatch(gettingGeolocationDate());
   api.GetUserLocationDetail(lat, long)

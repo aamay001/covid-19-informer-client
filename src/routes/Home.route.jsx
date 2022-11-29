@@ -19,6 +19,7 @@ import {
   setCurrentRoute,
   routeToLanding,
   getGeolocData,
+  clearGettingGeolocationError,
 } from '../actions/app.actions';
 import {
   loadCovidData,
@@ -231,10 +232,14 @@ class Home extends Component {
           subTextColor={theme.palette.black}
           showNoButton={false}
           confirmText="OK"
-          onClickYes={() => this.setState({
-            errorGettingUserLocation: false,
-            locationConfirmed: true,
-          })}
+          onClickYes={() => {
+            const { dispatch } = this.props;
+            this.setState({
+              errorGettingUserLocation: false,
+              locationConfirmed: true,
+            });
+            dispatch(clearGettingGeolocationError());
+          }}
         >
           Search for a location manually instead.
         </ConfirmDialog>

@@ -6,6 +6,7 @@ import {
   GELOCATION_DATA_ERROR,
   GEOLOCATION_DATA_RECEIVED,
   GETTING_GEOLOCATION_DATA,
+  CLEAR_GEOLOCATION_ERROR,
 } from '../actions/app.actions';
 import lsHelper from '../helpers/localStorage.helper';
 
@@ -81,6 +82,11 @@ const gettingGeolocationData = state => ({
   errorGettingGeolocationData: false,
 });
 
+const clearGettingGeolocationError = state => ({
+  ...state,
+  errorGettingGeolocationData: false,
+});
+
 export default (state = initialState, action) => {
   switch (action.type) {
     case SET_CURRENT_ROUTE:
@@ -97,6 +103,8 @@ export default (state = initialState, action) => {
       return successGettingGeolocationData(state, action);
     case GETTING_GEOLOCATION_DATA:
       return gettingGeolocationData(state);
+    case CLEAR_GEOLOCATION_ERROR:
+      return clearGettingGeolocationError(state);
     default:
       return state;
   }
