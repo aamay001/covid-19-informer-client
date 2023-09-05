@@ -2,7 +2,7 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Checkbox } from 'office-ui-fabric-react';
+import { Checkbox, Icon, PrimaryButton } from 'office-ui-fabric-react';
 import {
   RouteRootFlex,
   ConfirmDialog,
@@ -181,6 +181,7 @@ class Home extends Component {
       errorGettingGeolocationData,
       geolocationData,
       gettingCovidData,
+      errorGettingCovidData,
       match: { params: { location } },
     } = this.props;
     const locString = getLocationString(selectedLocation);
@@ -207,6 +208,38 @@ class Home extends Component {
             locString={locString}
           />
           <GlobalSection />
+          {errorGettingCovidData && (
+            <>
+              <div style={{
+                marginTop: 25,
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                height: '40VH',
+                width: '100%',
+                textAlign: 'center',
+              }}
+              >
+                <Icon iconName="error" style={{ fontSize: 50, marginBottom: 15, color: 'maroon' }} />
+                Error while loaing COVID-19 data from Disease.sh!
+                <br />
+                <br />
+                Please try again later!
+                <PrimaryButton
+                  iconProps={{ iconName: 'refresh' }}
+                  // eslint-disable-next-line no-undef
+                  onClick={() => {
+                    const { dispatch } = this.props;
+                    dispatch(loadCovidData());
+                  }}
+                  text="Try Again"
+                  style={{
+                    marginTop: 35,
+                  }}
+                />
+              </div>
+            </>)}
         </RouteRootFlex>
         <ConfirmDialog
           open={askForLocPerms && !gettingCovidData}
@@ -266,7 +299,8 @@ class Home extends Component {
           />
         </ConfirmDialog>
         <LoadingModal
-          show={gettingUserLocation || gettingGeolocationData || gettingCovidData}
+          show={(gettingUserLocation || gettingGeolocationData || gettingCovidData) &&
+            !errorGettingCovidData}
           text={gettingCovidData
             ? 'Loading data from sources...'
             : 'Getting user location...'}
@@ -305,6 +339,7 @@ Home.propTypes = {
       location: PropTypes.string,
     }),
   }),
+  errorGettingCovidData: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -315,6 +350,7 @@ const mapStateToProps = state => ({
   errorGettingGeolocationData: state.app.errorGettingGeolocationData,
   gettingCovidData: state.covid.gettingData,
   prevLocationExists: state.app.prevLocationExists,
+  errorGettingCovidData: state.covid.errorGettingData,
 });
 
 export default connect(mapStateToProps)(Home);

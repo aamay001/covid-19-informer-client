@@ -76,20 +76,20 @@ const GeoChoropleth = ({ data }) => {
             ]}
           />
         </div>}
-        <Slider
-          min={-360}
-          max={360}
-          step={1}
-          defaultValue={0}
-          showValue={false}
-          value={sliderPosition}
-          onChange={setPosition}
-          styles={{
-            root: {
-              width: '100%',
-            }
-          }}
-        />
+      <Slider
+        min={-360}
+        max={360}
+        step={1}
+        defaultValue={0}
+        showValue={false}
+        value={sliderPosition}
+        onChange={setPosition}
+        styles={{
+          root: {
+            width: '100%',
+          },
+        }}
+      />
       <WorldOMeterSource date={data[0].updated} />
     </div>
   );

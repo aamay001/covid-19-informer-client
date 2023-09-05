@@ -15,7 +15,7 @@ const GlobalSection = ({
   gettingCovidData,
 }) => (
   <Fragment>
-    <h1 style={{ marginBottom: 0, marginTop: 5 }}>
+    <h1 style={{ marginBottom: 0, marginTop: 5, display: successGettingData ? 'block' : 'none' }}>
       Global Stats
     </h1>
     <div
