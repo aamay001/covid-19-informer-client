@@ -20,11 +20,32 @@ const errorGettingCovidData = () => ({
 
 export const loadCovidData = () => (dispatch) => {
   dispatch(gettingCovidData());
-  api.GetAllCountries()
+  const res = api.GetAllCountries()
     .then((countries) => {
-      dispatch(covidDataReceived(countries, {}));
-    })
-    .catch(() => {
-      dispatch(errorGettingCovidData());
+      if (countries) {
+        api.GetAllJHUData()
+          .then((jhuData) => {
+            if (jhuData) {
+              api.GetAllCounties()
+                .then((counties) => {
+                  if (counties) {
+                    dispatch(covidDataReceived(countries, jhuData, counties));
+                  } else {
+                    dispatch(covidDataReceived(countries, jhuData));
+                  }
+                });
+            } else {
+              dispatch(errorGettingCovidData());
+            }
+          });
+      } else {
+        dispatch(errorGettingCovidData());
+      }
     });
+
+  if (!res) {
+    // eslint-disable-next-line no-console
+    console.error('Error loading data.');
+    dispatch(errorGettingCovidData());
+  }
 };
