@@ -22,18 +22,7 @@ export const loadCovidData = () => (dispatch) => {
   dispatch(gettingCovidData());
   api.GetAllCountries()
     .then((countries) => {
-      if (countries) {
-        api.GetAllCounties()
-          .then((counties) => {
-            if (counties) {
-              dispatch(covidDataReceived(countries, {}, counties));
-            } else {
-              dispatch(covidDataReceived(countries, {}));
-            }
-          });
-      } else {
-        dispatch(errorGettingCovidData());
-      }
+      dispatch(covidDataReceived(countries, {}));
     })
     .catch(() => {
       dispatch(errorGettingCovidData());
