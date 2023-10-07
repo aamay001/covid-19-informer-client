@@ -23,23 +23,19 @@ export const loadCovidData = () => (dispatch) => {
   api.GetAllCountries()
     .then((countries) => {
       if (countries) {
-        api.GetAllJHUData()
-          .then((jhuData) => {
-            if (jhuData) {
-              api.GetAllCounties()
-                .then((counties) => {
-                  if (counties) {
-                    dispatch(covidDataReceived(countries, jhuData, counties));
-                  } else {
-                    dispatch(covidDataReceived(countries, jhuData));
-                  }
-                });
+        api.GetAllCounties()
+          .then((counties) => {
+            if (counties) {
+              dispatch(covidDataReceived(countries, {}, counties));
             } else {
-              dispatch(errorGettingCovidData());
+              dispatch(covidDataReceived(countries, {}));
             }
           });
       } else {
         dispatch(errorGettingCovidData());
       }
+    })
+    .catch(() => {
+      dispatch(errorGettingCovidData());
     });
 };
