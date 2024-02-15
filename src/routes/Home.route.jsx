@@ -226,6 +226,9 @@ class Home extends Component {
                 <br />
                 <br />
                 Please try again later!
+                <br />
+                <br />
+                <a href="https://github.com/aamay001/covid-19-informer-client">Project Source Code</a>
                 <PrimaryButton
                   iconProps={{ iconName: 'refresh' }}
                   // eslint-disable-next-line no-undef
