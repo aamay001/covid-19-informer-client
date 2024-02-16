@@ -20,7 +20,7 @@ const errorGettingCovidData = () => ({
 
 export const loadCovidData = () => (dispatch) => {
   dispatch(gettingCovidData());
-  api.GetAllCountries()
+  const res = api.GetAllCountries()
     .then((countries) => {
       if (countries) {
         api.GetAllJHUData()
@@ -42,4 +42,10 @@ export const loadCovidData = () => (dispatch) => {
         dispatch(errorGettingCovidData());
       }
     });
+
+  if (!res) {
+    // eslint-disable-next-line no-console
+    console.error('Error loading data.');
+    dispatch(errorGettingCovidData());
+  }
 };
