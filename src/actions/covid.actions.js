@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import api from '../helpers/api.helper';
 
 export const GETTING_COVID_DATA = 'GETTING_COVID_DATA';
@@ -18,34 +19,37 @@ const errorGettingCovidData = () => ({
   type: ERROR_GETTING_COVID_DATA,
 });
 
-export const loadCovidData = () => (dispatch) => {
+export const loadCovidData = () => async (dispatch) => {
   dispatch(gettingCovidData());
-  const res = api.GetAllCountries()
-    .then((countries) => {
-      if (countries) {
-        api.GetAllJHUData()
-          .then((jhuData) => {
-            if (jhuData) {
-              api.GetAllCounties()
-                .then((counties) => {
-                  if (counties) {
-                    dispatch(covidDataReceived(countries, jhuData, counties));
-                  } else {
-                    dispatch(covidDataReceived(countries, jhuData));
-                  }
-                });
-            } else {
-              dispatch(errorGettingCovidData());
-            }
-          });
-      } else {
-        dispatch(errorGettingCovidData());
-      }
-    });
 
-  if (!res) {
-    // eslint-disable-next-line no-console
-    console.error('Error loading data.');
+  let countries;
+  let jhuData;
+  let counties;
+
+  try {
+    countries = await api.GetAllCountries();
+  } catch (err) {
+    countries = [];
+    console.error('Error loading countries.', err);
+  }
+
+  try {
+    jhuData = await api.GetAllJHUData();
+  } catch (err) {
+    jhuData = [];
+    console.error('Error loading JHUData.', err);
+  }
+
+  try {
+    counties = await api.GetAllCounties();
+  } catch (err) {
+    counties = [];
+    console.error('Error loading counties', err);
+  }
+
+  if (!counties && !jhuData && !counties) {
     dispatch(errorGettingCovidData());
+  } else {
+    dispatch(covidDataReceived(countries, jhuData, counties));
   }
 };

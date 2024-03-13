@@ -82,6 +82,7 @@ const StateCountyTop10 = ({ selectedLocation, counties, jhuData }) => {
           >
             {sortedData.map(item => (
               <li
+                // eslint-disable-next-line react/no-unknown-property
                 is-province={(!isCounties).toString()}
                 key={uuid()}
                 onKeyPress={({ keyCode }) => {

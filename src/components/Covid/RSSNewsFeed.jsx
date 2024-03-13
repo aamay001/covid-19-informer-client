@@ -12,7 +12,6 @@ import {
   IconButton,
 } from 'office-ui-fabric-react';
 import ItemCarousel from 'react-items-carousel';
-import parse from 'date-fns/parse';
 import RSSNewsFeedItem from './RSSNewsFeedItem';
 import CDCSource from './CDCSource';
 import WHOSource from './WHOSource';
@@ -32,22 +31,15 @@ const RSSNewsFeed = ({
       .then((res) => {
         if (res) {
           setState({
-            data: res.data.map((d) => {
-              let date = parse(d.pubDate);
-              // eslint-disable-next-line eqeqeq
-              date = date == 'Invalid Date'
-                ? d.pubDate.replace('Z', '')
-                : parse(d.pubDate).toLocaleString();
-              return (
-                <RSSNewsFeedItem
-                  key={d.guid}
-                  title={d.title}
-                  link={d.link}
-                  date={date}
-                  content={d.content}
-                />
-              );
-            }).slice(0, 9),
+            data: res.data.map(d => (
+              <RSSNewsFeedItem
+                key={d.guid}
+                title={d.title}
+                link={d.link}
+                date={new Date().toDateString()}
+                content={d.content}
+              />
+            )).slice(0, 9),
             date: res.date,
             noData: false,
             activeItemIndex: 0,

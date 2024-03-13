@@ -18,7 +18,7 @@
  * @param {any} item The item to store in local storage.
  */
 const setItem = (key, item) => {
-  if (window.localStorage) {
+  if (window.localStorage && false) {
     try {
       window.localStorage.setItem(key, JSON.stringify(item));
     } catch (e) {
@@ -36,7 +36,7 @@ const setItem = (key, item) => {
  * the key provided.
  */
 const getItem = (key, noParse) => {
-  if (window.localStorage) {
+  if (window.localStorage && false) {
     const i = noParse ?
       window.localStorage.getItem(key)
       : JSON.parse(window.localStorage.getItem(key));

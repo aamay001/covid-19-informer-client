@@ -17,7 +17,9 @@ const RSSNewsFeedItem = ({
         {(title.trim().length > 85 ? '...' : '')}
       </h1>
       <sub>
-        {date}
+        {typeof date === 'string'
+          ? date
+          : date.time[0]}
       </sub>
     </a>
     <div
