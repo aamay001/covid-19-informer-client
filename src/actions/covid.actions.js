@@ -47,7 +47,7 @@ export const loadCovidData = () => async (dispatch) => {
     console.error('Error loading counties', err);
   }
 
-  if (!counties && !jhuData && !counties) {
+  if (!counties && !countries) {
     dispatch(errorGettingCovidData());
   } else {
     dispatch(covidDataReceived(countries, jhuData, counties));

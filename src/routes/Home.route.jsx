@@ -1,3 +1,5 @@
+/* eslint-disable no-alert */
+/* eslint-disable no-undef */
 /* globals navigator */
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
@@ -84,6 +86,7 @@ class Home extends Component {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch(loadCovidData());
+    alert('Hi, thanks for stopping by. The data on this app is only for demo purposes. Thank you!');
   }
 
   onConfirmUseLocation() {
