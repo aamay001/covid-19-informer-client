@@ -3,6 +3,7 @@ import {
   Image,
   ImageFit,
   Toggle,
+  Text,
 } from 'office-ui-fabric-react';
 import { ROUTES } from '../../config/constants';
 import logo from '../../content/images/logo.png';
@@ -17,6 +18,7 @@ const TopNavBar = () => (
         : theme.palette.black,
       display: 'flex',
       justifyContent: 'space-between',
+      alignItems: 'center',
       width: '100%',
       maxWidth: '100%',
       minWidth: '100%',
@@ -55,10 +57,16 @@ const TopNavBar = () => (
         color: 'white',
       }}
     >
-      <h1 style={{ margin: 0, fontSize: theme.fonts.xLarge.fontSize }}>
+      <h1 style={{ margin: 0, fontSize: theme.fonts.xLarge.fontSize, marginLeft: 10 }}>
         COVID-19 Informer
       </h1>
     </div>
+    <Text style={{
+      textAlign: 'center', color: 'yellow', margin: 0, marginLeft: 'auto', marginRight: 15,
+    }}
+    >
+      Data is for demo purposes only!
+    </Text>
     <div
       style={{
         display: 'flex',

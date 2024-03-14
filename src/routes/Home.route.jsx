@@ -1,10 +1,11 @@
-/* eslint-disable no-alert */
 /* eslint-disable no-undef */
 /* globals navigator */
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Checkbox, Icon, PrimaryButton } from 'office-ui-fabric-react';
+import {
+  Checkbox, Icon, PrimaryButton,
+} from 'office-ui-fabric-react';
 import {
   RouteRootFlex,
   ConfirmDialog,
@@ -86,9 +87,6 @@ class Home extends Component {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch(loadCovidData());
-    setTimeout(() => {
-      alert('Hi, thanks for stopping by. The data on this app is only for demo purposes. Thank you!');
-    }, 3000);
   }
 
   onConfirmUseLocation() {
