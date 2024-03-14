@@ -86,7 +86,9 @@ class Home extends Component {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch(loadCovidData());
-    alert('Hi, thanks for stopping by. The data on this app is only for demo purposes. Thank you!');
+    setTimeout(() => {
+      alert('Hi, thanks for stopping by. The data on this app is only for demo purposes. Thank you!');
+    }, 3000);
   }
 
   onConfirmUseLocation() {
@@ -225,10 +227,10 @@ class Home extends Component {
               }}
               >
                 <Icon iconName="error" style={{ fontSize: 50, marginBottom: 15, color: 'maroon' }} />
-                Error while loaing COVID-19 data from Disease.sh!
+                Error while loaing COVID-19 data from the API!
                 <br />
                 <br />
-                Please try again later!
+                Please try again later!ß
                 <br />
                 <br />
                 <a href="https://github.com/aamay001/covid-19-informer-client">Project Source Code</a>
