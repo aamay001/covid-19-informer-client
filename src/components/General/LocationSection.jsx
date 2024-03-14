@@ -15,12 +15,12 @@ const LocationSection = ({
     {locString &&
       <h1 style={{ marginBottom: 0, marginTop: 15 }}>
         {((selectedLocation.countryInfo && selectedLocation.countryInfo.flag) ||
-        flags.US.get(selectedLocation.province)) &&
+        flags.getUSStateFlagUrl(selectedLocation.state)) &&
           <span style={{ verticalAlign: 'top' }}>
             <img
               src={(selectedLocation.countryInfo &&
                 selectedLocation.countryInfo.flag) ||
-                flags.US.get(selectedLocation.province).url}
+                flags.getUSStateFlagUrl(selectedLocation.state)}
               alt="Country flag"
               style={{
                 height: 25,
@@ -57,6 +57,7 @@ LocationSection.propTypes = {
   selectedLocation: PropTypes.shape({
     country: PropTypes.string,
     province: PropTypes.string,
+    state: PropTypes.string,
     countryInfo: PropTypes.shape({
       flag: PropTypes.string,
     }),

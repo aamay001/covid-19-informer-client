@@ -39,11 +39,11 @@ const StatsPie = ({ data }) => (
         innerRadius={0.5}
         padAngle={3}
         cornerRadius={3}
-        fit={false}
+        fit
         borderWidth={1}
         radialLabel={i => new Intl.NumberFormat().format(i.value)}
         borderColor={{ from: 'color', modifiers: [['darker', 2]] }}
-        radialLabelsTextXOffset={10}
+        radialLabelsTextXOffset={-5}
         radialLabelsTextColor={theme.palette.black}
         radialLabelsLinkOffset={-10}
         radialLabelsLinkDiagonalLength={16}

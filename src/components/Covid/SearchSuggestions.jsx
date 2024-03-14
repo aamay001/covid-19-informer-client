@@ -19,7 +19,7 @@ const RefMap = new Map();
 
 const SearchSuggestions = ({
   searchTerm,
-  jhuData,
+  counties,
   countries,
   show,
   onItemSelected,
@@ -39,10 +39,20 @@ const SearchSuggestions = ({
   const isDataReady = !!mergedData;
   useEffect(() => {
     let mergedSearchData;
-    const jhuProvinces = jhuData.filter(d => d.province != null) || [];
+    const states = counties && counties.data && counties.data.map(s => ({
+      country: 'USA',
+      state: s.state,
+      stats: {
+        cases: s.cases,
+        recovered: s.recovered,
+        deaths: s.deaths,
+      },
+      updatedAt: new Date(s.updated).toString(),
+      wom: false,
+    }));
     try {
       mergedSearchData = union(
-        jhuProvinces,
+        states,
         countries.map((c) => {
           const merged = {
             ...c,
@@ -66,7 +76,7 @@ const SearchSuggestions = ({
     }
 
     setData(mergedSearchData);
-  }, [isDataReady, countries, jhuData]);
+  }, [isDataReady, countries, counties]);
   if (searchTerm.trim().length < 2 || selectionMade || !show || !isDataReady) {
     RefMap.clear();
     return '';
@@ -76,13 +86,12 @@ const SearchSuggestions = ({
     const st = searchTerm.trim().toLowerCase().replace(/\W/g, ' ').split(' ');
     const stl = searchTerm.trim().replace(' County', '').toLowerCase();
     filteredResults = mergedData.filter((item) => {
-      let { city, province, country } = item;
-      city = city && city.toLowerCase();
-      province = province && province.toLowerCase();
+      let { state, country } = item;
+      state = state && state.toLowerCase();
       country = country && country.toLowerCase();
-      if (st.includes(city) || st.includes(province) ||
+      if (st.includes(state) ||
         st.includes(country) || (country || '').includes(stl) ||
-        (province || '').includes(stl) || (city || '').includes(stl)) {
+        (state || '').includes(stl)) {
         return true;
       }
       return false;
@@ -131,12 +140,12 @@ const SearchSuggestions = ({
               id="c19i-search-suggestions"
             >
               {filteredResults.map((item, index) => {
-                const { city, province, country } = item;
-                const locString = getLocationString({ country, province, city });
+                const { state, country } = item;
+                const locString = getLocationString({ country, state });
                 return (
                   <li
                     // eslint-disable-next-line react/no-array-index-key
-                    key={`${country}${province}${city}-${index}`}
+                    key={`${country}${state}-${index}`}
                     ref={ref => RefMap.set(index + 2, ref)}
                     tabIndex={index + 2}
                     onClick={() => onItemSelected(item)}
@@ -205,13 +214,16 @@ const SearchSuggestions = ({
 
 SearchSuggestions.defaultProps = {
   searchTerm: '',
-  jhuData: [],
+  counties: [],
   countries: [],
 };
 
 SearchSuggestions.propTypes = {
   searchTerm: PropTypes.string,
-  jhuData: PropTypes.arrayOf(PropTypes.shape({})),
+  counties: PropTypes.shape({
+    data: PropTypes.arrayOf(PropTypes.shape({})),
+    date: PropTypes.string,
+  }),
   show: PropTypes.bool.isRequired,
   onItemSelected: PropTypes.func.isRequired,
   selectionMade: PropTypes.bool.isRequired,
@@ -223,7 +235,7 @@ SearchSuggestions.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  jhuData: state.covid.jhuData,
+  counties: state.covid.counties,
   countries: state.covid.countries,
 });
 

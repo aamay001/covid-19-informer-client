@@ -9,42 +9,17 @@ import { theme } from '../../config';
 import JHUSource from './JHUSource';
 import flags from '../../helpers/flag.helper';
 
-const getLocalProvinceText = (country) => {
-  if (country === 'USA' || country === 'US') {
-    return 'States';
-  }
-  return 'Provinces';
-};
-
-const StateCountyTop10 = ({ selectedLocation, counties, jhuData }) => {
+const StateCountyTop10 = ({ selectedLocation, counties }) => {
   const isAcceptableCountry = [
     'US',
     'USA',
-    'France',
-    'United Kingdom',
-    'UK',
-    'Canada',
-    'China',
-    'Australia',
   ].includes(selectedLocation.country);
   const isUSA = ['US', 'USA'].includes(selectedLocation.country);
   if (selectedLocation && isAcceptableCountry && counties) {
     let sortedData;
-    let isCounties = false;
-    if (selectedLocation.province && isUSA) {
-      isCounties = true;
+    if (isUSA && counties && counties.data) {
       sortedData = counties.data
-        .filter(c => c.province === selectedLocation.province
-          && c.country === selectedLocation.country)
-        .sort((a, b) => b.stats.confirmed - a.stats.confirmed)
-        .slice(0, 10);
-    } else if (jhuData) {
-      sortedData = jhuData
-        .filter(c => (c.country === selectedLocation.country ||
-          (c.country === 'United Kingdom' && selectedLocation.country === 'UK') ||
-          (c.country === 'US' && selectedLocation.country === 'USA')) &&
-          c.province !== null)
-        .sort((a, b) => b.stats.confirmed - a.stats.confirmed)
+        .sort((a, b) => b.cases - a.cases)
         .slice(0, 10);
     } else {
       return null;
@@ -66,7 +41,7 @@ const StateCountyTop10 = ({ selectedLocation, counties, jhuData }) => {
                 paddingTop: 5,
               }}
             >
-              {`Top 10 ${isCounties ? 'Counties' : getLocalProvinceText(selectedLocation.country)} in ${isCounties ? 'State' : 'Country'}`}
+              Top 10 States Country
             </h2>
           </Text>
         </div>
@@ -83,25 +58,21 @@ const StateCountyTop10 = ({ selectedLocation, counties, jhuData }) => {
             {sortedData.map(item => (
               <li
                 // eslint-disable-next-line react/no-unknown-property
-                is-province={(!isCounties).toString()}
+                is-province="true"
                 key={uuid()}
                 onKeyPress={({ keyCode }) => {
                   if (keyCode === 13 || keyCode === 32) {
-                    if (!isCounties) {
-                      window.location = `/see/${item.province}, ${item.country}`;
-                    }
+                    window.location = `/see/${item.state}, ${selectedLocation.country}`;
                   }
                 }}
                 onClick={() => {
-                  if (!isCounties) {
-                    window.location = `/see/${item.province}, ${item.country}`;
-                  }
+                  window.location = `/see/${item.state}, ${selectedLocation.country}`;
                 }}
               >
                 <span>
-                  {isUSA && flags.US.get(item.province) && !isCounties &&
+                  {isUSA &&
                     <img
-                      src={flags.US.get(item.province).url}
+                      src={flags.getUSStateFlagUrl(item.state)}
                       alt="State flag."
                       style={{
                         height: 17,
@@ -109,11 +80,9 @@ const StateCountyTop10 = ({ selectedLocation, counties, jhuData }) => {
                         opacity: 0.85,
                       }}
                     />}
-                  {isCounties
-                    ? item.county
-                    : item.province}
+                  {item.state}
                 </span>
-                <span>{new Intl.NumberFormat().format(item.stats.confirmed)}</span>
+                <span>{new Intl.NumberFormat().format(item.cases)}</span>
               </li>
             ))}
           </ul>
@@ -173,12 +142,10 @@ StateCountyTop10.propTypes = {
     }),
     PropTypes.array,
   ]),
-  jhuData: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
 };
 
 const mapStateToProps = state => ({
   counties: state.covid.counties,
-  jhuData: state.covid.jhuData,
 });
 
 export default connect(mapStateToProps)(StateCountyTop10);

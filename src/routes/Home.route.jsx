@@ -154,7 +154,7 @@ class Home extends Component {
     if (loc && loc.countryInfo && loc.countryInfo.flag) {
       og.setImage(loc.countryInfo.flag);
     } else if (loc && ['US', 'USA'].includes(loc.country)) {
-      og.setImage(flags.US.get(loc.province).url);
+      og.setImage(flags.getUSStateFlagUrl(loc.state));
     } else {
       og.setImage(logo);
     }

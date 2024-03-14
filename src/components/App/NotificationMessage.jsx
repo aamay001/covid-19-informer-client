@@ -5,7 +5,6 @@ import {
   MessageBarType,
 } from 'office-ui-fabric-react';
 import Fade from 'react-reveal/Fade';
-import { theme } from '../../config';
 
 const NotificationMessage = ({
   type,
@@ -26,12 +25,28 @@ const NotificationMessage = ({
           actions={actions}
           styles={{
             ...(type === MessageBarType.warning
-              ? { icon: { color: theme.palette.black } }
+              ? { icon: { color: 'black' } }
               : {}),
             ...(type === MessageBarType.info
               ? {
                 root: {
                   background: 'rgb(198, 219, 239)',
+                  color: 'black',
+                },
+                icon: {
+                  color: 'black',
+                },
+                iconContainer: {
+                  color: 'black',
+                },
+                actions: {
+                  color: 'black',
+                },
+                dismissal: {
+                  color: 'black !important',
+                },
+                dismissSingleLine: {
+                  color: 'black',
                 },
               }
               : {}),
@@ -39,6 +54,13 @@ const NotificationMessage = ({
         >
           {message}
         </MessageBar>
+        <style>
+          {`
+          #root > div > div > div:nth-child(4) > div > div > div > div > button > span > i {
+            color: black !important;
+          }
+          `}
+        </style>
       </Fade>}
   </>
 );
