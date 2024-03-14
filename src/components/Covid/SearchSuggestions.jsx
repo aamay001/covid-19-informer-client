@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable jsx-a11y/no-noninteractive-element-to-interactive-role */
 import React, { Fragment, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
@@ -37,26 +38,34 @@ const SearchSuggestions = ({
   }, [focusIndex]);
   const isDataReady = !!mergedData;
   useEffect(() => {
-    setData(union(
-      jhuData.filter(d => d.province != null),
-      countries.map((c) => {
-        const merged = {
-          ...c,
-          stats: {
-            cases: c.cases,
-            recovered: c.recovered,
-            deaths: c.deaths,
-          },
-          updatedAt: new Date(c.updated).toString(),
-          wom: true,
-        };
-        delete merged.cases;
-        delete merged.updated;
-        delete merged.deaths;
-        delete merged.recovered;
-        return merged;
-      }),
-    ));
+    let mergedSearchData;
+    const jhuProvinces = jhuData.filter(d => d.province != null) || [];
+    try {
+      mergedSearchData = union(
+        jhuProvinces,
+        countries.map((c) => {
+          const merged = {
+            ...c,
+            stats: {
+              cases: c.cases,
+              recovered: c.recovered,
+              deaths: c.deaths,
+            },
+            updatedAt: new Date(c.updated).toString(),
+            wom: true,
+          };
+          delete merged.cases;
+          delete merged.updated;
+          delete merged.deaths;
+          delete merged.recovered;
+          return merged;
+        }),
+      );
+    } catch (err) {
+      console.error(err);
+    }
+
+    setData(mergedSearchData);
   }, [isDataReady, countries, jhuData]);
   if (searchTerm.trim().length < 2 || selectionMade || !show || !isDataReady) {
     RefMap.clear();

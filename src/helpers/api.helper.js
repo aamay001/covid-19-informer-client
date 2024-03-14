@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
-import axios from 'axios';
 import { differenceInHours } from 'date-fns';
 import RssParser from 'rss-parser';
+import axios from './axios.helper';
 import settings, { APP } from '../config/settings';
 import strings from '../config/string.constants';
 import lsHelper from './localStorage.helper';
@@ -158,7 +158,7 @@ const GetHistoricalByCountry = async (country) => {
   try {
     response = await axios.get(COVID_API.URL + COVID_API.JHU_HISTORICAL_BY_COUNTRY(country));
   } catch (e) {
-    console.error(e);
+    console.error('Error loading historical data by country.', e);
     return false;
   }
   if (response.status === 200) {
@@ -175,7 +175,7 @@ const GetHistoricalByCountry = async (country) => {
   return false;
 };
 
-const GetAllCounties = async () => {
+const GetAllUSStates = async () => {
   let cachedData = lsHelper.getItem(LS.CACHED_US_COUNTIES);
   if (cachedData && differenceInHours(new Date(), cachedData.date) > APP.DATA_REFRESH_INTERVAL) {
     cachedData = null;
@@ -185,9 +185,9 @@ const GetAllCounties = async () => {
   }
   let response;
   try {
-    response = await axios.get(COVID_API.URL + COVID_API.JHU_COUNTIES);
+    response = await axios.get(COVID_API.URL + COVID_API.US_STATE_TOTALS);
   } catch (e) {
-    console.error(e);
+    console.error('Error loading county data.', e);
     return false;
   }
   if (response.status === 200) {
@@ -210,6 +210,8 @@ const GetWHONews = async () => {
   let feed;
   try {
     const config = {
+      insecureHTTPParser: true,
+      timeout: 5000,
       params: {
         feed: 'WHO',
         code: API.KEYS.WHO_NEWS,
@@ -218,8 +220,8 @@ const GetWHONews = async () => {
     const res = await axios.get(API.URL + API.RSS_FEED, config);
     feed = await rssParser.parseString(res.data);
   } catch (e) {
-    console.error(e);
-    return false;
+    console.error('Error loading WHO News', e);
+    throw e;
   }
   if (feed) {
     const data = { data: feed.items, date: new Date().toString() };
@@ -241,6 +243,8 @@ const GetCDCNews = async () => {
   let feed;
   try {
     const config = {
+      insecureHTTPParser: true,
+      timeout: 5000,
       params: {
         feed: 'CDC',
         code: API.KEYS.WHO_NEWS,
@@ -250,7 +254,7 @@ const GetCDCNews = async () => {
     feed = await rssParser.parseString(res.data);
   } catch (e) {
     console.error(e);
-    return false;
+    throw e;
   }
   if (feed) {
     const data = { data: feed.items, date: new Date().toString() };
@@ -272,6 +276,8 @@ const GetECDCNews = async () => {
   let feed;
   try {
     const config = {
+      insecureHTTPParser: true,
+      timeout: 5000,
       params: {
         feed: 'ECDC',
         code: API.KEYS.WHO_NEWS,
@@ -281,7 +287,7 @@ const GetECDCNews = async () => {
     feed = await rssParser.parseString(res.data);
   } catch (e) {
     console.error(e);
-    return false;
+    throw e;
   }
   if (feed) {
     const data = { data: feed.items, date: new Date().toString() };
@@ -298,7 +304,7 @@ export default {
   GetGlobalTotals,
   GetGlobalHistorical,
   GetHistoricalByCountry,
-  GetAllCounties,
+  GetAllUSStates,
   GetWHONews,
   GetCDCNews,
   GetECDCNews,
