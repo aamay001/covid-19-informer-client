@@ -22,9 +22,9 @@ const errorGettingCovidData = () => ({
 export const loadCovidData = () => async (dispatch) => {
   dispatch(gettingCovidData());
 
-  let countries;
-  let jhuData;
-  let counties;
+  let countries = [];
+  const jhuData = [];
+  let counties = {};
 
   try {
     countries = await api.GetAllCountries();
@@ -33,15 +33,15 @@ export const loadCovidData = () => async (dispatch) => {
     console.error('Error loading countries.', err);
   }
 
-  try {
-    jhuData = await api.GetAllJHUData();
-  } catch (err) {
-    jhuData = [];
-    console.error('Error loading JHUData.', err);
-  }
+  // try {
+  //   jhuData = await api.GetAllJHUData();
+  // } catch (err) {
+  //   jhuData = [];
+  //   console.error('Error loading JHUData.', err);
+  // }
 
   try {
-    counties = await api.GetAllCounties();
+    counties = await api.GetAllUSStates();
   } catch (err) {
     counties = [];
     console.error('Error loading counties', err);

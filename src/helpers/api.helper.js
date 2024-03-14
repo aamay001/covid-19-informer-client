@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
-import axios from 'axios';
 import { differenceInHours } from 'date-fns';
 import RssParser from 'rss-parser';
+import axios from './axios.helper';
 import settings, { APP } from '../config/settings';
 import strings from '../config/string.constants';
 import lsHelper from './localStorage.helper';
@@ -175,7 +175,7 @@ const GetHistoricalByCountry = async (country) => {
   return false;
 };
 
-const GetAllCounties = async () => {
+const GetAllUSStates = async () => {
   let cachedData = lsHelper.getItem(LS.CACHED_US_COUNTIES);
   if (cachedData && differenceInHours(new Date(), cachedData.date) > APP.DATA_REFRESH_INTERVAL) {
     cachedData = null;
@@ -185,7 +185,7 @@ const GetAllCounties = async () => {
   }
   let response;
   try {
-    response = await axios.get(COVID_API.URL + COVID_API.JHU_COUNTIES);
+    response = await axios.get(COVID_API.URL + COVID_API.US_STATE_TOTALS);
   } catch (e) {
     console.error('Error loading county data.', e);
     return false;
@@ -304,7 +304,7 @@ export default {
   GetGlobalTotals,
   GetGlobalHistorical,
   GetHistoricalByCountry,
-  GetAllCounties,
+  GetAllUSStates,
   GetWHONews,
   GetCDCNews,
   GetECDCNews,

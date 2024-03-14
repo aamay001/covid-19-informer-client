@@ -119,7 +119,7 @@ const StateCountyTop10 = ({ selectedLocation, counties, jhuData }) => {
           </ul>
         </div>
         <div>
-          <JHUSource date={counties.date} />
+          <JHUSource date={new Date().toDateString()} />
         </div>
         <style>
           {`
@@ -164,12 +164,15 @@ StateCountyTop10.propTypes = {
     province: PropTypes.string,
     country: PropTypes.string,
   }).isRequired,
-  counties: PropTypes.PropTypes.shape({
-    date: PropTypes.string,
-    data: PropTypes.arrayOf(
-      PropTypes.shape({}),
-    ),
-  }),
+  counties: PropTypes.oneOfType([
+    PropTypes.PropTypes.shape({
+      date: PropTypes.string,
+      data: PropTypes.arrayOf(
+        PropTypes.shape({}),
+      ),
+    }),
+    PropTypes.array,
+  ]),
   jhuData: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
 };
 

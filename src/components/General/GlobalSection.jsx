@@ -34,7 +34,7 @@ const GlobalSection = ({
           <GlobalHistoricalChart />
           <GlobalTop10 data={countries} />
           <GlobalStatsPie />
-          {/* <RSSFeed title="WHO News" source="WHO" apiMethod="GetWHONews" /> */}
+          <RSSFeed title="WHO News" source="WHO" apiMethod="GetWHONews" />
           <RSSFeed title="CDC Newsroom" source="CDC" apiMethod="GetCDCNews" />
           <RSSFeed title="ECDC Risk Assessments" source="ECDC" apiMethod="GetECDCNews" />
           <GeoChoropleth data={countries} />
